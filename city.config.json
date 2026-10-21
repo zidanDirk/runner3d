@@ -1,0 +1,21 @@
+{
+  "theme": "low-poly-dusk-city",
+  "seed": 20261018,
+  "chunkLength": 30,
+  "aheadChunks": 6,
+  "behindChunks": 2,
+  "zones": {
+    "length": 600,
+    "transitionChunks": 2,
+    "sequence": ["dusk-city", "neon-city"]
+  },
+  "buildings": {
+    "enabled": true,
+    "density": 0.8,
+    "minSpacing": 2
+  },
+  "streetLamps": {
+    "enabled": true,
+    "spacing": 15
+  }
+}

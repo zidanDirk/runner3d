@@ -1,0 +1,12 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+coverage/
+*.tsbuildinfo
+*.local
+.DS_Store
+__pycache__/
+public/models/generated/.roadblock-*/
+public/models/generated/.asset-job-*/
+public/models/generated/.asset-generation.lock/

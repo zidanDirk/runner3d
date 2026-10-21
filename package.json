@@ -1,0 +1,52 @@
+{
+  "name": "runner3d",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test tests/e2e/city-visual.spec.ts tests/e2e/themes-visual.spec.ts tests/e2e/character-visual.spec.ts tests/e2e/animation-visual.spec.ts tests/e2e/motion-visual.spec.ts tests/e2e/feel-visual.spec.ts tests/e2e/mobile-visual.spec.ts tests/e2e/progression-visual.spec.ts",
+    "test:visual:update": "playwright test tests/e2e/city-visual.spec.ts tests/e2e/themes-visual.spec.ts tests/e2e/character-visual.spec.ts tests/e2e/animation-visual.spec.ts tests/e2e/motion-visual.spec.ts tests/e2e/feel-visual.spec.ts tests/e2e/mobile-visual.spec.ts tests/e2e/progression-visual.spec.ts --update-snapshots=all",
+    "test:production": "playwright test --config playwright.production.config.ts",
+    "assets:generate": "node scripts/assets/generate.mjs",
+    "assets:config": "node scripts/assets/config.mjs",
+    "assets:validate": "node scripts/assets/validate.mjs",
+    "assets:motion": "node scripts/assets/character-motion-analysis.mjs",
+    "test:loading": "playwright test --config playwright.loading.config.ts",
+    "test:mobile": "playwright test tests/e2e/mobile-input.spec.ts tests/e2e/mobile-layout.spec.ts tests/e2e/mobile-recovery.spec.ts",
+    "test:performance": "playwright test tests/e2e/mobile-performance.spec.ts",
+    "balance:simulate": "node scripts/balance/cli.mjs simulate",
+    "balance:analyze": "node scripts/balance/cli.mjs analyze",
+    "balance:report": "node scripts/balance/cli.mjs report",
+    "balance:fairness": "node scripts/fairness.mjs",
+    "test:balance": "playwright test tests/e2e/balance.spec.ts tests/e2e/balance-demo.spec.ts tests/e2e/telegraph.spec.ts",
+    "test:progression": "playwright test tests/e2e/progression.spec.ts tests/e2e/progression-visual.spec.ts tests/e2e/progression-performance.spec.ts tests/e2e/progression-demo.spec.ts"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.0",
+    "@react-three/fiber": "^9.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.180.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.0",
+    "vitest": "^3.2.0"
+  }
+}

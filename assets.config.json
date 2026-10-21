@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "blenderVersion": "5.2.2",
+  "theme": "low-poly-dusk-city",
+  "seed": 20261018,
+  "assets": [
+    {
+      "id": "roadblock",
+      "type": "roadblock",
+      "width": 2,
+      "height": 0.85,
+      "depth": 0.9
+    },
+    {
+      "id": "traffic-cone",
+      "type": "traffic-cone",
+      "height": 1.2,
+      "baseSize": 0.6,
+      "segments": 8
+    },
+    {
+      "id": "street-lamp",
+      "type": "street-lamp",
+      "height": 4,
+      "armLength": 0.9,
+      "baseSize": 0.5
+    },
+    {
+      "id": "city-building-01",
+      "type": "building",
+      "width": 4,
+      "height": 12,
+      "depth": 4,
+      "variant": "residential",
+      "floors": 4,
+      "windowsPerFloor": 3
+    },
+    {
+      "id": "city-building-02",
+      "type": "building",
+      "width": 5,
+      "height": 18,
+      "depth": 5,
+      "variant": "office",
+      "floors": 6,
+      "windowsPerFloor": 4
+    },
+    {
+      "id": "dusk-office-rooftop",
+      "type": "building",
+      "width": 5,
+      "height": 16,
+      "depth": 5,
+      "variant": "office",
+      "floors": 5,
+      "windowsPerFloor": 3,
+      "roofStyle": "equipment"
+    },
+    {
+      "id": "dusk-residential-terrace",
+      "type": "building",
+      "width": 4,
+      "height": 13.5,
+      "depth": 4,
+      "variant": "residential",
+      "floors": 5,
+      "windowsPerFloor": 4,
+      "roofStyle": "terrace"
+    },
+    {
+      "id": "neon-building-01",
+      "type": "building",
+      "theme": "neon-city",
+      "width": 4,
+      "height": 14,
+      "depth": 4,
+      "variant": "residential",
+      "floors": 5,
+      "windowsPerFloor": 3,
+      "roofStyle": "terrace",
+      "accentStyle": "neon"
+    },
+    {
+      "id": "neon-building-02",
+      "type": "building",
+      "theme": "neon-city",
+      "width": 5,
+      "height": 18,
+      "depth": 5,
+      "variant": "office",
+      "floors": 6,
+      "windowsPerFloor": 4,
+      "roofStyle": "equipment",
+      "accentStyle": "neon"
+    },
+    {
+      "id": "neon-street-lamp",
+      "type": "street-lamp",
+      "theme": "neon-city",
+      "height": 4,
+      "armLength": 0.9,
+      "baseSize": 0.5,
+      "style": "tech"
+    },
+    {
+      "id": "neon-billboard",
+      "type": "billboard",
+      "theme": "neon-city",
+      "width": 2,
+      "height": 3.5,
+      "depth": 0.5
+    },
+    {
+      "id": "powerup-magnet",
+      "type": "powerup",
+      "generator": "pickup-icon-v1",
+      "variant": "magnet",
+      "width": 0.85,
+      "height": 0.85,
+      "depth": 0.3
+    },
+    {
+      "id": "powerup-shield",
+      "type": "powerup",
+      "generator": "pickup-icon-v1",
+      "variant": "shield",
+      "width": 0.85,
+      "height": 0.85,
+      "depth": 0.3
+    },
+    {
+      "id": "powerup-double-score",
+      "type": "powerup",
+      "generator": "pickup-icon-v1",
+      "variant": "double-score",
+      "width": 0.85,
+      "height": 0.85,
+      "depth": 0.3
+    },
+    {
+      "id": "city-runner",
+      "type": "character",
+      "generator": "humanoid-runner",
+      "height": 1.75,
+      "proportions": {
+        "headScale": 1.1,
+        "shoulderWidth": 0.48,
+        "legLengthRatio": 0.46
+      },
+      "outfit": {
+        "jacketColor": "#F47B45",
+        "pantsColor": "#253241",
+        "shoeColor": "#F5EEE1",
+        "skinColor": "#E4B594"
+      },
+      "accessories": {
+        "backpack": true
+      }
+    }
+  ]
+}

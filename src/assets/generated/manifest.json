@@ -1,0 +1,1451 @@
+{
+  "schemaVersion": 1,
+  "generatorVersion": "2.1.0",
+  "blenderVersion": "5.2.2",
+  "theme": "low-poly-dusk-city",
+  "seed": 20261018,
+  "configHash": "c520ecf5e23925867b7262d71cacd95da506353171de7998fe41059f7e4aa2ae",
+  "assets": {
+    "roadblock": {
+      "path": "models/generated/roadblock.glb",
+      "type": "roadblock",
+      "role": "obstacle",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        2,
+        0.8500000238418579,
+        0.8999999761581421
+      ],
+      "triangles": 246,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "roadblock_base",
+        "roadblock_orange",
+        "roadblock_white"
+      ],
+      "bytes": 16828,
+      "sha256": "be222ca2e3be6c37a78a88fc3d5b9776203dd130186f5036c4a512f6faaf02a1",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "4b6ab88e6a173bbcbae4dd5edabfe5eedaddb19162364513c9c66227057774e6",
+      "config": {
+        "id": "roadblock",
+        "type": "roadblock",
+        "width": 2,
+        "height": 0.85,
+        "depth": 0.9
+      }
+    },
+    "traffic-cone": {
+      "path": "models/generated/traffic-cone.glb",
+      "type": "traffic-cone",
+      "role": "preview",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        0.6000000238418579,
+        1.2000000476837158,
+        0.6000000238418579
+      ],
+      "triangles": 136,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "traffic_cone_base",
+        "traffic_cone_orange",
+        "traffic_cone_white"
+      ],
+      "bytes": 10016,
+      "sha256": "4543c24d15ed05efeca557b4f2bc2e857ffe3c506f1fb265cb700c1338522f4e",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "1b572ad083dbffff14f9b6edfc7e85dc7b12d37e2c9b457515f98bf6d51d1a21",
+      "config": {
+        "id": "traffic-cone",
+        "type": "traffic-cone",
+        "height": 1.2,
+        "baseSize": 0.6,
+        "segments": 8
+      }
+    },
+    "street-lamp": {
+      "path": "models/generated/street-lamp.glb",
+      "type": "street-lamp",
+      "role": "decoration",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        1.399999976158142,
+        4,
+        0.5
+      ],
+      "triangles": 124,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "street_lamp_base",
+        "street_lamp_lamp",
+        "street_lamp_metal"
+      ],
+      "bytes": 9768,
+      "sha256": "ac69fcaa4ee1d5059c802bdd3d83d49d8b36bfd372932386f882dc849f1e136e",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "d2856d4b7fb1b3f8b94fd15a228b84657ca522bd0cee2e7a0d3f0883ac0f11d7",
+      "config": {
+        "id": "street-lamp",
+        "type": "street-lamp",
+        "height": 4,
+        "armLength": 0.9,
+        "baseSize": 0.5,
+        "style": "classic"
+      }
+    },
+    "city-building-01": {
+      "path": "models/generated/city-building-01.glb",
+      "type": "building",
+      "role": "decoration",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        4,
+        12,
+        4
+      ],
+      "triangles": 132,
+      "meshCount": 1,
+      "primitiveCount": 4,
+      "materialCount": 4,
+      "materials": [
+        "city_building_01_body",
+        "city_building_01_trim",
+        "city_building_01_warm_window",
+        "city_building_01_window"
+      ],
+      "bytes": 10576,
+      "sha256": "ece991cdf84f6ee197333779a2a8a09835ffb6197bbe21b9bf0faae0f017f1a4",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "5c3ba9a5c436ece3bf41006168e2dc33e875d07f8da4fdd4475e86785eece246",
+      "config": {
+        "id": "city-building-01",
+        "type": "building",
+        "width": 4,
+        "height": 12,
+        "depth": 4,
+        "variant": "residential",
+        "floors": 4,
+        "windowsPerFloor": 3,
+        "roofStyle": "flat",
+        "accentStyle": "plain"
+      }
+    },
+    "city-building-02": {
+      "path": "models/generated/city-building-02.glb",
+      "type": "building",
+      "role": "decoration",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        5,
+        18,
+        5
+      ],
+      "triangles": 288,
+      "meshCount": 1,
+      "primitiveCount": 4,
+      "materialCount": 4,
+      "materials": [
+        "city_building_02_body",
+        "city_building_02_trim",
+        "city_building_02_warm_window",
+        "city_building_02_window"
+      ],
+      "bytes": 19020,
+      "sha256": "ae2b9471592024cb9b1bfca01ffb65c14ad2089cc6ac2ad0cc39d9ba174a7d4d",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "ad0633a0859fb19c8cae40a7dedf019471ff03af8c91863b8f5e7af9785d2fbe",
+      "config": {
+        "id": "city-building-02",
+        "type": "building",
+        "width": 5,
+        "height": 18,
+        "depth": 5,
+        "variant": "office",
+        "floors": 6,
+        "windowsPerFloor": 4,
+        "roofStyle": "flat",
+        "accentStyle": "plain"
+      }
+    },
+    "dusk-office-rooftop": {
+      "path": "models/generated/dusk-office-rooftop.glb",
+      "type": "building",
+      "role": "decoration",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        5,
+        16,
+        5
+      ],
+      "triangles": 252,
+      "meshCount": 1,
+      "primitiveCount": 4,
+      "materialCount": 4,
+      "materials": [
+        "dusk_office_rooftop_body",
+        "dusk_office_rooftop_trim",
+        "dusk_office_rooftop_warm_window",
+        "dusk_office_rooftop_window"
+      ],
+      "bytes": 17100,
+      "sha256": "86c18a937d221accdcd2153557ccaf0435334f96e21157532ce674e63fa0ba38",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "6182cc8a4b5f944000caef64ffaa94c4611ff084f177561e46daeafedd89f53a",
+      "config": {
+        "id": "dusk-office-rooftop",
+        "type": "building",
+        "width": 5,
+        "height": 16,
+        "depth": 5,
+        "variant": "office",
+        "floors": 5,
+        "windowsPerFloor": 3,
+        "roofStyle": "equipment",
+        "accentStyle": "plain"
+      }
+    },
+    "dusk-residential-terrace": {
+      "path": "models/generated/dusk-residential-terrace.glb",
+      "type": "building",
+      "role": "decoration",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        4,
+        13.5,
+        4
+      ],
+      "triangles": 304,
+      "meshCount": 1,
+      "primitiveCount": 4,
+      "materialCount": 4,
+      "materials": [
+        "dusk_residential_terrace_body",
+        "dusk_residential_terrace_trim",
+        "dusk_residential_terrace_warm_window",
+        "dusk_residential_terrace_window"
+      ],
+      "bytes": 19928,
+      "sha256": "b458c9220c282d0a74c39ffc7fde8206b8a0e9ce6fba6fb32d6a5ac225866bca",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "2d8c0c5f06891c18f3a255cc2f3a3f2bdb136eade45419d4bf9661b86bea55d6",
+      "config": {
+        "id": "dusk-residential-terrace",
+        "type": "building",
+        "width": 4,
+        "height": 13.5,
+        "depth": 4,
+        "variant": "residential",
+        "floors": 5,
+        "windowsPerFloor": 4,
+        "roofStyle": "terrace",
+        "accentStyle": "plain"
+      }
+    },
+    "neon-building-01": {
+      "path": "models/generated/neon-building-01.glb",
+      "type": "building",
+      "role": "decoration",
+      "themeId": "neon-city",
+      "dimensions": [
+        4,
+        14,
+        4
+      ],
+      "triangles": 336,
+      "meshCount": 1,
+      "primitiveCount": 4,
+      "materialCount": 4,
+      "materials": [
+        "neon_building_01_body",
+        "neon_building_01_trim",
+        "neon_building_01_warm_window",
+        "neon_building_01_window"
+      ],
+      "bytes": 21716,
+      "sha256": "cb28221cf074fa7d08fdef280875ee333b2b1a79b2f9a8b454414e5c8a375a6b",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "589c742d33f0be8fc931b757079445e137bd8c111b5aa7b72944ce4446736024",
+      "config": {
+        "id": "neon-building-01",
+        "type": "building",
+        "theme": "neon-city",
+        "width": 4,
+        "height": 14,
+        "depth": 4,
+        "variant": "residential",
+        "floors": 5,
+        "windowsPerFloor": 3,
+        "roofStyle": "terrace",
+        "accentStyle": "neon"
+      }
+    },
+    "neon-building-02": {
+      "path": "models/generated/neon-building-02.glb",
+      "type": "building",
+      "role": "decoration",
+      "themeId": "neon-city",
+      "dimensions": [
+        5,
+        18,
+        5
+      ],
+      "triangles": 408,
+      "meshCount": 1,
+      "primitiveCount": 4,
+      "materialCount": 4,
+      "materials": [
+        "neon_building_02_body",
+        "neon_building_02_trim",
+        "neon_building_02_warm_window",
+        "neon_building_02_window"
+      ],
+      "bytes": 25620,
+      "sha256": "8f38d92d4d647c6b2c0f3df228e20e8234d2ba081d2227d808f34b210d1a4e96",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "b788c632677c1ee9c55615d53d22cadd2f1e3408a34212600b59fad42a5bba16",
+      "config": {
+        "id": "neon-building-02",
+        "type": "building",
+        "theme": "neon-city",
+        "width": 5,
+        "height": 18,
+        "depth": 5,
+        "variant": "office",
+        "floors": 6,
+        "windowsPerFloor": 4,
+        "roofStyle": "equipment",
+        "accentStyle": "neon"
+      }
+    },
+    "neon-street-lamp": {
+      "path": "models/generated/neon-street-lamp.glb",
+      "type": "street-lamp",
+      "role": "decoration",
+      "themeId": "neon-city",
+      "dimensions": [
+        1.399999976158142,
+        4,
+        0.5
+      ],
+      "triangles": 172,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "neon_street_lamp_base",
+        "neon_street_lamp_lamp",
+        "neon_street_lamp_metal"
+      ],
+      "bytes": 12464,
+      "sha256": "ffe061fd8f99065c67d0810dc330cac1d8059673dfb16ac8cefede39d9464653",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "e15dc50b939b5c94a035a27bace80eb5c7478529e6958253b8ee7ea64e36a7d4",
+      "config": {
+        "id": "neon-street-lamp",
+        "type": "street-lamp",
+        "theme": "neon-city",
+        "height": 4,
+        "armLength": 0.9,
+        "baseSize": 0.5,
+        "style": "tech"
+      }
+    },
+    "neon-billboard": {
+      "path": "models/generated/neon-billboard.glb",
+      "type": "billboard",
+      "role": "decoration",
+      "themeId": "neon-city",
+      "dimensions": [
+        2,
+        3.5,
+        0.5
+      ],
+      "triangles": 140,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "neon_billboard_cyan",
+        "neon_billboard_frame",
+        "neon_billboard_magenta"
+      ],
+      "bytes": 10228,
+      "sha256": "f4c98d05b6ad1bb245731b9c2c87c4440d36e79776d4a703677f56d2629e011c",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "19b3c9e3104579e3cc5ecd81e4d8351daa75aedbb936de06362100128dcf457d",
+      "config": {
+        "id": "neon-billboard",
+        "type": "billboard",
+        "theme": "neon-city",
+        "width": 2,
+        "height": 3.5,
+        "depth": 0.5
+      }
+    },
+    "powerup-magnet": {
+      "path": "models/generated/powerup-magnet.glb",
+      "type": "powerup",
+      "role": "pickup",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.30000001192092896
+      ],
+      "triangles": 100,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "powerup_magnet_accent",
+        "powerup_magnet_body",
+        "powerup_magnet_mark"
+      ],
+      "bytes": 7328,
+      "sha256": "884b4da7129e583949258c1561b3f9410d3c8d1dcebb511d53e90c1300b0d890",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "b7632c427b4cb138e757c43268a945b3561a89d16bc25c628d23cc0940a4fcb4",
+      "config": {
+        "id": "powerup-magnet",
+        "type": "powerup",
+        "generator": "pickup-icon-v1",
+        "variant": "magnet",
+        "width": 0.85,
+        "height": 0.85,
+        "depth": 0.3
+      }
+    },
+    "powerup-shield": {
+      "path": "models/generated/powerup-shield.glb",
+      "type": "powerup",
+      "role": "pickup",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.30000001192092896
+      ],
+      "triangles": 160,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "powerup_shield_accent",
+        "powerup_shield_body",
+        "powerup_shield_mark"
+      ],
+      "bytes": 10144,
+      "sha256": "3201cf949e84a65c67cf5b7166cd3a72cfa37b3b70f9fbbae687e531fc1c08b8",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "07a95c9c16906b1af9ed5e4b07755508a9f39efc071e43797da5916e74ba8cdb",
+      "config": {
+        "id": "powerup-shield",
+        "type": "powerup",
+        "generator": "pickup-icon-v1",
+        "variant": "shield",
+        "width": 0.85,
+        "height": 0.85,
+        "depth": 0.3
+      }
+    },
+    "powerup-double-score": {
+      "path": "models/generated/powerup-double-score.glb",
+      "type": "powerup",
+      "role": "pickup",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.30000001192092896
+      ],
+      "triangles": 308,
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "materialCount": 3,
+      "materials": [
+        "powerup_double_score_accent",
+        "powerup_double_score_body",
+        "powerup_double_score_mark"
+      ],
+      "bytes": 18396,
+      "sha256": "9b499deb97d18d85485f4297d451706cc7d4e4566dec1e0484e11ea276bab7a1",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "9895e12de46fb2ed7562a1ddb17dc388fca068d159b5a0082482eed1fc1edb8b",
+      "config": {
+        "id": "powerup-double-score",
+        "type": "powerup",
+        "generator": "pickup-icon-v1",
+        "variant": "double-score",
+        "width": 0.85,
+        "height": 0.85,
+        "depth": 0.3
+      }
+    },
+    "city-runner": {
+      "path": "models/generated/city-runner.glb",
+      "type": "character",
+      "role": "player",
+      "themeId": "low-poly-dusk-city",
+      "dimensions": [
+        0.721999880584234,
+        1.7500000715267323,
+        0.5000000726743441
+      ],
+      "triangles": 2268,
+      "meshCount": 18,
+      "primitiveCount": 31,
+      "materialCount": 4,
+      "materials": [
+        "city_runner_jacket",
+        "city_runner_pants",
+        "city_runner_shoe",
+        "city_runner_skin"
+      ],
+      "bytes": 297920,
+      "sha256": "172687aab7352c1deeeb2dda2a1b77a4cbaf64b78214cf4d47cef9eda63ae494",
+      "generatorVersion": "2.1.0",
+      "blenderVersion": "5.2.2",
+      "configHash": "61f2c63bc7d892df38cbd9903480ec68dd96b78a60416a97aeb1052bf475b374",
+      "config": {
+        "id": "city-runner",
+        "type": "character",
+        "generator": "humanoid-runner",
+        "height": 1.75,
+        "proportions": {
+          "headScale": 1.1,
+          "shoulderWidth": 0.48,
+          "legLengthRatio": 0.46
+        },
+        "outfit": {
+          "jacketColor": "#F47B45",
+          "pantsColor": "#253241",
+          "shoeColor": "#F5EEE1",
+          "skinColor": "#E4B594"
+        },
+        "accessories": {
+          "backpack": true
+        }
+      },
+      "assetId": "city-runner",
+      "height": 1.7500000715267323,
+      "bounds": {
+        "min": [
+          -0.360999940292117,
+          -7.152673221957768e-8,
+          -0.2500000438914181
+        ],
+        "max": [
+          0.360999940292117,
+          1.75,
+          0.25000002878292604
+        ]
+      },
+      "joints": {
+        "center": [
+          0,
+          0.8050000071525574,
+          0
+        ],
+        "neck": [
+          0,
+          1.25600004196167,
+          0
+        ],
+        "head": [
+          0,
+          1.3459999561309814,
+          0
+        ],
+        "leftShoulder": [
+          -0.23999999463558197,
+          1.2209999561309814,
+          0
+        ],
+        "leftElbow": [
+          -0.2849999964237213,
+          0.965999960899353,
+          -0.012000000104308128
+        ],
+        "leftWrist": [
+          -0.29999998211860657,
+          0.7409999370574951,
+          -0.03500000014901161
+        ],
+        "leftHip": [
+          -0.125,
+          0.8050000071525574,
+          0
+        ],
+        "leftKnee": [
+          -0.12999999523162842,
+          0.4971500039100647,
+          -0.006000000052154064
+        ],
+        "leftAnkle": [
+          -0.14000000059604645,
+          0.15000000596046448,
+          0.017999999225139618
+        ],
+        "rightShoulder": [
+          0.23999999463558197,
+          1.2209999561309814,
+          0
+        ],
+        "rightElbow": [
+          0.2849999964237213,
+          0.965999960899353,
+          -0.012000000104308128
+        ],
+        "rightWrist": [
+          0.29999998211860657,
+          0.7409999370574951,
+          -0.03500000014901161
+        ],
+        "rightHip": [
+          0.125,
+          0.8050000071525574,
+          0
+        ],
+        "rightKnee": [
+          0.12999999523162842,
+          0.4971500039100647,
+          -0.006000000052154064
+        ],
+        "rightAnkle": [
+          0.14000000059604645,
+          0.15000000596046448,
+          0.017999999225139618
+        ]
+      },
+      "parts": {
+        "Pelvis": {
+          "nodeName": "city_runner_Pelvis",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.20499999821186066,
+              0.7450000047683716,
+              -0.125
+            ],
+            "max": [
+              0.20499999821186066,
+              0.875,
+              0.125
+            ]
+          },
+          "triangles": 28,
+          "meshCount": 1
+        },
+        "Torso": {
+          "nodeName": "city_runner_Torso",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.22499999613501126,
+              0.8299999833106995,
+              -0.1470000042617321
+            ],
+            "max": [
+              0.22499999613501126,
+              1.2999999523162842,
+              0.13849999010562897
+            ]
+          },
+          "triangles": 296,
+          "meshCount": 3
+        },
+        "Neck": {
+          "nodeName": "city_runner_Neck",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.08699999749660492,
+              1.246000051498413,
+              -0.0820000022649765
+            ],
+            "max": [
+              0.08699999749660492,
+              1.3760000467300415,
+              0.0820000022649765
+            ]
+          },
+          "triangles": 28,
+          "meshCount": 1
+        },
+        "Head": {
+          "nodeName": "city_runner_Head",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.20924000442028046,
+              1.3209999799728394,
+              -0.2070000022649765
+            ],
+            "max": [
+              0.20924000442028046,
+              1.6950000524520874,
+              0.15950000286102295
+            ]
+          },
+          "triangles": 400,
+          "meshCount": 2
+        },
+        "Hair": {
+          "nodeName": "city_runner_Hair",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.18785250186920166,
+              1.582800030708313,
+              -0.17000000178813934
+            ],
+            "max": [
+              0.18785250186920166,
+              1.75,
+              0.17909500002861023
+            ]
+          },
+          "triangles": 136,
+          "meshCount": 1
+        },
+        "LeftUpperArm": {
+          "nodeName": "city_runner_LeftUpperArm",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.35799998279073997,
+              0.9480000045076543,
+              -0.09499998132710613
+            ],
+            "max": [
+              -0.14499999993154664,
+              1.245999929815317,
+              0.094999978786447
+            ]
+          },
+          "triangles": 44,
+          "meshCount": 1
+        },
+        "LeftLowerArm": {
+          "nodeName": "city_runner_LeftLowerArm",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.360999940292117,
+              0.7339999501038389,
+              -0.09999999001102416
+            ],
+            "max": [
+              -0.21199998600842399,
+              1.0339999741132717,
+              0.062999989519902
+            ]
+          },
+          "triangles": 104,
+          "meshCount": 2
+        },
+        "LeftHand": {
+          "nodeName": "city_runner_LeftHand",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.3599999284459622,
+              0.6100000519357986,
+              -0.09699999033297305
+            ],
+            "max": [
+              -0.23999993225705488,
+              0.7620000026840563,
+              0.018999987752291347
+            ]
+          },
+          "triangles": 76,
+          "meshCount": 1
+        },
+        "LeftUpperLeg": {
+          "nodeName": "city_runner_LeftUpperLeg",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.22799999364587886,
+              0.4771499505529956,
+              -0.11000000485819898
+            ],
+            "max": [
+              -0.022000000696579786,
+              0.8299999421034419,
+              0.11000000379014661
+            ]
+          },
+          "triangles": 44,
+          "meshCount": 1
+        },
+        "LeftLowerLeg": {
+          "nodeName": "city_runner_LeftLowerLeg",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.2157999902504727,
+              0.13499993496716928,
+              -0.09100000676366954
+            ],
+            "max": [
+              -0.0509999954229135,
+              0.5721499548709338,
+              0.08800000711686905
+            ]
+          },
+          "triangles": 104,
+          "meshCount": 2
+        },
+        "LeftFoot": {
+          "nodeName": "city_runner_LeftFoot",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.25200002282702516,
+              -7.126102924406939e-8,
+              -0.2500000438914181
+            ],
+            "max": [
+              -0.02800001584366187,
+              0.19149994115351252,
+              0.25000002878292604
+            ]
+          },
+          "triangles": 208,
+          "meshCount": 3
+        },
+        "RightUpperArm": {
+          "nodeName": "city_runner_RightUpperArm",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              0.14499999993154664,
+              0.9480000045076543,
+              -0.09499998132710613
+            ],
+            "max": [
+              0.35799998279073997,
+              1.245999929815317,
+              0.094999978786447
+            ]
+          },
+          "triangles": 44,
+          "meshCount": 1
+        },
+        "RightLowerArm": {
+          "nodeName": "city_runner_RightLowerArm",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              0.21199998600842399,
+              0.7339999501038389,
+              -0.09999999001102416
+            ],
+            "max": [
+              0.360999940292117,
+              1.0339999741132717,
+              0.062999989519902
+            ]
+          },
+          "triangles": 104,
+          "meshCount": 2
+        },
+        "RightHand": {
+          "nodeName": "city_runner_RightHand",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              0.2399999499126755,
+              0.6100000535669703,
+              -0.09699999057236874
+            ],
+            "max": [
+              0.35999994610182395,
+              0.7620000043743743,
+              0.018999987484347947
+            ]
+          },
+          "triangles": 76,
+          "meshCount": 1
+        },
+        "RightUpperLeg": {
+          "nodeName": "city_runner_RightUpperLeg",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              0.022000000696579786,
+              0.4771499505529956,
+              -0.11000000485819898
+            ],
+            "max": [
+              0.22799999364587886,
+              0.8299999421034419,
+              0.11000000379014661
+            ]
+          },
+          "triangles": 44,
+          "meshCount": 1
+        },
+        "RightLowerLeg": {
+          "nodeName": "city_runner_RightLowerLeg",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              0.0509999954229135,
+              0.13499993496716928,
+              -0.09100000676366954
+            ],
+            "max": [
+              0.2157999902504727,
+              0.5721499548709338,
+              0.08800000711686905
+            ]
+          },
+          "triangles": 104,
+          "meshCount": 2
+        },
+        "RightFoot": {
+          "nodeName": "city_runner_RightFoot",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              0.028000016131291067,
+              -7.152673221957768e-8,
+              -0.2500000430605966
+            ],
+            "max": [
+              0.2520000230908759,
+              0.191499940129786,
+              0.2500000206678639
+            ]
+          },
+          "triangles": 208,
+          "meshCount": 3
+        },
+        "Backpack": {
+          "nodeName": "city_runner_Backpack",
+          "parent": null,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "bounds": {
+            "min": [
+              -0.15799999237060547,
+              0.9359999895095825,
+              0.10999999940395355
+            ],
+            "max": [
+              0.15799999237060547,
+              1.2459999322891235,
+              0.24500000476837158
+            ]
+          },
+          "triangles": 220,
+          "meshCount": 3
+        }
+      },
+      "boneCount": 20,
+      "skinCount": 1,
+      "skinnedMeshCount": 31,
+      "animationCount": 4,
+      "animations": {
+        "idle": "Idle",
+        "run": "Run",
+        "jump": "Jump",
+        "slide": "Slide"
+      },
+      "animationClips": [
+        {
+          "name": "Idle",
+          "duration": 2,
+          "trackCount": 20
+        },
+        {
+          "name": "Jump",
+          "duration": 0.949999988079071,
+          "trackCount": 20
+        },
+        {
+          "name": "Run",
+          "duration": 0.7200000286102295,
+          "trackCount": 20
+        },
+        {
+          "name": "Slide",
+          "duration": 0.75,
+          "trackCount": 20
+        }
+      ],
+      "animationSamples": {
+        "Idle": [
+          {
+            "progress": 0,
+            "bounds": {
+              "min": [
+                -0.360999938504715,
+                -9.989751558326548e-8,
+                -0.2500000944484649
+              ],
+              "max": [
+                0.360999938504715,
+                1.75,
+                0.2500000314047842
+              ]
+            }
+          },
+          {
+            "progress": 0.25,
+            "bounds": {
+              "min": [
+                -0.36099985062602724,
+                -9.960780406079536e-8,
+                -0.2500000928924232
+              ],
+              "max": [
+                0.3609999203893393,
+                1.749978080464174,
+                0.2500000327251768
+              ]
+            }
+          },
+          {
+            "progress": 0.5,
+            "bounds": {
+              "min": [
+                -0.360999938504715,
+                -9.960780406079536e-8,
+                -0.2500000928924232
+              ],
+              "max": [
+                0.360999938504715,
+                1.75,
+                0.2500000327251768
+              ]
+            }
+          },
+          {
+            "progress": 0.75,
+            "bounds": {
+              "min": [
+                -0.3609999202519769,
+                -9.960780406079536e-8,
+                -0.2500000928924232
+              ],
+              "max": [
+                0.36099985363601766,
+                1.7499780723864475,
+                0.2500000327251768
+              ]
+            }
+          },
+          {
+            "progress": 1,
+            "bounds": {
+              "min": [
+                -0.360999938504715,
+                -9.989751558326548e-8,
+                -0.2500000944484649
+              ],
+              "max": [
+                0.360999938504715,
+                1.75,
+                0.2500000314047842
+              ]
+            }
+          }
+        ],
+        "Jump": [
+          {
+            "progress": 0,
+            "bounds": {
+              "min": [
+                -0.36099992014030674,
+                -5.786312112083191e-8,
+                -0.3285324576344292
+              ],
+              "max": [
+                0.36099992014030674,
+                1.6510112643117503,
+                0.25000013907829555
+              ]
+            }
+          },
+          {
+            "progress": 0.25,
+            "bounds": {
+              "min": [
+                -0.3609998402271101,
+                0.17343737354422817,
+                -0.6032081496670916
+              ],
+              "max": [
+                0.3609998402271101,
+                1.7325942860405255,
+                0.24503938262369584
+              ]
+            }
+          },
+          {
+            "progress": 0.5,
+            "bounds": {
+              "min": [
+                -0.36099987852486054,
+                0.2716798075826922,
+                -0.5693373088311091
+              ],
+              "max": [
+                0.36099987852486054,
+                1.749981788708528,
+                0.24606996128616784
+              ]
+            }
+          },
+          {
+            "progress": 0.75,
+            "bounds": {
+              "min": [
+                -0.3609998996457634,
+                0.11871985669032065,
+                -0.5487086221391763
+              ],
+              "max": [
+                0.3609998996457634,
+                1.7145984157772636,
+                0.2451309506399087
+              ]
+            }
+          },
+          {
+            "progress": 1,
+            "bounds": {
+              "min": [
+                -0.3609999132972411,
+                -5.786312112083191e-8,
+                -0.4235656689156564
+              ],
+              "max": [
+                0.3609999132972411,
+                1.650291612256676,
+                0.25000013907829555
+              ]
+            }
+          }
+        ],
+        "Run": [
+          {
+            "progress": 0,
+            "bounds": {
+              "min": [
+                -0.36099995538396545,
+                -2.3053021291117369e-7,
+                -0.5600000302484427
+              ],
+              "max": [
+                0.36099992717431323,
+                1.6486439461702247,
+                0.5984410886238924
+              ]
+            }
+          },
+          {
+            "progress": 0.25,
+            "bounds": {
+              "min": [
+                -0.35961014933857466,
+                -9.840612518558001e-8,
+                -0.3591903864316843
+              ],
+              "max": [
+                0.3636583569223653,
+                1.6685566768601374,
+                0.2922728030789141
+              ]
+            }
+          },
+          {
+            "progress": 0.5,
+            "bounds": {
+              "min": [
+                -0.36099992717431323,
+                -2.1061641585764832e-7,
+                -0.559999998627405
+              ],
+              "max": [
+                0.36099995538396545,
+                1.6486439461702247,
+                0.598441110016363
+              ]
+            }
+          },
+          {
+            "progress": 0.75,
+            "bounds": {
+              "min": [
+                -0.3636583569223653,
+                -8.072665884058132e-8,
+                -0.3591903846977106
+              ],
+              "max": [
+                0.35961014933857466,
+                1.6685566768601374,
+                0.2922728016759635
+              ]
+            }
+          },
+          {
+            "progress": 1,
+            "bounds": {
+              "min": [
+                -0.36099995538396545,
+                -2.3053021291117369e-7,
+                -0.5600000302484427
+              ],
+              "max": [
+                0.36099992717431323,
+                1.6486439461702247,
+                0.5984410886238924
+              ]
+            }
+          }
+        ],
+        "Slide": [
+          {
+            "progress": 0,
+            "bounds": {
+              "min": [
+                -0.3609999480486788,
+                -1.0484304924793846e-7,
+                -0.3508287857346756
+              ],
+              "max": [
+                0.3609999480486788,
+                1.6486439461174114,
+                0.2499999956931549
+              ]
+            }
+          },
+          {
+            "progress": 0.25,
+            "bounds": {
+              "min": [
+                -0.360999910234405,
+                -1.3239083782134646e-7,
+                -0.8500000588198025
+              ],
+              "max": [
+                0.360999910234405,
+                0.7271591302056002,
+                0.7793446538778657
+              ]
+            }
+          },
+          {
+            "progress": 0.5,
+            "bounds": {
+              "min": [
+                -0.360999910234405,
+                -1.3239083782134646e-7,
+                -0.8500000588198025
+              ],
+              "max": [
+                0.360999910234405,
+                0.7271591302056002,
+                0.7793446538778657
+              ]
+            }
+          },
+          {
+            "progress": 0.75,
+            "bounds": {
+              "min": [
+                -0.360999910234405,
+                -1.3239083782134646e-7,
+                -0.8500000588198025
+              ],
+              "max": [
+                0.360999910234405,
+                0.7271591302056002,
+                0.7793446538778657
+              ]
+            }
+          },
+          {
+            "progress": 1,
+            "bounds": {
+              "min": [
+                -0.3609999480486788,
+                -1.0484304924793846e-7,
+                -0.3508287857346756
+              ],
+              "max": [
+                0.3609999480486788,
+                1.6486439461174114,
+                0.2499999956931549
+              ]
+            }
+          }
+        ]
+      },
+      "poseTests": {
+        "armRaise": {
+          "min": [
+            -0.3462803776605402,
+            -7.152673221957768e-8,
+            -0.4353618540912378
+          ],
+          "max": [
+            0.360999940292117,
+            1.75,
+            0.25000002878292604
+          ]
+        },
+        "elbowBend": {
+          "min": [
+            -0.3582203758268473,
+            -7.152673221957768e-8,
+            -0.332595425343198
+          ],
+          "max": [
+            0.360999940292117,
+            1.75,
+            0.25000002878292604
+          ]
+        },
+        "legRaise": {
+          "min": [
+            -0.360999940292117,
+            -7.152673221957768e-8,
+            -0.6867873495892987
+          ],
+          "max": [
+            0.360999940292117,
+            1.75,
+            0.2500000206678639
+          ]
+        },
+        "kneeBend": {
+          "min": [
+            -0.360999940292117,
+            -7.152673221957768e-8,
+            -0.2500000430605966
+          ],
+          "max": [
+            0.360999940292117,
+            1.75,
+            0.5520901453024417
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "themes": [
+    {
+      "id": "dusk-city",
+      "name": "Dusk City",
+      "version": "1.0.0",
+      "sky": { "background": "#192D40", "horizon": "#192E40", "sunColor": "#DBAC7E", "sunOpacity": 1 },
+      "lighting": {
+        "skyColor": "#E4EEF4", "groundColor": "#35434C", "hemisphereIntensity": 2.2,
+        "keyColor": "#FFE2B6", "keyIntensity": 2.5, "rimColor": "#A0CBD2", "rimIntensity": 1.3
+      },
+      "road": {
+        "surfaceColor": "#344655", "lineColor": "#71828A", "edgeColor": "#F5A86F",
+        "sidewalkColor": "#3A4C59", "markerColor": "#9AA8A9"
+      },
+      "buildings": { "assetIds": ["city-building-01", "city-building-02", "dusk-office-rooftop", "dusk-residential-terrace"] },
+      "decorations": { "lampAssetId": "street-lamp", "planterColor": "#3E5864" },
+      "atmosphere": { "fogNear": 45, "fogFar": 155 }
+    },
+    {
+      "id": "neon-city",
+      "name": "Neon City",
+      "version": "1.0.0",
+      "sky": { "background": "#101629", "horizon": "#282443", "sunColor": "#9C6CD9", "sunOpacity": 0.25 },
+      "lighting": {
+        "skyColor": "#B8CBEC", "groundColor": "#30324E", "hemisphereIntensity": 2,
+        "keyColor": "#C7D9FA", "keyIntensity": 2.2, "rimColor": "#5DDDE7", "rimIntensity": 1.5
+      },
+      "road": {
+        "surfaceColor": "#27344A", "lineColor": "#62CADC", "edgeColor": "#B76BCA",
+        "sidewalkColor": "#303C55", "markerColor": "#8AD5E0"
+      },
+      "buildings": { "assetIds": ["neon-building-01", "neon-building-02"] },
+      "decorations": { "lampAssetId": "neon-street-lamp", "billboardAssetId": "neon-billboard", "planterColor": "#3D4764" },
+      "atmosphere": { "fogNear": 45, "fogFar": 155 }
+    }
+  ]
+}

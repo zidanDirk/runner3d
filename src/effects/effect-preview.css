@@ -1,0 +1,7 @@
+.effect-preview { max-width:1100px; margin:30px auto; padding:0 20px; color:#243d49; }
+.effect-preview header { margin-bottom:20px; }.effect-preview h1 { font-size:24px; margin:12px 0 5px; }.effect-preview p { font-size:12px; }
+.effect-preview-stage { height:580px; border-radius:16px; overflow:hidden; }
+.effect-preview-controls { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:20px 0; font-size:12px; }
+.effect-preview-controls button,.effect-preview-controls select { padding:8px 12px; border:1px solid #acb8bc; background:#f8faf9; border-radius:5px; color:#263e4c; }
+.effect-preview-controls label { display:flex; gap:6px; align-items:center; }
+@media(max-width:640px) { .effect-preview-stage { height:440px; } }

@@ -1,0 +1,25 @@
+name: Optional Blender regeneration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regenerate:
+    # Explicitly opt in by provisioning this runner with the pinned Blender version.
+    # The ordinary CI above needs no Blender and never downloads an installer.
+    runs-on: [self-hosted, blender-5.2.2]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+      - run: npm ci
+      - run: npm run assets:generate
+      - run: npm run assets:validate
+      - run: git diff --exit-code -- public/models/generated src/assets/generated/manifest.json

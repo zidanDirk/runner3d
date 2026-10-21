@@ -1,0 +1,12 @@
+import type { Object3D } from 'three';
+import type { GLTF } from 'three/addons/loaders/GLTFLoader.js';
+import type { CharacterRigValidation, DeformedBounds, GeneratedAssetEntry } from './validate.mjs';
+import type { CharacterMotionAnalysis } from './character-motion-analysis.mjs';
+export const CHARACTER_BONE_PARENTS: Readonly<Record<string, string | null>>;
+export const CHARACTER_JOINT_BONES: Readonly<Record<string, string>>;
+export const CHARACTER_ANIMATIONS: Readonly<CharacterRigValidation['animations']>;
+export function accessorValues(json: Record<string, unknown>, binary: Buffer, id: number): number[];
+export function validateRigStructure(json: Record<string, unknown>, binary: Buffer, info: Record<string, unknown>): Record<string, number>;
+export function measureDeformed(scene: Object3D): DeformedBounds;
+export function validateRigLoaded(gltf: GLTF, info: Record<string, unknown>): CharacterRigValidation & { motionQuality: CharacterMotionAnalysis };
+export function validateRigManifest(entry: GeneratedAssetEntry): void;

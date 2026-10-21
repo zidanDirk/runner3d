@@ -1,0 +1,16 @@
+{
+  "id": "low-poly-dusk-city",
+  "shading": "flat",
+  "materials": {
+    "warning": { "color": "#F57234", "roughness": 0.72, "metalness": 0 },
+    "light": { "color": "#FFF5DF", "roughness": 0.64, "metalness": 0 },
+    "base": { "color": "#33424D", "roughness": 0.9, "metalness": 0 },
+    "building": { "color": "#243B4D", "roughness": 0.95, "metalness": 0 },
+    "buildingAccent": { "color": "#3E5864", "roughness": 0.95, "metalness": 0 },
+    "window": { "color": "#567684", "roughness": 0.8, "metalness": 0 },
+    "warmWindow": { "color": "#FFCC87", "roughness": 0.65, "metalness": 0, "emissive": "#FFCC87", "emissiveStrength": 0.5 },
+    "metal": { "color": "#7B939B", "roughness": 0.65, "metalness": 0.2 },
+    "lamp": { "color": "#FFCC87", "roughness": 0.45, "metalness": 0, "emissive": "#FFCC87", "emissiveStrength": 1 }
+  },
+  "scene": { "road": "#344655", "background": "#192D40", "coin": "#FFD36B", "keyLight": "#FFE2B6" }
+}

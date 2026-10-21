@@ -1,0 +1,63 @@
+{
+  "id": "neon-city",
+  "shading": "flat",
+  "materials": {
+    "warning": {
+      "color": "#F57234",
+      "roughness": 0.72,
+      "metalness": 0
+    },
+    "light": {
+      "color": "#FFF5DF",
+      "roughness": 0.64,
+      "metalness": 0
+    },
+    "base": {
+      "color": "#202438",
+      "roughness": 0.85,
+      "metalness": 0.15
+    },
+    "building": {
+      "color": "#252740",
+      "roughness": 0.85,
+      "metalness": 0.12
+    },
+    "buildingAccent": {
+      "color": "#4A3862",
+      "roughness": 0.75,
+      "metalness": 0.2
+    },
+    "window": {
+      "color": "#47D9ED",
+      "roughness": 0.5,
+      "metalness": 0.1,
+      "emissive": "#47D9ED",
+      "emissiveStrength": 0.8
+    },
+    "warmWindow": {
+      "color": "#FF56B3",
+      "roughness": 0.5,
+      "metalness": 0.05,
+      "emissive": "#FF56B3",
+      "emissiveStrength": 0.75
+    },
+    "metal": {
+      "color": "#636B95",
+      "roughness": 0.55,
+      "metalness": 0.3
+    },
+    "lamp": {
+      "color": "#47D9ED",
+      "roughness": 0.4,
+      "metalness": 0.05,
+      "emissive": "#47D9ED",
+      "emissiveStrength": 1
+    }
+  },
+  "scene": {
+    "road": "#242A3C",
+    "background": "#101225",
+    "coin": "#FFD36B",
+    "keyLight": "#BDB8F7"
+  }
+}
