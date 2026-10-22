@@ -11,6 +11,8 @@
 - `promote-qiniu.yml`：独立手工操作。核对源仓库、工作流路径、workflow_dispatch、成功状态、源 SHA、原 artifact 的 Build ID / SHA / production 身份，再进入 production Environment 审核。
 - `assets-regenerate.yml`：可选、已有预装 Blender 5.2.2 的 self-hosted runner；普通发布不运行，不下载新模型。
 
+CI视觉环境：Linux继续Release Gate；macOS26/arm64比较原91张macOS基线。`00-visual-provenance.spec.ts`记录浏览器实际解析的CJK字体、系统TTC Hash与GPU，而不是用CSS字体名或`document.fonts.check`猜测。若缺PingFang，原工作流以 `swift scripts/release/ensure-ci-font.swift --download-system-font` 请求Apple管理的系统字体，120秒超时、精确PostScript复验，随后再记录并完整比较。脚本仅在明确的GitHub macOS runner允许下载；开发机默认只读检查，不复制或提交字体。Node构建/游戏不依赖Swift。真实远端结果仍以Task16报告为准，配置存在不等于已通过。
+
 版本目录、缓存、MIME、原产物归档与回滚细则继续使用 [release.md](release.md)、[rollback.md](rollback.md)，没有建立另一套上传工具或稳定入口。
 
 ## 持有人配置清单

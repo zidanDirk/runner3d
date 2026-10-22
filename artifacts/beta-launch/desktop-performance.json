@@ -1,0 +1,710 @@
+{
+  "source": "artifacts/ui-ux/regression/mobile-iteration/performance.json",
+  "sourceSha256": "5ac4af66054328f2daa336414a4100ea995ba712932b631291e92fb40c83d144",
+  "host": {
+    "os": "darwin",
+    "release": "25.6.0",
+    "cpu": "Apple M2 Max",
+    "browser": "156.0.8078.4"
+  },
+  "scope": "Each fixed theme has a separate 1.5s frozen-frame sample; live cases are 10+40+10 seconds of real active RAF rendering, not accelerated simulation. Frame times are main-thread RAF intervals, not GPU timer results. These e2e samples include the existing character/scene diagnostic overhead. Different viewport/DPR/quality rows are different workloads and cannot prove a same-quality speedup.",
+  "note": "Task16 existing e2e performance test. Desktop GPU RAF timing; emulated phone workloads are not actual iPhone/Android. Short samples do not prove thermal behavior, GPU timing or long-term leak freedom.",
+  "reports": [
+    {
+      "name": "desktop-high",
+      "emulation": "Desktop Chromium on the same host",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "deviceDpr": 1
+      },
+      "quality": "high",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2 Max, Unspecified Version)",
+      "actualDpr": 1,
+      "frames": {
+        "samples": 601,
+        "durationMs": 10016.300000000001,
+        "meanMs": 16.666056572379368,
+        "p95Ms": 16.700000000000728,
+        "p99Ms": 16.80000000000109,
+        "fps": 60.00219641983567,
+        "over33Ms": 0,
+        "over50Ms": 0,
+        "truncated": false,
+        "checkpoints": [
+          {
+            "elapsedMs": 0,
+            "tick": 3931,
+            "distance": 560.0131651337623,
+            "coins": 88,
+            "themeId": "dusk-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 1016.5999999999995,
+            "tick": 4052,
+            "distance": 578.44205102396,
+            "coins": 90,
+            "themeId": "dusk-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 2016.6000000000004,
+            "tick": 4172,
+            "distance": 596.792189204042,
+            "coins": 94,
+            "themeId": "dusk-city",
+            "particles": 19,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 3016.5,
+            "tick": 4292,
+            "distance": 615.2158737056624,
+            "coins": 96,
+            "themeId": "neon-city",
+            "particles": 10,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 4016.5,
+            "tick": 4412,
+            "distance": 633.71339929834,
+            "coins": 98,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 5016.5,
+            "tick": 4532,
+            "distance": 652.2850619330148,
+            "coins": 102,
+            "themeId": "neon-city",
+            "particles": 16,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 6016.4,
+            "tick": 4652,
+            "distance": 670.9311587467793,
+            "coins": 105,
+            "themeId": "neon-city",
+            "particles": 19,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 7016.299999999999,
+            "tick": 4772,
+            "distance": 689.6519880676354,
+            "coins": 107,
+            "themeId": "neon-city",
+            "particles": 9,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 8016.4,
+            "tick": 4892,
+            "distance": 708.4478494192697,
+            "coins": 110,
+            "themeId": "neon-city",
+            "particles": 9,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 9016.3,
+            "tick": 5012,
+            "distance": 727.3190435258393,
+            "coins": 114,
+            "themeId": "neon-city",
+            "particles": 18,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 10016.300000000001,
+            "tick": 5132,
+            "distance": 746.265872316788,
+            "coins": 116,
+            "themeId": "neon-city",
+            "particles": 9,
+            "voices": 1
+          }
+        ]
+      },
+      "mainPass": {
+        "calls": 179,
+        "triangles": 31656,
+        "geometries": 196,
+        "textures": 2,
+        "programs": 15,
+        "sceneObjects": 362
+      },
+      "chunks": 9,
+      "particles": 18,
+      "heap": {
+        "usedBytes": 22711744,
+        "totalBytes": 24281088,
+        "forcedGc": true
+      },
+      "loadingMs": null,
+      "gpuBytes": null,
+      "temperature": null
+    },
+    {
+      "name": "mobile-medium",
+      "emulation": "Playwright Chromium touch/viewport/DPR emulation on the desktop host; no physical phone",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceDpr": 3
+      },
+      "quality": "medium",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2 Max, Unspecified Version)",
+      "actualDpr": 1.25,
+      "frames": {
+        "samples": 2401,
+        "durationMs": 40015.099999999744,
+        "meanMs": 16.66601416076624,
+        "p95Ms": 16.799999999995634,
+        "p99Ms": 16.80000000000291,
+        "fps": 60.002349113210144,
+        "over33Ms": 0,
+        "over50Ms": 0,
+        "truncated": false,
+        "checkpoints": [
+          {
+            "elapsedMs": 0,
+            "tick": 3931,
+            "distance": 560.0131651337623,
+            "coins": 88,
+            "themeId": "dusk-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 1016.5999999999995,
+            "tick": 4052,
+            "distance": 578.44205102396,
+            "coins": 90,
+            "themeId": "dusk-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 2016.5999999999995,
+            "tick": 4172,
+            "distance": 596.792189204042,
+            "coins": 94,
+            "themeId": "dusk-city",
+            "particles": 13,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 3016.5999999999995,
+            "tick": 4292,
+            "distance": 615.2158737056624,
+            "coins": 96,
+            "themeId": "neon-city",
+            "particles": 7,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 4016.499999999999,
+            "tick": 4412,
+            "distance": 633.71339929834,
+            "coins": 98,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 5016.400000000001,
+            "tick": 4532,
+            "distance": 652.2850619330148,
+            "coins": 102,
+            "themeId": "neon-city",
+            "particles": 11,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 6016.400000000001,
+            "tick": 4652,
+            "distance": 670.9311587467793,
+            "coins": 105,
+            "themeId": "neon-city",
+            "particles": 13,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 7016.400000000001,
+            "tick": 4772,
+            "distance": 689.6519880676354,
+            "coins": 107,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 8016.400000000001,
+            "tick": 4892,
+            "distance": 708.4478494192697,
+            "coins": 110,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 9016.2,
+            "tick": 5012,
+            "distance": 727.3190435258393,
+            "coins": 114,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 10016.3,
+            "tick": 5132,
+            "distance": 746.265872316788,
+            "coins": 116,
+            "themeId": "neon-city",
+            "particles": 6,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 11016.3,
+            "tick": 5252,
+            "distance": 765.2886389316768,
+            "coins": 118,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 12016.2,
+            "tick": 5372,
+            "distance": 784.3876477250321,
+            "coins": 122,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 13016.100000000002,
+            "tick": 5492,
+            "distance": 803.5632042712153,
+            "coins": 125,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 14016.100000000002,
+            "tick": 5612,
+            "distance": 822.8156153693136,
+            "coins": 128,
+            "themeId": "neon-city",
+            "particles": 6,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 15016.100000000002,
+            "tick": 5732,
+            "distance": 842.1451890480486,
+            "coins": 130,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 16016,
+            "tick": 5852,
+            "distance": 861.552234570702,
+            "coins": 134,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 17016,
+            "tick": 5972,
+            "distance": 881.0370624400651,
+            "coins": 137,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 18016,
+            "tick": 6092,
+            "distance": 900.59998440341,
+            "coins": 140,
+            "themeId": "neon-city",
+            "particles": 6,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 19015.9,
+            "tick": 6212,
+            "distance": 920.2413134574709,
+            "coins": 142,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 20015.9,
+            "tick": 6332,
+            "distance": 939.9613638534569,
+            "coins": 146,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 21015.8,
+            "tick": 6452,
+            "distance": 959.7604511020779,
+            "coins": 149,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 22015.8,
+            "tick": 6572,
+            "distance": 979.6388919785928,
+            "coins": 152,
+            "themeId": "neon-city",
+            "particles": 12,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 23015.7,
+            "tick": 6692,
+            "distance": 999.5970045278783,
+            "coins": 154,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 24015.7,
+            "tick": 6812,
+            "distance": 1019.635108069517,
+            "coins": 158,
+            "themeId": "neon-city",
+            "particles": 14,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 25015.7,
+            "tick": 6932,
+            "distance": 1039.7535232029063,
+            "coins": 162,
+            "themeId": "neon-city",
+            "particles": 14,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 26015.600000000002,
+            "tick": 7052,
+            "distance": 1059.9525718123878,
+            "coins": 164,
+            "themeId": "neon-city",
+            "particles": 14,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 27015.600000000002,
+            "tick": 7172,
+            "distance": 1080.2325770723974,
+            "coins": 167,
+            "themeId": "neon-city",
+            "particles": 8,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 28015.500000000004,
+            "tick": 7292,
+            "distance": 1100.5938634526372,
+            "coins": 170,
+            "themeId": "neon-city",
+            "particles": 2,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 29015.500000000004,
+            "tick": 7412,
+            "distance": 1121.0367567232631,
+            "coins": 174,
+            "themeId": "neon-city",
+            "particles": 10,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 30015.500000000004,
+            "tick": 7532,
+            "distance": 1141.5615839601023,
+            "coins": 177,
+            "themeId": "neon-city",
+            "particles": 16,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 31015.399999999998,
+            "tick": 7652,
+            "distance": 1162.168673549884,
+            "coins": 180,
+            "themeId": "neon-city",
+            "particles": 8,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 32015.399999999998,
+            "tick": 7772,
+            "distance": 1182.8583551954891,
+            "coins": 183,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 33015.299999999996,
+            "tick": 7892,
+            "distance": 1203.63095992123,
+            "coins": 186,
+            "themeId": "dusk-city",
+            "particles": 6,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 34015.299999999996,
+            "tick": 8012,
+            "distance": 1224.4868200781482,
+            "coins": 190,
+            "themeId": "dusk-city",
+            "particles": 12,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 35015.299999999996,
+            "tick": 8132,
+            "distance": 1245.4262693493276,
+            "coins": 193,
+            "themeId": "dusk-city",
+            "particles": 12,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 36015.2,
+            "tick": 8252,
+            "distance": 1266.4496427552363,
+            "coins": 196,
+            "themeId": "dusk-city",
+            "particles": 10,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 37015.2,
+            "tick": 8372,
+            "distance": 1287.5572766590865,
+            "coins": 199,
+            "themeId": "dusk-city",
+            "particles": 2,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 38015.1,
+            "tick": 8492,
+            "distance": 1308.749508772213,
+            "coins": 202,
+            "themeId": "dusk-city",
+            "particles": 8,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 39015.1,
+            "tick": 8612,
+            "distance": 1330.0266781594785,
+            "coins": 206,
+            "themeId": "dusk-city",
+            "particles": 14,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 40015.1,
+            "tick": 8732,
+            "distance": 1351.3891252446979,
+            "coins": 210,
+            "themeId": "dusk-city",
+            "particles": 14,
+            "voices": 0
+          }
+        ]
+      },
+      "mainPass": {
+        "calls": 177,
+        "triangles": 22140,
+        "geometries": 195,
+        "textures": 2,
+        "programs": 15,
+        "sceneObjects": 358
+      },
+      "chunks": 9,
+      "particles": 16,
+      "heap": {
+        "usedBytes": 23730804,
+        "totalBytes": 25853952,
+        "forcedGc": true
+      },
+      "loadingMs": null,
+      "gpuBytes": null,
+      "temperature": null
+    },
+    {
+      "name": "mobile-low",
+      "emulation": "Playwright Chromium touch/viewport/DPR emulation on the desktop host; no physical phone",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceDpr": 3
+      },
+      "quality": "low",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2 Max, Unspecified Version)",
+      "actualDpr": 1,
+      "frames": {
+        "samples": 601,
+        "durationMs": 10016.199999999997,
+        "meanMs": 16.66589018302828,
+        "p95Ms": 16.700000000000728,
+        "p99Ms": 16.800000000000182,
+        "fps": 60.002795471336455,
+        "over33Ms": 0,
+        "over50Ms": 0,
+        "truncated": false,
+        "checkpoints": [
+          {
+            "elapsedMs": 0,
+            "tick": 3931,
+            "distance": 560.0131651337623,
+            "coins": 88,
+            "themeId": "dusk-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 1016.5999999999995,
+            "tick": 4052,
+            "distance": 578.44205102396,
+            "coins": 90,
+            "themeId": "dusk-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 2016.499999999999,
+            "tick": 4172,
+            "distance": 596.792189204042,
+            "coins": 94,
+            "themeId": "dusk-city",
+            "particles": 9,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 3016.499999999999,
+            "tick": 4292,
+            "distance": 615.2158737056624,
+            "coins": 96,
+            "themeId": "neon-city",
+            "particles": 5,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 4016.499999999999,
+            "tick": 4412,
+            "distance": 633.71339929834,
+            "coins": 98,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 5016.400000000001,
+            "tick": 4532,
+            "distance": 652.2850619330148,
+            "coins": 102,
+            "themeId": "neon-city",
+            "particles": 7,
+            "voices": 2
+          },
+          {
+            "elapsedMs": 6016.400000000001,
+            "tick": 4652,
+            "distance": 670.9311587467793,
+            "coins": 105,
+            "themeId": "neon-city",
+            "particles": 9,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 7016.3,
+            "tick": 4772,
+            "distance": 689.6519880676354,
+            "coins": 107,
+            "themeId": "neon-city",
+            "particles": 4,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 8016.3,
+            "tick": 4892,
+            "distance": 708.4478494192697,
+            "coins": 110,
+            "themeId": "neon-city",
+            "particles": 0,
+            "voices": 0
+          },
+          {
+            "elapsedMs": 9016.3,
+            "tick": 5012,
+            "distance": 727.3190435258393,
+            "coins": 114,
+            "themeId": "neon-city",
+            "particles": 8,
+            "voices": 1
+          },
+          {
+            "elapsedMs": 10016.2,
+            "tick": 5132,
+            "distance": 746.265872316788,
+            "coins": 116,
+            "themeId": "neon-city",
+            "particles": 4,
+            "voices": 1
+          }
+        ]
+      },
+      "mainPass": {
+        "calls": 179,
+        "triangles": 30416,
+        "geometries": 196,
+        "textures": 1,
+        "programs": 11,
+        "sceneObjects": 362
+      },
+      "chunks": 9,
+      "particles": 8,
+      "heap": {
+        "usedBytes": 22372980,
+        "totalBytes": 24805376,
+        "forcedGc": true
+      },
+      "loadingMs": null,
+      "gpuBytes": null,
+      "temperature": null
+    }
+  ]
+}

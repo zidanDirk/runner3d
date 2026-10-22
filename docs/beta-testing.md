@@ -113,3 +113,5 @@ P95 帧时间 / 样本数：
 ```
 
 目前没有真实试玩者样本，不能计算真人第一局距离、理解率、转化率或回访率。机器人与工程冒烟数据应单列，并标注 synthetic。发布状态应使用 **Engineering Ready / Real Device Acceptance Pending**，前提是本地质量门禁实际通过；真机、真人音效、真实平衡、域名/HTTPS 和部署授权仍需逐项完成。
+
+Task16进一步将状态拆成四项：Engineering Ready、Preview Deployed、Real Device Accepted、Beta Go/No-Go，不能互相替代。实际设备/人耳/受邀玩家记录表见 [beta-device-acceptance.md](beta-device-acceptance.md)，人工审核后的反馈导入见 [beta-feedback-import.md](beta-feedback-import.md)。任务最终证据与未完成项见 [beta-launch-evidence.md](../artifacts/beta-launch-evidence.md)。

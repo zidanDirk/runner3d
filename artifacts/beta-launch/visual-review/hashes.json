@@ -1,0 +1,11 @@
+{
+  "run": "https://github.com/zidanDirk/runner3d/actions/runs/39800765396",
+  "artifact": 12438567381,
+  "archiveBytes": 480245721,
+  "note": "Three complete PNG entries extracted with tar --fast-read from the downloaded ZIP prefix; tar exited 0. Full archive download stopped after 17MiB because of very low throughput. Original complete archive remains on GitHub; this is one reviewed sample, not all 56 failures.",
+  "files": {
+    "artifacts/beta-launch/visual-review/linux-idle-actual.png": "11ea5d17eb9ee469dca0d6f34ccc29b55535961b22cdbd2b5392bff3902ee1b2",
+    "artifacts/beta-launch/visual-review/linux-idle-diff.png": "d479344d5faa1a243ecbb6aaa162cd594b12ff0ddb299d3ef355a9565234e341",
+    "artifacts/beta-launch/visual-review/linux-idle-expected.png": "cad6929c73998f6c71d136546ac287246cbf5f76b9f4be605dbdde3bea97adca"
+  }
+}

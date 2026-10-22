@@ -26,6 +26,7 @@
 
 - 复用现有 `ci.yml`、`deploy-qiniu.yml`、`promote-qiniu.yml` 与 `scripts/release/`，不新增第二套发布流程。代码提交/push不授权上传；具体候选上传、生产晋升及真实回滚各自保留明确人工授权和受保护 Environment 审核。PR #2 保持 Draft/人工审核，不因本任务合并。
 - CI须报告精确SHA及实际两个Job结果。失败保留日志、actual/diff/trace；禁止自动更新91张基线、提高容差、跳过Job。短暂动作和重试初态使用原e2e固定tick接口采样，真实奔跑/碰撞另测，不能在生产开放测试钩子。
+- 视觉比较保留原macOS基线，Linux承担Release Gate。macOS runner先记录真实CJK字体/GPU与系统字体Hash；缺少PingFang时仅在一次性GitHub macOS runner通过Apple Core Text官方接口匹配系统字体，120秒超时/真实PostScript复验。脚本默认只读检查，不下载到开发者主机，不提交或分发Apple字体文件。图片与trace分开归档，普通比较仍不写基线。
 - `release:preflight`仅评估公开配置观察、Secret名称和证据表，不读取密钥值、不配置环境、不上传。候选必须有同SHA完整CI成功；promotion核对源仓库/工作流路径/事件/成功状态及原artifact SHA/Build ID。
 - `remote-smoke.mjs`绑定原Manifest/源SHA，真实HTTPS证书校验、逐文件Hash、MIME、缓存头、HTTP精确跳转及缺失GLB404，有限流式读取/超时并复查Manifest。注入fetcher的测试不是HTTPS/CDN实测；`test:release`另测生产WebGL/真实输入/道具/结算/导航/刷新存档，机器人不计真人。
 - `agent beta-feedback --file=...`只导入人工审核并去隐私的严格JSON：稳定匿名参与者ID、分类/严重程度/频率、验证标签及新鲜代码/测试证据。文本不可信，零执行/自动批准/远端写入；仅生成空范围hypothesis草稿并查重。synthetic样例与真实数据隔离，不能计入人数或真实缺陷统计。

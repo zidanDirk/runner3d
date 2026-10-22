@@ -51,6 +51,25 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Record real font and renderer provenance before the full comparison
+        run: npx playwright test tests/e2e/00-visual-provenance.spec.ts --output=test-results/visual-provenance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-environment-before
+          path: test-results/visual-provenance/**/visual-provenance.json
+          retention-days: 14
+      - name: Match the original baseline's Apple system font
+        run: swift scripts/release/ensure-ci-font.swift --download-system-font
+        timeout-minutes: 3
+      - name: Record the matched comparison environment
+        run: npx playwright test tests/e2e/00-visual-provenance.spec.ts --output=test-results/visual-provenance-after
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-environment
+          path: test-results/visual-provenance-after/**/visual-provenance.json
+          retention-days: 14
       # Never --update-snapshots. A failure requires actual/diff review.
       - run: npm run test:visual
         timeout-minutes: 38
@@ -58,5 +77,17 @@ jobs:
         if: always()
         with:
           name: visual-failures
-          path: test-results/
+          # Keep images small enough to review on ordinary connections. Traces
+          # remain available separately; neither artifact updates the baselines.
+          path: |
+            test-results/**/*.png
+            test-results/**/error-context.md
+            test-results/**/.last-run.json
+            test-results/**/visual-provenance.json
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-traces
+          path: test-results/**/trace.zip
           retention-days: 14

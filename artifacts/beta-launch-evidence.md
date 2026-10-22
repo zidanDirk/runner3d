@@ -1,6 +1,6 @@
 # Task16 · 真实 Beta 验收记录
 
-本轮工作日期：2026-10-22。工程验证进行中；**Preview 未部署、真实设备未验收、Beta NO-GO**。没有上传、生产晋升、稳定入口变更、付费资源或真实生产回滚。代码同步与公开发布是两件事。
+本轮工作日期：2026-10-22～23（Asia/Shanghai；GitHub时间为UTC）。工程验证进行中；**Preview 未部署、真实设备未验收、Beta NO-GO**。没有上传、生产晋升、稳定入口变更、付费资源或真实生产回滚。代码同步与公开发布是两件事。
 
 ## A. GitHub CI
 
@@ -11,6 +11,14 @@
 阶段提交 `aef20e6` 的 [真实CI](https://github.com/zidanDirk/runner3d/actions/runs/39800765396) Release Gate22/23，暴露初始窗口采样问题，后续已修；Linux visual20/76，56失败，完整actual/diff/trace已上传（artifact12438567381，480,245,721B），下载审查中。CI新增failure截图/trace上传。此次安装Chromium10分17秒+视觉33.4分接近45分总预算，后续job60分/step38分保证有上传余量；基线与容差不变。
 
 开发分支试运行标准 `macos-26` arm64承接原macOS基线的全部76视觉用例，Linux仍跑完整Release Gate，不根据本地结果预先标成功。待图片审查与真实远端结果后决定是否采用。依据：[Playwright同环境截图说明](https://playwright.dev/docs/test-snapshots)、[GitHub标准runner规格与公开仓库免费规则](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)。仓库实际public=true，未使用larger付费runner或修改计费。最终SHA/实际两个Job结果待更新，阶段失败仍保留。
+
+实际已审查 [Linux actual](beta-launch/visual-review/linux-idle-actual.png)、[diff](beta-launch/visual-review/linux-idle-diff.png)、[原 expected](beta-launch/visual-review/linux-idle-expected.png)。角色几何/材质/姿态一致，差异集中于预览地面网格一组线缺失及文字；对应源码为原AssetPreview中plane Y=-.008 / GridHelper Y=.002，不是本次资源或相机改动。确认是同源码/GLB/捕获状态的渲染差异，确切驱动原因尚未证实，不能把全部56项都归因字体。另有日志明确ReadPixels GPU stall和35秒evaluate/screenshot超时。该网格仅开发预览，正式场景另有Linux功能/资源检查。
+
+原归档480MB，在当前连接下载约17MiB后停止；只从稳定ZIP前缀提取三个完整PNG（tar --fast-read exit0），expected Hash与原基线完全相同。完整原始归档保留在[GitHub artifact](https://github.com/zidanDirk/runner3d/actions/runs/39800765396/artifacts/12438567381)，没有声称逐图审查全部失败。后续将PNG/error-context与trace分成两个artifact，仍保留所有失败证据，避免为了看图片必须下载数百MB trace。文件Hash在 [hashes.json](beta-launch/visual-review/hashes.json)。
+
+`db5029a` 的 [macOS试运行](https://github.com/zidanDirk/runner3d/actions/runs/39808797788)：Linux完整Release Gate **PASS**，macOS视觉 **58/76，18 FAIL**，仍未验收平台策略。通过现有GitHub连接器取得104,619,681B原归档，实际查看设置/Home/碰撞/高速状态的actual/diff；剩余差异主要集中中文文字，模型/布局在已查看样本一致，不把未查看的全部图片都概括为同一原因。
+
+新增只读CDP探针实测本机CJK为PingFangSC-Semibold、系统TTC SHA256 `9ff3ce9439fe285cdabb46f9ceb46b1ac58f1ca07e6f4a764e8286db621a0af9`，GPU为Apple M2 Max Metal。下一轮CI先归档实际字体/renderer，再使用Apple官方Core Text系统字体匹配接口补齐缺失字形，最后重新记录并跑完整比较。接口按[Apple官方说明](https://developer.apple.com/documentation/technologyoverviews/fonts)和本机SDK编译核对，不手工注册/复制/分发系统字体。Swift默认只读，下载仅显式flag+一次性macOS GitHub runner；120秒超时/真实PostScript验证，不以fallback冒充成功。本机用已安装CommandLineTools直接编译检查通过；默认Xcode shim有既有动态库损坏，未修改全局Xcode设置。当前仍待真实CI验证，不能预先标PASS。
 
 ## B. Preview 部署
 
@@ -70,16 +78,22 @@ P0/P1：目前没有收到真实玩家或真机缺陷报告，不能据此证明
 | 验证 | 实际结果 |
 |---|---|
 | strict | PASS |
-| unit | 619/619，50文件 |
+| unit | 最新620/620，50文件；首轮Release Gate619（之后补真实CLI拒绝发布负例） |
 | assets:config / assets:validate | 15/15，静态+结构+真实Three；未重生成 |
 | build --mode preview / 完整性 | PASS；保留大chunk警告 |
-| release:check | PASS：core23、Beta9、release5 |
-| 全量test:e2e | 运行中 |
-| 普通test:visual | 待运行；91基线不变 |
-| test:production / test:loading | 待运行 |
+| release:check | 最终620版PASS：strict、unit620、15资产、构建/完整性、core23、Beta9、release5；本地元数据见local-gate-final.json |
+| 全量test:e2e | 187/187，16.3分钟，含全部原视觉用例 |
+| 普通test:visual | 76/76，4.1分钟；91基线不变 |
+| test:production / test:loading | 8/8 与2/2 |
 | 真实远端Smoke/CDN/回滚 | BLOCKED / 未执行 |
 
+新增字体/GPU来源诊断1/1通过；原全量187与76普通视觉是此前完整批次，不能把分别执行的诊断加上后说成单次188/77全量。后续完整CI以实际计数为准。一轮额外独立Smoke因外层沙盒listen EPERM未启动，未执行用例；按同一批准流程在最终Release Gate中实际5/5通过，没有为此修改业务代码或禁用沙盒。
+
 新发布Smoke共用原生产路线机器人，实际Arrow左右/Space/下键、真实收集三道具与金币、碰撞/钱包；原用例继续验证暂停/设置/结算/商店/任务/首页/重试/刷新存档和无生产钩子。精确动作姿势由原固定tick e2e断言；生产真实输入检查不冒充逐姿态测试。没有修改src游戏/运行时/渲染/经济、资产工厂、GLB或存档schema。
+
+已查看 [本地发布三道具画面](beta-launch/visual-review/local-release-powerups.png)，角色/建筑/路障/金币可见，三种道具HUD同时激活，未见方向/材质异常。Hash核对147应用源码、15GLB、91基线均不变，见 [preservation.json](beta-launch/preservation.json)。
+
+现有性能用例本轮重跑：Apple M2 Max / Darwin25.6.0 / Chromium156.0.8078.4，GPU为ANGLE Metal Apple M2 Max；Desktop High1440×900，实际DPR1，10,016.3ms/601个真实RAF间隔，平均16.666ms/P95=16.7/P99=16.8/FPS约60.00，>50ms长帧0。采样结束主pass179calls/31,656tris、9Chunk、粒子计数及GC heap详见 [desktop-performance.json](beta-launch/desktop-performance.json)。这是含诊断开销的短桌面工程样本，不能证明手机热机、GPU耗时/字节或长期无泄漏；同文件的Medium/Low是桌面手机视口模拟，**不填入C项真机表**，不计算跨档优化百分比。加载时间此采样N/A，冷暖加载另有test:loading2通过。
 
 ## H. AI AUTOMATION REPORT
 

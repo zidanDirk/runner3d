@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { createReleaseInfo, validateBase } from '../../src/release/config';
 import { releaseInfo } from '../../src/release/info';
 import { verifyRelease } from '../../scripts/release/verify.mjs';
@@ -28,14 +30,14 @@ describe('public release identity and environment', () => {
   });
 });
 
-async function fixture(run: (root: string, files: Record<string, { bytes: number; sha256: string }>) => Promise<void>): Promise<void> {
+async function fixture(run: (root: string, files: Record<string, { bytes: number; sha256: string }>) => Promise<void>, environment: 'preview' | 'production' = 'preview'): Promise<void> {
   const root = await mkdtemp(join(tmpdir(), 'runner-release-'));
   try {
     await cp('public/models', join(root, 'models'), { recursive: true });
     await mkdir(join(root, 'assets'));
     const files: Record<string, { bytes: number; sha256: string }> = {};
     for (const asset of Object.values(assets.assets)) files[asset.path] = { bytes: (await readFile(join(root, asset.path))).length, sha256: asset.sha256 };
-    const release = createReleaseInfo(input);
+    const release = createReleaseInfo({ ...input, environment });
     for (const [path, contents] of Object.entries({ 'index.html': '<script type="module" src="./assets/app.js"></script>', 'assets/app.js': 'console.log("Runner3D")', 'release.json': JSON.stringify(release, null, 2) + '\n' })) {
       await writeFile(join(root, path), contents);
       files[path] = { bytes: Buffer.byteLength(contents), sha256: createHash('sha256').update(contents).digest('hex') };
@@ -81,3 +83,32 @@ describe('rollback preserves the real schema contract', () => {
     expect(storage.get(PROFILE_KEY)).toBe(future); expect(rolledBack.snapshot.walletCoins).toBe(0);
   });
 });
+
+it('actual operator CLI blocks unconfirmed uploads/promotions before network or qshell', async () => fixture(async root => {
+  const operator = await mkdtemp(join(tmpdir(), 'runner-publish-guard-'));
+  try {
+    await cp(root, join(operator, 'dist'), { recursive: true });
+    const artifact = await verifyRelease(join(operator, 'dist'));
+    await mkdir(join(operator, 'artifacts/beta-release/gate'), { recursive: true });
+    await writeFile(join(operator, 'artifacts/beta-release/gate/report.json'), JSON.stringify({ status: 'passed', artifact }));
+    const script = pathToFileURL(resolve('scripts/release/qiniu.mjs')).href;
+    for (const item of [
+      { args: ['promote'], confirm: '', approval: 'true', error: 'Explicit upload/promote --execute required' },
+      { args: ['upload', '--execute'], confirm: 'UPLOAD wrong', approval: 'true', error: 'RELEASE_CONFIRM must name' },
+      { args: ['promote', '--execute'], confirm: 'PROMOTE wrong', approval: 'true', error: 'RELEASE_CONFIRM must name' },
+      { args: ['promote', '--execute'], confirm: `PROMOTE ${artifact.release.buildId}`, approval: 'false', error: 'production required-reviewer approval' },
+    ]) {
+      // Invoke the real module in a fresh process. A tripwire prevents accidental
+      // network access if a guard regresses; PATH cannot find any real qshell.
+      const driver = `process.argv=['node','qiniu.mjs',...${JSON.stringify(item.args)}];globalThis.fetch=()=>{throw Error('UNEXPECTED_NETWORK')};await import(${JSON.stringify(script)});`;
+      const result = spawnSync(process.execPath, ['--input-type=module', '-e', driver], {
+        cwd: operator, encoding: 'utf8', timeout: 5000,
+        env: { PATH: '', QINIU_AK: 'synthetic-test-value', QINIU_SK: 'synthetic-test-value', QINIU_BUCKET: 'synthetic-bucket', RELEASE_BASE_URL: 'https://example.invalid/', RELEASE_CONFIRM: item.confirm, RELEASE_APPROVAL_CONFIGURED: item.approval },
+      });
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain(item.error);
+      expect(result.stderr).not.toContain('UNEXPECTED_NETWORK');
+      expect(result.stdout).not.toMatch(/uploaded|promotion submitted/);
+    }
+  } finally { await rm(operator, { recursive: true, force: true }); }
+}, 'production'));

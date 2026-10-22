@@ -1,0 +1,113 @@
+{
+  "input": {
+    "candidateCommit": "db5029aa3d2abea2b2182da6f6190050fc33beec",
+    "localGate": "PASS",
+    "checks": {
+      "ci": {
+        "status": "PENDING",
+        "kind": "external",
+        "source": "https://github.com/zidanDirk/runner3d/actions/runs/39808797788"
+      },
+      "preview": {
+        "status": "BLOCKED",
+        "kind": "none",
+        "source": "No configured candidate URL/upload authorization"
+      },
+      "https": {
+        "status": "BLOCKED",
+        "kind": "none",
+        "source": "No real HTTPS URL"
+      },
+      "glb": {
+        "status": "PENDING",
+        "kind": "automated",
+        "source": "Local assets15 pass; actual CDN not tested"
+      },
+      "browserSmoke": {
+        "status": "PENDING",
+        "kind": "automated",
+        "source": "Local production/release smoke pass; remote not tested"
+      },
+      "ios": {
+        "status": "PENDING",
+        "kind": "none",
+        "source": "No actual device report"
+      },
+      "android": {
+        "status": "PENDING",
+        "kind": "none",
+        "source": "No actual device report"
+      },
+      "humanAudio": {
+        "status": "PENDING",
+        "kind": "none",
+        "source": "No human listening report"
+      },
+      "humanPlay": {
+        "status": "PENDING",
+        "kind": "none",
+        "source": "No real participant report"
+      },
+      "monitoring": {
+        "status": "PASS",
+        "kind": "automated",
+        "source": "Local Beta9 and production8; deployed monitoring not exercised"
+      },
+      "privacy": {
+        "status": "PASS",
+        "kind": "automated",
+        "source": "Beta opt-out/export + feedback schema and injection tests; no remote collection service"
+      },
+      "rollback": {
+        "status": "PENDING",
+        "kind": "none",
+        "source": "Contract/current-future profile guards pass; no known stable production target"
+      },
+      "knownIssues": {
+        "status": "PASS",
+        "kind": "automated",
+        "source": "artifacts/beta-launch-evidence.md records unresolved limitations"
+      }
+    },
+    "openFindings": [
+      {
+        "id": "linux-preview-grid",
+        "severity": "P3"
+      },
+      {
+        "id": "residual-foot-slip",
+        "severity": "P2"
+      },
+      {
+        "id": "late-economy-depth",
+        "severity": "P2"
+      },
+      {
+        "id": "three-chunk-size",
+        "severity": "P3"
+      }
+    ],
+    "technicalPreviewAuthorizationCommit": null
+  },
+  "result": {
+    "engineeringReady": false,
+    "previewDeployed": false,
+    "realDeviceAccepted": false,
+    "betaDecision": "NO-GO",
+    "criticalOpenFindings": false,
+    "pending": [
+      "ci",
+      "preview",
+      "https",
+      "glb",
+      "browserSmoke",
+      "ios",
+      "android",
+      "humanAudio",
+      "humanPlay",
+      "rollback"
+    ],
+    "note": "A decision over recorded evidence, not proof that unperformed tests occurred. CONDITIONAL GO permits only the specifically authorized technical preview, never automatic public launch/promotion."
+  },
+  "scope": "Recorded engineering evidence. Four known noncritical limitations; no real device/player/online evidence, and absence of reported P0/P1 is not proof no defects exist."
+}

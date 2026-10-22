@@ -1,0 +1,28 @@
+{
+  "host": {
+    "os": "darwin",
+    "release": "25.6.0",
+    "browser": "156.0.8078.4"
+  },
+  "language": "en-US",
+  "languages": [
+    "en-US"
+  ],
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+  "cssFontFamily": "Inter, \"Avenir Next\", \"PingFang SC\", \"Microsoft YaHei\", system-ui, sans-serif",
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2 Max, Unspecified Version)",
+  "actualFonts": [
+    {
+      "familyName": "PingFang SC",
+      "postScriptName": "PingFangSC-Semibold",
+      "isCustomFont": false,
+      "glyphCount": 10
+    }
+  ],
+  "systemPingFangFiles": [
+    {
+      "path": "/System/Library/AssetsV2/com_apple_MobileAsset_Font8/86ba2c91f017a3749571a82f2c6d890ac7ffb2fb.asset/AssetData/PingFang.ttc",
+      "sha256": "9ff3ce9439fe285cdabb46f9ceb46b1ac58f1ca07e6f4a764e8286db621a0af9"
+    }
+  ]
+}
