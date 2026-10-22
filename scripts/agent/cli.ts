@@ -1,21 +1,22 @@
 import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
-import { codexExecutor, discoverCodex, parseImplementation } from './codex';
+import { relative, resolve } from 'node:path';
+import { codexExecutor, CodexFailure, discoverCodex, parseImplementation } from './codex';
 import { blenderProbe, doctor, prepareProbe, repositoryName } from './doctor';
 import { dryRun } from './dry-run';
 import { GitHub } from './github';
 import { Orchestrator } from './orchestrator';
 import { runProcess } from './process';
 import { parseCandidate } from './research';
-import { parseConfig, redact } from './security';
+import { contained, parseConfig, redact } from './security';
 import { Store } from './store';
 import { sandboxedQA } from './sandbox';
-import { sandboxProbe } from './probes';
-import { check } from './types';
+import { browserProbe, sandboxProbe } from './probes';
+import { check, record } from './types';
 import type { Candidate } from './types';
 
 const HELP = `Runner3D 本地 Agent（无服务器/无调度/无自动合并）
 doctor | research | plan | execute | verify | report | status | dry-run | probe | blender-probe | sandbox-probe
+browser-probe --task=<id>               已批准工作区的固定浏览器/WebGL探针
 import --file=<candidate.json>
 approve --task=<id> --confirm=<digest> --reviewer=<human> [--high-risk=true]
 approve-github --task=<id>                 验证真实人工label事件/权限/正文
@@ -39,14 +40,25 @@ export async function main(args = process.argv.slice(2), root = process.cwd()): 
   if (command === 'doctor') { const data = await doctor(root, runProcess); await store.write('reports/doctor.json', data); console.log(JSON.stringify(data, null, 2)); return; }
   if (command === 'blender-probe') { const data = await blenderProbe(root, runProcess); await store.write('reports/blender-probe.json', data); console.log(JSON.stringify(data, null, 2)); return; }
   if (command === 'sandbox-probe') { console.log(JSON.stringify(await store.lock(() => sandboxProbe(root, store, runProcess)), null, 2)); return; }
+  if (command === 'browser-probe') { check(flags.task, '--task required'); console.log(JSON.stringify(await store.lock(() => browserProbe(root, store, runProcess, flags.task ?? '')), null, 2)); return; }
   if (command === 'dry-run') { const data = await store.lock(() => dryRun(root, config, runProcess)); console.log(JSON.stringify(data, null, 2)); return; }
   if (command === 'probe') {
+    await store.lock(async () => {
     const capability = await discoverCodex(runProcess, root); check(capability.supported, 'Compatible Codex not found');
     const directory = await prepareProbe(root, runProcess);
     const fake: Candidate = { key: 'readonly-probe', title: 'Read-only model capability probe', category: 'Technical Debt', kind: 'observed', problem: 'Return a structured empty edit list to verify invocation only.', solution: 'Return summary=READ_ONLY_PROBE_OK and edits=[]. Do not call tools.', benefit: 'Verify real CLI/auth, no implementation or approval.', complexity: 'Read-only', risks: [], evidence: [], scores: { impact: 1, confidence: 1, effort: 1, risk: 1, automation: 1 }, priority: 1, scope: [], acceptance: ['No code writes'], tests: [] };
-    const task = await store.create(fake); task.rounds = 1;
-    const result = await codexExecutor(runProcess, store, config, capability)(task, directory, ''); parseImplementation({ summary: result.summary, edits: result.edits }); check(result.edits.length === 0, 'Probe must not propose edits');
-    const report = { at: new Date().toISOString(), capability, result, implementation: false, remoteGitHubSideEffects: false }; await store.write('reports/codex-probe.json', report); console.log(JSON.stringify(report, null, 2)); return;
+    const task = await store.create(fake); let previous: Record<string, unknown> | null = null;
+    try { previous = record(JSON.parse(await readFile(resolve(store.root, 'reports/codex-probe.json'), 'utf8'))); } catch { /* No successful capability probe. */ }
+    if (previous?.implementation === false && previous.result) { const result = record(previous.result); if (typeof result.tokens === 'number' && task.rounds === 0) { task.rounds = 1; task.tokens = result.tokens; await store.save(task); } }
+    check(flags.confirm === undefined || flags.confirm === 'rerun-readonly-probe', 'Use exact --confirm=rerun-readonly-probe for another model call');
+    if (previous && flags.confirm === undefined) { console.log(JSON.stringify({ cached: true, capabilityNow: capability, previousProbe: previous, note: 'Historical real-model result; no new inference/authentication check performed' }, null, 2)); return; }
+    check(task.rounds < config.maxRounds && task.tokens < config.maxTokens, 'Read-only probe call/token budget exhausted'); task.rounds++; await store.save(task);
+    try {
+      const result = await codexExecutor(runProcess, store, config, capability)(task, directory, ''); task.tokens += result.tokens; await store.save(task);
+      check(task.tokens <= config.maxTokens, 'Probe token budget exceeded; result not accepted'); parseImplementation({ summary: result.summary, edits: result.edits }); check(result.edits.length === 0, 'Probe must not propose edits');
+      const report = { at: new Date().toISOString(), capability, result, implementation: false, remoteGitHubSideEffects: false }; await store.write('reports/codex-probe.json', report); console.log(JSON.stringify(report, null, 2));
+    } catch (error) { if (error instanceof CodexFailure) { task.tokens += error.reportedTokens; await store.save(task); } throw error; }
+    }); return;
   }
   const name = await repositoryName(root, runProcess), github = name ? new GitHub(name, runProcess, root) : null;
   let executor = null;
@@ -55,7 +67,7 @@ export async function main(args = process.argv.slice(2), root = process.cwd()): 
   const taskId = (): string => { check(flags.task, '--task=<id> required'); return flags.task; };
   switch (command) {
     case 'research': { const tasks = await agent.research(); console.table(tasks.map(t => ({ id: t.id, state: t.state, priority: t.candidate.priority, type: t.candidate.kind, issue: t.issue?.number ?? 'local draft' }))); break; }
-    case 'import': { check(flags.file && !flags.file.startsWith('-'), '--file is required'); const content = await readFile(resolve(root, flags.file)); check(content.length < config.maxInputChars, 'Candidate exceeds input budget'); const task = await agent.store.lock(() => agent.propose(parseCandidate(JSON.parse(content.toString('utf8'))))); console.log(JSON.stringify(task, null, 2)); break; }
+    case 'import': { check(flags.file && !flags.file.startsWith('-'), '--file is required'); const content = await readFile(await contained(root, relative(root, resolve(root, flags.file)))); check(content.length < config.maxInputChars, 'Candidate exceeds input budget'); const task = await agent.store.lock(() => agent.propose(parseCandidate(JSON.parse(content.toString('utf8'))))); console.log(JSON.stringify(task, null, 2)); break; }
     case 'approve': console.log(JSON.stringify(await agent.approve(taskId(), flags.confirm ?? '', flags.reviewer ?? '', flags['high-risk'] === 'true'), null, 2)); break;
     case 'approve-github': console.log(JSON.stringify(await agent.approveFromGitHub(taskId()), null, 2)); break;
     case 'plan': console.log(JSON.stringify((await agent.plan(taskId())).plan, null, 2)); break;
@@ -66,8 +78,9 @@ export async function main(args = process.argv.slice(2), root = process.cwd()): 
     case 'publish-pr': console.log(JSON.stringify((await agent.publishPR(taskId(), flags.confirm ?? '')).prUrl, null, 2)); break;
     case 'recover': console.log(JSON.stringify({ state: (await agent.recover(taskId(), flags.confirm ?? '')).state })); break;
     case 'cancel': console.log(JSON.stringify({ state: (await agent.cancel(taskId(), flags.confirm ?? '')).state })); break;
+    case 'sync': console.log(JSON.stringify({ state: (await agent.sync(taskId())).state })); break;
     case 'recover-lock': await agent.store.recoverLock(Number(flags.pid)); console.log('Dead owned lock recovered. Task state has not been replayed.'); break;
-    case 'status': console.table((await agent.store.list()).map(t => ({ id: t.id, phase: t.events.at(-1)?.phase, status: t.state, issue: t.issue?.number ?? 'local', branch: t.branch, rounds: t.rounds, checks: t.checks.at(-1)?.status ?? 'not run', lastError: t.lastError, artifacts: `${store.root}/reports/${t.id}-pr.md` }))); break;
+    case 'status': console.table((await agent.store.list()).map(t => ({ id: t.id, phase: t.events.at(-1)?.phase, status: t.state, issue: t.issue?.number ?? 'local', branch: t.branch, rounds: t.rounds, checks: t.state === 'VALIDATING' ? 'running' : t.checks.at(-1)?.status ?? 'not run', lastError: t.lastError, artifacts: `${store.root}/reports/${t.id}-pr.md` }))); break;
     default: throw new Error(`Unknown command.\n${HELP}`);
   }
 }

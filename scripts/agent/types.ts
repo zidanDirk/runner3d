@@ -28,6 +28,7 @@ export interface Task {
   rounds: number; fixes: number; tokens: number; startedAt: string | null; updatedAt: string;
   events: Transition[]; plan: Plan | null; checks: Check[]; lastError: string | null;
   commit: string | null; prUrl: string | null; remoteIntent: 'issue' | 'pr' | null;
+  verifications?: number;
 }
 export interface CommandResult { exitCode: number; stdout: string; stderr: string; durationMs: number; reason?: string }
 export interface RunOptions { cwd: string; timeoutMs?: number; maxBytes?: number; input?: string; env?: NodeJS.ProcessEnv }

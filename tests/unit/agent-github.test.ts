@@ -59,4 +59,14 @@ describe('Agent GitHub duplicate and human approval adapter', () => {
     const gh = new GitHub('example/runner3d', runner, process.cwd()); expect(await gh.draftPR(t, 'review report')).toContain('/pull/4'); expect(await gh.draftPR(t, 'review report')).toContain('/pull/4');
     t.branch = 'master'; await expect(gh.draftPR(t, 'x')).rejects.toThrow();
   });
+  it('reads actual CI failures without inventing a failure cause or assuming success offline', async () => {
+    const runner: Runner = async (_cmd, args) => args[1]?.includes('/jobs?') ? ok({ jobs: [{ name: 'release-gate', steps: [{ name: 'release:check', conclusion: 'failure' }] }] }) : ok({ workflow_runs: [{ id: 9, head_sha: 'abc', html_url: 'https://github.com/example/runner3d/actions/runs/9', status: 'completed', conclusion: 'failure' }] });
+    expect(await new GitHub('example/runner3d', runner, process.cwd()).latestCI()).toMatchObject({ conclusion: 'failure', commit: 'abc', failedSteps: ['release-gate: release:check'] });
+    const offline: Runner = async () => ({ exitCode: 1, stdout: '', stderr: 'offline', durationMs: 0 }); expect(await new GitHub('example/runner3d', offline, process.cwd()).latestCI()).toBeNull();
+  });
+  it('observes an external merge without providing a merge operation', async () => {
+    const t = task(); t.branch = 'codex/agent/observed'; t.commit = 'approved-commit'; t.prUrl = 'https://github.com/example/runner3d/pull/4';
+    const runner: Runner = async (_cmd, args) => { expect(args).not.toContain('POST'); expect(args[1]).toBe('repos/example/runner3d/pulls/4'); return ok({ head: { ref: t.branch, sha: t.commit }, base: { ref: 'master' }, merged: true, merged_at: '2026-10-22T00:00:00Z', state: 'closed' }); };
+    expect(await new GitHub('example/runner3d', runner, process.cwd()).prState(t)).toBe('merged'); t.prUrl = 'https://elsewhere.test/pull/4'; await expect(new GitHub('example/runner3d', runner, process.cwd()).prState(t)).rejects.toThrow();
+  });
 });

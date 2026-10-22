@@ -3,6 +3,14 @@ import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import { waitForThemeAssets } from './theme-helpers';
 export const SEED = 'PROGRESSION-11';
+/** Diagnostics are published after R3F renders, independently of synchronous simulation ticks. */
+export async function waitForProgressionFrame(page: Page) {
+  await page.waitForFunction(() => {
+    const hook = window.__RUNNER_TEST__;
+    return !!hook && window.__RUNNER_RENDER__?.tick === hook.read().tick
+      && !!window.__FEEDBACK__ && window.__FEEDBACK__.time === hook.stepFeedback(0).time;
+  });
+}
 export async function startProgression(page: Page, seed = SEED) {
   await page.goto('/'); await page.waitForFunction(() => !!window.__RUNNER_TEST__);
   if (seed !== 'RUNNER-01') { await showRouteSeed(page); await page.getByLabel('路线 Seed').fill(seed); await page.getByRole('button', { name: '应用路线', exact: true }).click(); }
@@ -25,6 +33,7 @@ export async function playTo(page: Page, target: number, collect = true) {
   }, { target, collect });
   const state = await page.evaluate(() => window.__RUNNER_TEST__?.read());
   expect(state?.status).toBe('running'); expect(state?.distance).toBeGreaterThanOrEqual(target);
+  await waitForProgressionFrame(page);
 }
 export async function seekPower(page: Page, type: 'magnet' | 'shield' | 'double-score', before = 0) {
   let target = await page.evaluate(({ type, before }) => window.__RUNNER_TEST__?.read().pickups.find(p => p.type === type && !p.collected && p.distance > before)?.distance ?? 0, { type, before });
@@ -60,6 +69,7 @@ export async function breakShield(page: Page) {
     }
   });
   await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(8));
+  await waitForProgressionFrame(page);
   expect(await page.evaluate(() => window.__RUNNER_TEST__?.read().status)).toBe('running');
   expect(await page.evaluate(() => window.__FEEDBACK__?.recent.some(e => e.type === 'shield-broken'))).toBe(true);
 }

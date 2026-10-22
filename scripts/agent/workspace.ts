@@ -78,6 +78,14 @@ export class Workspaces {
     for (const path of paths) { safePath(path); check(task.candidate.scope.includes(path), `OUT_OF_SCOPE: ${path}`); }
     return paths;
   }
+  async fingerprint(task: Task): Promise<Record<string, string | null>> {
+    check(task.workspace, 'No workspace'); const result: Record<string, string | null> = {};
+    for (const path of task.candidate.scope) {
+      try { result[path] = hash(await readFile(await contained(task.workspace, path))); }
+      catch (e) { if (!(e instanceof Error && 'code' in e && e.code === 'ENOENT')) throw e; result[path] = null; }
+    }
+    return result;
+  }
   async commit(task: Task): Promise<string> {
     check(task.workspace && task.branch === branchName(task.id), 'Task workspace required');
     check(await this.git(['branch', '--show-current'], task.workspace) === task.branch, 'Refusing commit on protected branch');

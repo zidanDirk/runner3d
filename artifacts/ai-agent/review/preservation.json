@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-22T09:42:17.882Z",
+  "inventoryCount": 294,
+  "sourceFiles": 147,
+  "models": 15,
+  "visualBaselines": 91,
+  "differences": [
+    {
+      "path": "tests/e2e/progression-helpers.ts",
+      "expected": "3d39b50971dc52ba2cf91bf7a286dbe7e79af112d71d175edcb6a1155e3e8a0e",
+      "actual": "1f93a9bcb7660ba118859449779c540d848f193e645c8c4297ca90031384c7b6"
+    },
+    {
+      "path": "tests/e2e/progression.spec.ts",
+      "expected": "c7d1fd6515ca798d67c8259d4f76348eb5fcee83b8a6057d69a6c7a7c5949fa7",
+      "actual": "6ff3ca493c4eaa05a0a89f9555b4812847c79645216660a6e43d92bc487bc8ec"
+    }
+  ],
+  "expectedDifferences": [
+    "tests/e2e/progression-helpers.ts",
+    "tests/e2e/progression.spec.ts"
+  ],
+  "policy": "Game source, GLBs, Manifest and all original visual baselines must retain exact hashes. Only the named test files may differ."
+}

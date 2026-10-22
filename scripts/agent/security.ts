@@ -15,7 +15,8 @@ export function redact(value: string): string {
 }
 export function safeEnv(source: NodeJS.ProcessEnv = process.env): NodeJS.ProcessEnv {
   const keys = ['PATH', 'HOME', 'USERPROFILE', 'APPDATA', 'LOCALAPPDATA', 'SystemRoot', 'TMPDIR', 'TEMP', 'TMP', 'LANG', 'LC_ALL'];
-  return { ...Object.fromEntries(keys.filter(k => source[k] !== undefined).map(k => [k, source[k]])), CI: '1', NO_COLOR: '1', GIT_TERMINAL_PROMPT: '0' };
+  const disabledGitConfig = Object.fromEntries(['GIT_CONFIG_GLOBAL', 'GIT_CONFIG_SYSTEM'].filter(k => source[k] === '/dev/null').map(k => [k, '/dev/null']));
+  return { ...Object.fromEntries(keys.filter(k => source[k] !== undefined).map(k => [k, source[k]])), ...disabledGitConfig, CI: '1', NO_COLOR: '1', GIT_TERMINAL_PROMPT: '0' };
 }
 export function safePath(path: string): string {
   check(path.length <= 180 && /^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/.test(path) && !isAbsolute(path), 'Unsafe repository path');

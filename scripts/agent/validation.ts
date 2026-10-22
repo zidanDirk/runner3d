@@ -29,7 +29,7 @@ export interface PerformanceSample {
 }
 export function parsePerformance(raw: unknown): PerformanceSample {
   const v = fields(raw, ['conditions', 'samples', 'metrics']), c = fields(v.conditions, ['viewport', 'quality', 'dpr', 'seed', 'browser', 'theme', 'distance']);
-  check(['viewport', 'quality', 'seed', 'browser', 'theme'].every(k => typeof c[k] === 'string' && String(c[k]).length <= 180) && typeof c.dpr === 'number' && c.dpr > 0 && c.dpr <= 4 && typeof c.distance === 'number' && c.distance >= 0, 'Invalid performance conditions');
+  check(['viewport', 'quality', 'seed', 'browser', 'theme'].every(k => typeof c[k] === 'string' && String(c[k]).length > 0 && String(c[k]).length <= 180) && typeof c.dpr === 'number' && c.dpr > 0 && c.dpr <= 4 && typeof c.distance === 'number' && Number.isFinite(c.distance) && c.distance >= 0, 'Invalid performance conditions');
   const m = fields(v.metrics, ['drawCalls', 'triangles', 'fps', 'averageFrameMs', 'p95FrameMs', 'heapBytes', 'chunks', 'particles', 'resourceLoadMs']);
   for (const [key, n] of Object.entries(m)) check((n === null && ['heapBytes', 'resourceLoadMs'].includes(key)) || (typeof n === 'number' && Number.isFinite(n) && n >= 0), 'Invalid performance metric');
   check(typeof v.samples === 'number' && Number.isSafeInteger(v.samples) && v.samples >= 100, 'At least 100 real frame samples are required');
@@ -43,18 +43,23 @@ export function comparePerformance(before: PerformanceSample, after: Performance
   if (b.metrics.fps < a.metrics.fps * .85 || b.metrics.chunks !== a.metrics.chunks) regressions.push('fps/chunks');
   return { status: regressions.length ? 'needs-review' : 'passed', reason: regressions.length ? `PERFORMANCE_REGRESSION:${regressions.join(',')}` : 'Within fixed 15% review thresholds; unavailable metrics remain N/A, no GPU memory claim' };
 }
-export type Validator = (task: Task, level: 'fast' | 'full') => Promise<Check[]>;
+export type Validator = (task: Task, level: 'fast' | 'full', manualDeadline?: number) => Promise<Check[]>;
+export function classifyFailure(id: string, exitCode: number, output: string, reason?: string): Check['status'] {
+  if (exitCode === 0) return 'passed';
+  if (id === 'visual' || id === 'performance' || reason === 'SPAWN_FAILED' || reason === 'TIMEOUT' || /kill EPERM|sandbox-exec:|QA_SANDBOX_|Operation not permitted|EACCES|EADDRINUSE|is already used|port[^\n]*already in use/i.test(output)) return 'needs-review';
+  return 'failed';
+}
 export function validator(runner: Runner, store: Store, config: Config): Validator {
-  return async (task, level) => {
+  return async (task, level, manualDeadline) => {
     check(task.workspace && task.plan && task.startedAt, 'Validation requires isolated workspace and plan'); const checks: Check[] = [];
-    const budgetEnd = Date.parse(task.startedAt) + config.maxTaskSeconds * 1000;
+    const budgetEnd = manualDeadline ?? Date.parse(task.startedAt) + config.maxTaskSeconds * 1000;
     const ids = level === 'fast' ? task.plan.fast : task.plan.full;
     for (const id of ids) {
       const args = COMMANDS[id]; check(args, 'Unknown validation command');
       const remaining = budgetEnd - Date.now(); check(remaining > 0, 'Task wall-time budget exhausted');
       const result = await runner(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, { cwd: task.workspace, timeoutMs: remaining, maxBytes: config.maxOutputBytes });
-      const log = `logs/${task.id}-${task.rounds}-${level}-${id}.log`; await store.write(log, redact(result.stdout + '\n' + result.stderr));
-      const item: Check = { id, status: result.exitCode === 0 ? 'passed' : id === 'visual' || id === 'performance' ? 'needs-review' : 'failed', exitCode: result.exitCode, durationMs: result.durationMs, log, ...(result.reason ? { reason: result.reason } : {}) }; checks.push(item);
+      const log = `logs/${task.id}-r${task.rounds}-v${manualDeadline ? task.verifications ?? 0 : 0}-${level}-${id}.log`; await store.write(log, redact(result.stdout + '\n' + result.stderr));
+      const item: Check = { id, status: classifyFailure(id, result.exitCode, result.stdout + result.stderr, result.reason), exitCode: result.exitCode, durationMs: result.durationMs, log, ...(result.reason ? { reason: result.reason } : {}) }; checks.push(item);
       if (item.status !== 'passed') break;
     }
     // This mode never fabricates a comparison from unmatched or missing measurements.
@@ -77,6 +82,8 @@ export async function baselineHashes(runner: Runner, workspace: string): Promise
   return hashes;
 }
 export function reportBody(task: Task, changed: string[]): string {
-  const checks = task.checks.map(c => `- ${c.id}: ${c.status}, exit=${c.exitCode}, ${c.durationMs}ms; ${c.log}${c.reason ? `; ${c.reason}` : ''}`).join('\n');
-  return `# ${task.candidate.title}\n\n## Summary\n${task.state === 'READY_FOR_REVIEW' ? '实现和本轮完整门禁通过，等待人工审核。' : '尚未完成，Draft / 需要人工审核。'}\n\n## Motivation\n${task.candidate.problem}\n\n## Related Issue\n${task.issue?.url ?? `本地Issue草稿 ${task.id}；未创建远程Issue。`}\n\n## Files Changed\n${changed.map(p => `- ${p}`).join('\n') || '暂无代码改动。'}\n\n## Test Results\n${checks || '未执行。'}\n\n## Visual Evidence\n普通比较，禁止更新基线。实际截图/基线/diff保留在隔离工作区test-results与Playwright报告；失败须人工审查。\n\n## Performance\n${task.plan?.requiresPerformance ? '需要同条件监控数据；缺失或明显退化会阻止READY。' : '本任务不改运行时；性能前后对比不适用，未宣称改善。'}\n\n## Risks\n${task.candidate.risks.join('\n')}\n最后错误：${task.lastError ?? '无'}\n\n## AI AUTOMATION REPORT\n状态=${task.state}；执行轮次=${task.rounds}；修复=${task.fixes}；已报告模型token=${task.tokens}（不代表美元成本）。\n分支=${task.branch ?? '未创建'}；提交=${task.commit ?? '未提交'}。\n只有批准范围可写；不修改master/main、不自动合并、发布或改远程监控。人工仍需审查代码、视觉差异、设备/音效与设计判断。\n`;
+  const checks = task.checks.map((c, index) => { const superseded = task.checks.slice(index + 1).some(later => later.log && later.log === c.log); return `- ${c.id}: ${c.status}, exit=${c.exitCode}, ${c.durationMs}ms; ${superseded ? 'legacy log filename was reused; original output no longer available (metadata retained)' : c.log}${c.reason ? `; ${c.reason}` : ''}`; }).join('\n');
+  const recovery = task.verifications ?? task.events.filter(e => e.phase === 'recovery' && e.to === 'VALIDATING').length;
+  const budgetStop = task.events.some(e => /token budget|token.*exhausted/i.test(e.summary));
+  return `# ${task.candidate.title}\n\n## Summary\n${task.state === 'READY_FOR_REVIEW' ? '实现和本轮完整门禁通过，等待人工审核。' : '尚未完成，Draft / 需要人工审核。'}\n\n## Motivation\n${task.candidate.problem}\n\n## Related Issue\n${task.issue?.url ?? `本地Issue草稿 ${task.id}；未创建远程Issue。`}\n\n## Files Changed\n${changed.map(p => `- ${p}`).join('\n') || '暂无代码改动。'}\n\n## Test Results\n${checks || '未执行。'}\n\n## Visual Evidence\n普通比较，禁止更新基线。实际截图/基线/diff保留在隔离工作区test-results与Playwright报告；失败须人工审查。\n\n## Performance\n${task.plan?.requiresPerformance ? '需要同条件监控数据；缺失或明显退化会阻止READY。' : '本任务不改运行时；性能前后对比不适用，未宣称改善。'}\n\n## Risks\n${task.candidate.risks.join('\n')}\n最后错误：${task.lastError ?? '无'}\n\n## AI AUTOMATION REPORT\n状态=${task.state}；执行轮次=${task.rounds}；修复=${task.fixes}；已报告模型token=${task.tokens}（不代表美元成本）。\n人工重验=${recovery}；${budgetStop ? '曾因模型token预算停止并拒绝响应；后续重验不再调用模型，不应称为无人干预成功。' : '实际中断与恢复以本地状态审计为准。'}\n分支=${task.branch ?? '未创建'}；提交=${task.commit ?? '未提交'}。\n只有批准范围可写；不修改master/main、不自动合并、发布或改远程监控。人工仍需审查代码、视觉差异、设备/音效与设计判断。\n`;
 }

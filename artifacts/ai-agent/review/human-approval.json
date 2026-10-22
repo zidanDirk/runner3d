@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-22T07:46:12.423Z",
+  "source": "Direct human reply in this chat",
+  "answer": "批准此限定任务",
+  "taskId": "asset-summary-drift",
+  "scope": [
+    "docs/asset-pipeline.md",
+    "tests/unit/asset-docs.test.ts"
+  ],
+  "acceptance": [
+    "顶部明确当前七类、15资源、generator2.1.0。",
+    "测试读取真实ASSET_TYPES、Manifest和GENERATOR_VERSION，检查当前摘要。",
+    "保留下方Task6/5/3历史记录；不改运行时或GLB。"
+  ],
+  "remoteMergeAuthorized": false,
+  "productionAuthorized": false
+}

@@ -6,6 +6,7 @@ import { sandboxedQA } from './sandbox';
 import { check } from './types';
 import type { Runner } from './types';
 import type { Store } from './store';
+import { branchName } from './security';
 
 /** Fixed trusted canary program, not model-authored instructions. Never reads an actual secret. */
 export async function sandboxProbe(root: string, store: Store, runner: Runner): Promise<unknown> {
@@ -25,4 +26,11 @@ const result={ownWrite:true,readDenied,writeDenied,localOK,externalCode,credenti
     const report = { at: new Date().toISOString(), result, npm, privateFileUnchanged: await readFile(canary, 'utf8') === 'unchanged' };
     await store.write('reports/qa-sandbox-probe.json', report); check(result.exitCode === 0 && npm.exitCode === 0 && report.privateFileUnchanged, 'QA_SANDBOX_PROBE_FAILED'); return report;
   } finally { await rm(canary, { force: true }); }
+}
+
+export async function browserProbe(root: string, store: Store, runner: Runner, id: string): Promise<unknown> {
+  const task = await store.read(id); check(task.workspace && task.branch === branchName(id) && task.approval, 'Approved owned worktree required');
+  const code = `(async()=>{const{chromium}=require('@playwright/test');const b=await chromium.launch({channel:'chromium'});try{const p=await b.newPage();await p.goto('data:text/html,<canvas id=c></canvas>');const webgl=await p.evaluate(()=>!!document.getElementById('c').getContext('webgl2'));console.log(JSON.stringify({browserStarted:true,webgl}));if(!webgl)process.exitCode=1;}finally{await b.close();}})().catch(e=>{console.error(e.message);process.exitCode=1});`;
+  const result = await sandboxedQA(runner, root)(process.execPath, ['-e', code], { cwd: task.workspace, timeoutMs: 30000, maxBytes: 48000 });
+  await store.write(`reports/${id}-browser-probe.json`, result); check(result.exitCode === 0, 'BROWSER_SANDBOX_PROBE_FAILED'); return result;
 }

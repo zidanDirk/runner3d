@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-22T09:43:41.348Z",
+  "javascriptChunks": 11,
+  "searchedMarkers": [
+    "AGENT_LOCKED",
+    "UNTRUSTED_TASK_DATA",
+    "READ_ONLY_PROBE_OK",
+    "codex/agent/"
+  ],
+  "matchingChunks": [],
+  "scope": "Production artifact marker inspection; original production runtime-isolation tests are separately executed."
+}

@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-22T09:00:45.279Z",
+  "repository": "zidanDirk/runner3d",
+  "trackedChanges": true,
+  "git": "git version 2.39.2",
+  "githubCli": "gh version 2.65.0 (2025-01-06)",
+  "githubPermissions": {
+    "archived": false,
+    "default_branch": "master",
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "pull": true,
+      "push": true,
+      "triage": true
+    }
+  },
+  "issueIndex": {
+    "available": true,
+    "complete": true,
+    "count": 1,
+    "error": null
+  },
+  "remoteCI": {
+    "checkedAt": "2026-10-22T09:00:47.616Z",
+    "commit": "9037646095c91640a5e42870a7539d9c50aa363c",
+    "url": "https://github.com/zidanDirk/runner3d/actions/runs/39735911105",
+    "status": "completed",
+    "conclusion": "failure",
+    "failedSteps": [
+      "release-gate: Run npm run release:check"
+    ]
+  },
+  "codex": {
+    "path": "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+    "version": "codex-cli 0.163.0-alpha.11",
+    "supported": true,
+    "missing": []
+  },
+  "blender": {
+    "path": "/Applications/Blender.app/Contents/MacOS/Blender",
+    "version": "5.2.2 LTS",
+    "exitCode": 0,
+    "apiProbe": "separate explicit background probe required; --version alone is not Python API verification"
+  },
+  "limits": [
+    "No Issue/PR mutation or publication by doctor",
+    "Permission response is not proof of a successful write",
+    "No HTTPS/device acceptance inferred"
+  ]
+}

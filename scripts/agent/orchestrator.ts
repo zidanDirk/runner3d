@@ -1,7 +1,7 @@
-import { lstat, readFile } from 'node:fs/promises';
+import { lstat, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { assertApproved, transition } from './state';
-import { branchName, contained, editablePath, hash, redact } from './security';
+import { branchName, contained, editablePath, hash, redact, score } from './security';
 import { check } from './types';
 import type { Candidate, Config, Executor, Runner, Task } from './types';
 import { Store } from './store';
@@ -10,14 +10,15 @@ import { GitHub, duplicate } from './github';
 import { issueBody, research, SCORING } from './research';
 import { baselineHashes, planTask, reportBody, validator } from './validation';
 import type { Validator } from './validation';
+import { CodexFailure } from './codex';
 
 export class Orchestrator {
   readonly store: Store; readonly workspaces: Workspaces; private validate: Validator;
   constructor(readonly root: string, readonly config: Config, private runner: Runner, private executor: Executor | null, readonly github: GitHub | null = null, validate?: Validator, private qaRunner?: Runner) {
     this.store = new Store(root); this.workspaces = new Workspaces(root, runner, resolve(this.store.root, 'worktrees'));
-    this.validate = validate ?? ((task, level) => {
+    this.validate = validate ?? ((task, level, manualDeadline) => {
       const driver = task.mode === 'dry-run' ? runner : this.qaRunner; check(driver, 'QA_SANDBOX_REQUIRED: real tasks cannot use an unrestricted runner');
-      return validator(driver, this.store, config)(task, level);
+      return validator(driver, this.store, config)(task, level, manualDeadline);
     });
   }
   async init(): Promise<void> { await this.store.init(); }
@@ -31,12 +32,20 @@ export class Orchestrator {
   async research(): Promise<Task[]> {
     return this.store.lock(async () => {
       const index = this.github ? await this.github.index() : { available: false, complete: false, issues: [], error: 'No GitHub adapter' };
+      const ci = await this.github?.latestCI() ?? null;
       const tasks: Task[] = [];
-      for (const c of await research(this.root)) {
+      const candidates = await research(this.root);
+      if (ci?.conclusion === 'failure') {
+        const path = 'artifacts/ai-agent/ci-latest.json'; const target = await contained(this.root, path); await mkdir(resolve(target, '..'), { recursive: true });
+        const body = JSON.stringify(ci, null, 2) + '\n'; await writeFile(target, body);
+        const scores = { impact: 4, confidence: 3, effort: 2, risk: 2, automation: 3 };
+        candidates.push({ key: 'remote-ci-gate-failure', title: '定位远端 CI 质量门禁的实际失败', category: 'Technical Debt', kind: 'observed', problem: `真实GitHub运行 ${ci.url} 在 ${ci.commit} 失败；步骤：${ci.failedSteps.join(', ')}。失败是已观察事实，尚不能推断代码/调度/平台原因。`, solution: '保留失败日志/trace并在相同环境定位最小复现，禁止降低断言、提高截图容差或自动覆盖基线。', benefit: '恢复可信的远端验证，区分本地与远端结果。', complexity: '需要单独明确CI复现范围', risks: ['不能把观察到失败直接等同游戏缺陷或自动放宽测试。'], evidence: [{ path, line: 1, excerpt: `GitHub API verified ${ci.checkedAt}; ${ci.url}`, sha256: hash(body) }], scores, priority: score(scores), scope: [], acceptance: ['查明失败原因并提出经人工批准的最小修改范围。', '保留原测试和失败/修复证据，真实远端执行后才能称通过。'], tests: ['release:check', 'test:visual', 'remote CI'] });
+      }
+      for (const c of candidates.sort((a, b) => b.priority - a.priority || a.key.localeCompare(b.key))) {
         const task = await this.propose(c), existing = duplicate(c.key, c.title, index.issues);
         if (existing && !task.issue) { task.issue = { number: existing.number, url: existing.url, bodyHash: hash(existing.body) }; await this.store.save(task); } tasks.push(task);
       }
-      await this.store.write('reports/research.json', { at: new Date().toISOString(), scoring: SCORING, github: { available: index.available, complete: index.complete, error: index.error ?? null }, candidates: tasks.map(t => ({ id: t.id, state: t.state, candidate: t.candidate, duplicateIssue: t.issue?.url ?? null })) }); return tasks;
+      await this.store.write('reports/research.json', { at: new Date().toISOString(), scoring: SCORING, github: { available: index.available, complete: index.complete, error: index.error ?? null }, remoteCI: ci, candidates: tasks.map(t => ({ id: t.id, state: t.state, candidate: t.candidate, duplicateIssue: t.issue?.url ?? null })) }); return tasks;
     });
   }
   async approve(id: string, confirm: string, actor: string, highRisk = false, source: 'local-human' | 'dry-run' = 'local-human'): Promise<Task> {
@@ -95,9 +104,11 @@ export class Orchestrator {
           await this.workspaces.apply(task, proposal.edits, this.config.maxOutputBytes); await this.workspaces.changes(task);
           transition(task, 'VALIDATING', 'qa', 'Fast Validation then repository Full Validation'); await this.store.save(task);
           if (task.plan.requiresAssets) await this.generate(task);
+          const validatedSource = await this.workspaces.fingerprint(task);
           const fast = await this.validate(task, 'fast'); task.checks.push(...fast);
           const full = fast.every(c => c.status === 'passed') ? await this.validate(task, 'full') : []; task.checks.push(...full);
           const visualAfter = await baselineHashes(this.runner, workspace); check(JSON.stringify(visualBefore) === JSON.stringify(visualAfter), 'VISUAL_BASELINE_CHANGED: manual approval is required');
+          check(JSON.stringify(validatedSource) === JSON.stringify(await this.workspaces.fingerprint(task)), 'SOURCE_CHANGED_DURING_QA: inspect retained files');
           await this.workspaces.changes(task); const current = [...fast, ...full]; check(current.length > 0, 'QA returned no checks');
           if (current.every(c => c.status === 'passed') && full.length > 0) {
             await this.approval(task); task.commit = await this.workspaces.commit(task); transition(task, 'READY_FOR_REVIEW', 'qa', 'Actual checks passed; human review/merge still required'); task.lastError = null; break;
@@ -109,6 +120,7 @@ export class Orchestrator {
           transition(task, 'IMPLEMENTING', 'repair', 'Bounded repair after actual QA failure'); await this.store.save(task);
         }
       } catch (error) {
+        if (error instanceof CodexFailure) task.tokens += error.reportedTokens;
         task.lastError = redact(error instanceof Error ? error.message : 'AGENT_FAILED').slice(0, 1000);
         if (['APPROVED', 'PLANNING', 'IMPLEMENTING', 'VALIDATING'].includes(task.state)) transition(task, task.lastError.includes('CANCELLED') ? 'CANCELLED' : 'FAILED', 'orchestrator', task.lastError);
       }
@@ -131,14 +143,22 @@ export class Orchestrator {
   async verify(id: string): Promise<Task> {
     return this.store.lock(async () => {
       const task = await this.store.read(id); await this.approval(task); check(task.workspace && ['BLOCKED', 'FAILED', 'VALIDATING'].includes(task.state), 'No interrupted validation to resume');
+      const prior = task.verifications ?? task.events.filter(e => e.phase === 'recovery' && e.to === 'VALIDATING').length;
+      check(prior < 3, 'Manual QA retry budget exhausted (3); retain artifacts for human review');
+      task.verifications = prior + 1; const deadline = Date.now() + this.config.maxTaskSeconds * 1000;
       await this.workspaces.changes(task); const visualBefore = await baselineHashes(this.runner, task.workspace);
+      const validatedSource = await this.workspaces.fingerprint(task);
       if (task.state !== 'VALIDATING') transition(task, 'VALIDATING', 'recovery', 'Operator requested validation of retained local work');
       await this.store.save(task);
-      const fast = await this.validate(task, 'fast'); const full = fast.every(c => c.status === 'passed') ? await this.validate(task, 'full') : []; task.checks.push(...fast, ...full);
-      const unchanged = JSON.stringify(visualBefore) === JSON.stringify(await baselineHashes(this.runner, task.workspace));
-      await this.workspaces.changes(task);
-      if (unchanged && [...fast, ...full].every(c => c.status === 'passed') && full.length > 0) { await this.approval(task); task.commit = await this.workspaces.commit(task); task.lastError = null; transition(task, 'READY_FOR_REVIEW', 'recovery', 'Retained approved-scope work passed fresh Fast/Full checks; human code review still required'); }
-      else { task.lastError = 'VALIDATION_OR_BASELINE_REVIEW_REQUIRED'; transition(task, 'BLOCKED', 'recovery', task.lastError); }
+      try {
+        const fast = await this.validate(task, 'fast', deadline); task.checks.push(...fast);
+        const full = fast.every(c => c.status === 'passed') ? await this.validate(task, 'full', deadline) : []; task.checks.push(...full);
+        const unchanged = JSON.stringify(visualBefore) === JSON.stringify(await baselineHashes(this.runner, task.workspace));
+        check(JSON.stringify(validatedSource) === JSON.stringify(await this.workspaces.fingerprint(task)), 'SOURCE_CHANGED_DURING_QA: inspect retained files');
+        await this.workspaces.changes(task);
+        if (unchanged && [...fast, ...full].every(c => c.status === 'passed') && full.length > 0) { await this.approval(task); task.commit = await this.workspaces.commit(task); task.lastError = null; transition(task, 'READY_FOR_REVIEW', 'recovery', 'Retained approved-scope work passed fresh Fast/Full checks; human code review still required'); }
+        else { task.lastError = 'VALIDATION_OR_BASELINE_REVIEW_REQUIRED'; transition(task, 'BLOCKED', 'recovery', task.lastError); }
+      } catch (error) { task.lastError = redact(error instanceof Error ? error.message : 'QA_FAILED').slice(0, 1000); transition(task, 'FAILED', 'recovery', task.lastError); }
       await this.store.save(task); await this.reportTask(task); return task;
     });
   }
@@ -160,12 +180,24 @@ export class Orchestrator {
   async publishIssue(id: string, confirm: string): Promise<Task> {
     return this.store.lock(async () => {
       const task = await this.store.read(id); check(task.mode === 'real' && confirm === id && this.github, 'Explicit real GitHub write authorization required');
+      for (const e of task.candidate.evidence) check(hash(await readFile(await contained(this.root, e.path))) === e.sha256, 'Stale evidence: rerun research before publishing');
+      if (task.candidate.key === 'remote-ci-gate-failure') check((await this.github.latestCI())?.conclusion === 'failure', 'CI failure is no longer the latest observation; do not publish a stale defect');
       if (task.issue) return task; task.remoteIntent = 'issue'; await this.store.save(task); // Crash ambiguity is resolved by live marker lookup on retry.
       task.issue = await this.github.publishIssue(task); task.remoteIntent = null; await this.store.save(task); return task;
     });
   }
   async cancel(id: string, confirm: string): Promise<Task> {
     return this.store.lock(async () => { const task = await this.store.read(id); check(confirm === id, 'Exact task ID required'); transition(task, 'CANCELLED', 'human', 'Operator cancelled; retained local work and audit'); await this.store.save(task); return task; });
+  }
+  async sync(id: string): Promise<Task> {
+    return this.store.lock(async () => {
+      const task = await this.store.read(id); check(task.mode === 'real' && this.github && task.prUrl, 'Published real PR required');
+      if (task.state === 'MERGED' || task.state === 'REJECTED') return task;
+      check(task.state === 'READY_FOR_REVIEW', 'Only a reviewed-ready task may observe PR completion');
+      const state = await this.github.prState(task);
+      if (state !== 'open') transition(task, state === 'merged' ? 'MERGED' : 'REJECTED', 'github-observer', 'Observed external PR result; no merge endpoint called');
+      await this.store.save(task); return task;
+    });
   }
   async publishPR(id: string, confirm: string): Promise<Task> {
     return this.store.lock(async () => {

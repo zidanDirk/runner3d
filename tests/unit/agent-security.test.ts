@@ -8,7 +8,7 @@ import { parseImplementation, buildPrompt, codexExecutor, discoverCodex, DISABLE
 import { parseCandidate, issueBody, research } from '../../scripts/agent/research';
 import { assertApproved, transition } from '../../scripts/agent/state';
 import { Store } from '../../scripts/agent/store';
-import { comparePerformance, parsePerformance, planTask } from '../../scripts/agent/validation';
+import { classifyFailure, comparePerformance, parsePerformance, planTask } from '../../scripts/agent/validation';
 import { options } from '../../scripts/agent/cli';
 import { runProcess } from '../../scripts/agent/process';
 import { sandboxedQA } from '../../scripts/agent/sandbox';
@@ -65,8 +65,15 @@ describe('Agent fixed policy, parsing and approval boundaries', () => {
     const { task } = await fixture(); task.approval = { source: 'local-human', actor: 'human', issueDigest: task.digest, baseCommit: 'base', highRiskAccepted: false, at: new Date().toISOString() };
     expect(() => assertApproved(task, 'base', false)).not.toThrow(); expect(() => assertApproved(task, 'changed', false)).toThrow();
     task.approval.source = 'dry-run'; expect(() => assertApproved(task, 'base', false)).toThrow();
-    task.approval.source = 'local-human'; task.candidate.scores.risk = 4; expect(() => assertApproved(task, 'base', false)).toThrow();
+    task.approval.source = 'local-human'; task.candidate.scores.risk = 4; task.digest = hash(JSON.stringify(task.candidate)); task.approval.issueDigest = task.digest; expect(() => assertApproved(task, 'base', false)).toThrow();
     task.approval.highRiskAccepted = true; expect(() => assertApproved(task, 'base', false)).not.toThrow();
+  });
+  it('derives high risk from gameplay/economy scope even when untrusted scoring claims low risk', async () => {
+    const { task } = await fixture(); task.candidate.scope = ['src/game/balance.ts']; task.digest = hash(JSON.stringify(task.candidate)); task.approval = { source: 'local-human', actor: 'human', issueDigest: task.digest, baseCommit: 'base', highRiskAccepted: false, at: new Date().toISOString() };
+    expect(() => assertApproved(task, 'base', false)).toThrow(/scope-derived/); task.approval.highRiskAccepted = true; expect(() => assertApproved(task, 'base', false)).not.toThrow();
+  });
+  it('never overwrites existing audit logs', async () => {
+    const { store } = await fixture(); await store.write('logs/immutable.log', 'first result'); await expect(store.write('logs/immutable.log', 'replacement')).rejects.toThrow(/LOG_COLLISION/); expect(await readFile(resolve(store.root, 'logs/immutable.log'), 'utf8')).toBe('first result');
   });
   it('compiles a finite one-level plan and relevant validation commands', async () => {
     const { task } = await fixture(); task.candidate.scope = ['src/game/balance.ts', 'src/scene/GameScene.tsx'];
@@ -76,6 +83,12 @@ describe('Agent fixed policy, parsing and approval boundaries', () => {
   it('rejects duplicate, malformed and unknown CLI options', () => {
     expect(options(['approve', '--task=example', '--confirm=hash']).flags.task).toBe('example');
     expect(() => options(['execute', '--task=x', '--task=y'])).toThrow(); expect(() => options(['execute', '--shell=evil'])).toThrow();
+  });
+  it('never sends infrastructure/sandbox failures back to the model as source repair work', () => {
+    expect(classifyFailure('unit', 1, 'Unhandled Rejection: kill EPERM')).toBe('needs-review');
+    expect(classifyFailure('strict', 1, '', 'SPAWN_FAILED')).toBe('needs-review');
+    expect(classifyFailure('release', 1, 'http://127.0.0.1:5174 is already used')).toBe('needs-review');
+    expect(classifyFailure('unit', 1, 'Expected value to be one; received zero')).toBe('failed');
   });
 });
 
@@ -111,6 +124,12 @@ describe('Agent evidence and model boundary', () => {
     const runner: Runner = async () => ({ exitCode: 1, stdout: '', stderr: 'token=private', durationMs: 1 });
     await expect(codexExecutor(runner, store, config, { path: '/codex', version: 'test', supported: true, missing: [] })(task, root, '')).rejects.toThrow(/CODEX_FAILED/);
     await expect(readFile(resolve(store.root, 'drafts', `${task.id}-result.json`))).rejects.toThrow();
+  });
+  it('retains reported usage even when the CLI fails or final JSON is invalid', async () => {
+    const { root, store, task } = await fixture();
+    const runner: Runner = async () => ({ exitCode: 1, stdout: JSON.stringify({ type: 'turn.completed', usage: { input_tokens: 40, output_tokens: 10 } }), stderr: 'failed', durationMs: 1 });
+    await expect(codexExecutor(runner, store, config, { path: '/codex', version: 'test', supported: true, missing: [] })(task, root, '')).rejects.toMatchObject({ reportedTokens: 50 });
+    expect(JSON.parse(await readFile(resolve(store.root, 'reports', `${task.id}-codex-0-usage.json`), 'utf8'))).toMatchObject({ exitCode: 1, reportedTokens: 50 });
   });
   it('rejects incompatible explicit Codex instead of silently selecting another binary', async () => {
     const runner: Runner = async () => ({ exitCode: 0, stdout: 'old CLI --sandbox --json', stderr: '', durationMs: 1 });

@@ -63,6 +63,13 @@ describe('Agent serial orchestration integration (isolated synthetic repositorie
     await approved(agent, task); const done = await agent.execute(task.id, true); expect(done.state).toBe('FAILED'); expect(done.workspace).toBeTruthy();
     expect(await readFile(resolve(done.workspace ?? '', 'src/value.mjs'), 'utf8')).toBe('export const value = 0;\n');
   });
+  it('refuses to commit source that QA changed after the model proposal', async () => {
+    const { agent, task } = await setup(undefined, async (t, level) => {
+      if (level === 'full' && t.workspace) await writeFile(resolve(t.workspace, 'src/value.mjs'), 'export const value = 999;');
+      return [{ id: level, exitCode: 0, status: 'passed', durationMs: 0, log: '' }];
+    });
+    await approved(agent, task); const done = await agent.execute(task.id, true); expect(done.state).toBe('FAILED'); expect(done.lastError).toContain('SOURCE_CHANGED_DURING_QA'); expect(done.commit).toBeNull();
+  });
   it('records Codex failure and permits only an explicit bounded restart', async () => {
     let calls = 0; const { agent, task } = await setup(async (_t, workspace) => { if (++calls === 1) throw new Error('CODEX_FAILED'); return { summary: 'retry', tokens: 1, edits: [{ path: 'src/value.mjs', beforeSha256: hash(await readFile(resolve(workspace, 'src/value.mjs'))), content: 'export const value = 1;\n' }] }; });
     await approved(agent, task); expect((await agent.execute(task.id, true)).state).toBe('FAILED');
@@ -100,6 +107,16 @@ describe('Agent serial orchestration integration (isolated synthetic repositorie
   });
   it('rejects publication in Dry Run even with a forged confirm string', async () => {
     const { agent, task } = await setup(); await expect(agent.publishIssue(task.id, task.id)).rejects.toThrow(); await expect(agent.publishPR(task.id, task.id)).rejects.toThrow();
+  });
+  it('recovers retained edits through a fresh bounded QA run without another model call', async () => {
+    let reviewing = true, calls = 0;
+    const { agent, task } = await setup(async (_t, workspace) => ({ summary: 'one model proposal', tokens: ++calls, edits: [{ path: 'src/value.mjs', beforeSha256: hash(await readFile(resolve(workspace, 'src/value.mjs'))), content: 'export const value = 1;' }] }), async (_task, level) => [{ id: level, exitCode: reviewing && level === 'full' ? 1 : 0, status: reviewing && level === 'full' ? 'needs-review' : 'passed', durationMs: 0, log: '' }]);
+    await approved(agent, task); expect((await agent.execute(task.id, true)).state).toBe('BLOCKED'); reviewing = false;
+    const done = await agent.verify(task.id); expect(done.state).toBe('READY_FOR_REVIEW'); expect(done.verifications).toBe(1); expect(calls).toBe(1);
+  });
+  it('does not let manual QA reset exhausted verification counters', async () => {
+    const { agent, task } = await setup(); await approved(agent, task); await agent.plan(task.id); const retained = await agent.store.read(task.id); await agent.workspaces.create(retained); transition(retained, 'IMPLEMENTING', 'test', 'fixture'); transition(retained, 'BLOCKED', 'test', 'fixture'); retained.verifications = 3; await agent.store.save(retained);
+    await expect(agent.verify(task.id)).rejects.toThrow(/retry budget exhausted/);
   });
   it('refuses removal of live locks and detects persisted candidate tampering', async () => {
     const { agent, task } = await setup(); await agent.store.lock(async () => { await expect(agent.store.lock(async () => undefined)).rejects.toThrow(/LOCKED/); await expect(agent.store.recoverLock(process.pid)).rejects.toThrow(); });

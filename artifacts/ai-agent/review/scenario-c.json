@@ -1,0 +1,284 @@
+{
+  "at": "2026-10-22T09:28:33.919Z",
+  "taskId": "asset-summary-drift",
+  "state": "READY_FOR_REVIEW",
+  "issue": {
+    "number": 1,
+    "url": "https://github.com/zidanDirk/runner3d/issues/1",
+    "bodyHash": "ad259cb804625362138a5630bc27dc5eb692ab1a3aba9fe15c3a15e61b71d472"
+  },
+  "approval": {
+    "source": "local-human",
+    "actor": "zidanDirk (same explicit chat approval; no implementation attempted)",
+    "issueDigest": "19e79b213ab170a1f8ab3bde9281b9641010e908479ee7c42eeb2000ee3de28b",
+    "baseCommit": "65ebca35a31e5b63ae6d384e48a95d75aa27e65f",
+    "highRiskAccepted": false,
+    "at": "2026-10-22T07:55:12.518Z"
+  },
+  "branch": "codex/agent/asset-summary-drift",
+  "workspace": "/Users/zidanzhang/work/hy/runner3d/.agent-data/worktrees/asset-summary-drift",
+  "baseCommit": "65ebca35a31e5b63ae6d384e48a95d75aa27e65f",
+  "commit": "06a772c42cb37105a60d0ab46be48498b36095ab",
+  "prUrl": null,
+  "scope": [
+    "docs/asset-pipeline.md",
+    "tests/unit/asset-docs.test.ts"
+  ],
+  "rounds": 2,
+  "fixes": 1,
+  "manualVerifications": 3,
+  "reportedTokens": 62416,
+  "softPostCallLimit": 60000,
+  "budgetOvershoot": 2416,
+  "probeTokens": 16543,
+  "totalKnownTokens": 78959,
+  "dollarCost": null,
+  "modelReportedUsage": [
+    {
+      "round": 1,
+      "input_tokens": 28411,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 3168,
+      "reasoning_output_tokens": 256,
+      "resultApplied": true
+    },
+    {
+      "round": 2,
+      "input_tokens": 29876,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 961,
+      "reasoning_output_tokens": 252,
+      "resultApplied": false
+    }
+  ],
+  "finalChecks": [
+    {
+      "id": "strict",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 5183,
+      "log": "logs/asset-summary-drift-r2-v3-fast-strict.log",
+      "logSha256": "2702ab64d7ed555a801aeae6c1de038386f42e358b5ef4aac5573c9fbe8f5f14"
+    },
+    {
+      "id": "unit",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 9751,
+      "log": "logs/asset-summary-drift-r2-v3-fast-unit.log",
+      "logSha256": "c1f758f7a24ab3275c12690edcba39c9030c8e85ce7502499519644d9694071c"
+    },
+    {
+      "id": "release",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 157451,
+      "log": "logs/asset-summary-drift-r2-v3-full-release.log",
+      "logSha256": "963adf0b51309656867e4d7fd75ae7bc322cdf37fc5f866a99830c58807b8ccb"
+    },
+    {
+      "id": "visual",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 273974,
+      "log": "logs/asset-summary-drift-r2-v3-full-visual.log",
+      "logSha256": "27237b18ff79f1b14567d7425ff3a0dab5f0db800017d2e483abdfba5e99faa8"
+    },
+    {
+      "id": "production",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 50697,
+      "log": "logs/asset-summary-drift-r2-v3-full-production.log",
+      "logSha256": "3b2af6374abdf1a7dccabf942980100287fc1d41d680c4aa2376a28148880fa8"
+    },
+    {
+      "id": "loading",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 13143,
+      "log": "logs/asset-summary-drift-r2-v3-full-loading.log",
+      "logSha256": "4ae416e160b096df4a030403b187c56629844d49268670ebac76925a5ad89a5c"
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-10-22T07:19:05.017Z",
+      "from": null,
+      "to": "DISCOVERED",
+      "phase": "research",
+      "issue": null,
+      "branch": null,
+      "summary": "Evidence-backed candidate created"
+    },
+    {
+      "at": "2026-10-22T07:19:05.028Z",
+      "from": "DISCOVERED",
+      "to": "PROPOSED",
+      "phase": "research",
+      "issue": null,
+      "branch": null,
+      "summary": "Evidence and fixed scoring recorded"
+    },
+    {
+      "at": "2026-10-22T07:19:05.028Z",
+      "from": "PROPOSED",
+      "to": "AWAITING_APPROVAL",
+      "phase": "research",
+      "issue": null,
+      "branch": null,
+      "summary": "Human approval required"
+    },
+    {
+      "at": "2026-10-22T07:51:11.448Z",
+      "from": "AWAITING_APPROVAL",
+      "to": "APPROVED",
+      "phase": "human",
+      "issue": 1,
+      "branch": null,
+      "summary": "Explicit scope/content/base-bound approval recorded"
+    },
+    {
+      "at": "2026-10-22T07:51:12.737Z",
+      "from": "APPROVED",
+      "to": "PLANNING",
+      "phase": "planning",
+      "issue": 1,
+      "branch": null,
+      "summary": "Bounded one-level file/dependency/test plan"
+    },
+    {
+      "at": "2026-10-22T07:51:53.848Z",
+      "from": "PLANNING",
+      "to": "FAILED",
+      "phase": "orchestrator",
+      "issue": 1,
+      "branch": null,
+      "summary": "UNTRACKED_SOURCE: user files must not be silently omitted from the task base"
+    },
+    {
+      "at": "2026-10-22T07:55:12.511Z",
+      "from": "FAILED",
+      "to": "AWAITING_APPROVAL",
+      "phase": "human",
+      "issue": 1,
+      "branch": null,
+      "summary": "No implementation attempt/workspace exists; operator rebinds unchanged scope to current base"
+    },
+    {
+      "at": "2026-10-22T07:55:12.518Z",
+      "from": "AWAITING_APPROVAL",
+      "to": "APPROVED",
+      "phase": "human",
+      "issue": 1,
+      "branch": null,
+      "summary": "Explicit scope/content/base-bound approval recorded"
+    },
+    {
+      "at": "2026-10-22T07:55:13.580Z",
+      "from": "APPROVED",
+      "to": "PLANNING",
+      "phase": "planning",
+      "issue": 1,
+      "branch": null,
+      "summary": "Bounded one-level file/dependency/test plan"
+    },
+    {
+      "at": "2026-10-22T07:55:20.203Z",
+      "from": "PLANNING",
+      "to": "IMPLEMENTING",
+      "phase": "implementation",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Read-only Codex proposals; controller owns writes"
+    },
+    {
+      "at": "2026-10-22T07:56:44.046Z",
+      "from": "IMPLEMENTING",
+      "to": "VALIDATING",
+      "phase": "qa",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Fast Validation then repository Full Validation"
+    },
+    {
+      "at": "2026-10-22T07:56:51.590Z",
+      "from": "VALIDATING",
+      "to": "IMPLEMENTING",
+      "phase": "repair",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Bounded repair after actual QA failure"
+    },
+    {
+      "at": "2026-10-22T07:57:24.797Z",
+      "from": "IMPLEMENTING",
+      "to": "FAILED",
+      "phase": "orchestrator",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Reported token budget exceeded; response not applied"
+    },
+    {
+      "at": "2026-10-22T08:11:49.321Z",
+      "from": "FAILED",
+      "to": "VALIDATING",
+      "phase": "recovery",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Operator requested validation of retained local work"
+    },
+    {
+      "at": "2026-10-22T08:12:00.834Z",
+      "from": "VALIDATING",
+      "to": "BLOCKED",
+      "phase": "recovery",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "VALIDATION_OR_BASELINE_REVIEW_REQUIRED"
+    },
+    {
+      "at": "2026-10-22T08:15:17.289Z",
+      "from": "BLOCKED",
+      "to": "VALIDATING",
+      "phase": "recovery",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Operator requested validation of retained local work"
+    },
+    {
+      "at": "2026-10-22T08:16:07.855Z",
+      "from": "VALIDATING",
+      "to": "BLOCKED",
+      "phase": "recovery",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "VALIDATION_OR_BASELINE_REVIEW_REQUIRED"
+    },
+    {
+      "at": "2026-10-22T08:28:28.941Z",
+      "from": "BLOCKED",
+      "to": "VALIDATING",
+      "phase": "recovery",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Operator requested validation of retained local work"
+    },
+    {
+      "at": "2026-10-22T08:37:00.432Z",
+      "from": "VALIDATING",
+      "to": "READY_FOR_REVIEW",
+      "phase": "recovery",
+      "issue": 1,
+      "branch": "codex/agent/asset-summary-drift",
+      "summary": "Retained approved-scope work passed fresh Fast/Full checks; human code review still required"
+    }
+  ],
+  "automaticUnassistedSuccesses": 0,
+  "realTaskSampleCount": 1,
+  "readyAfterOperatorInfrastructureRepair": true,
+  "mergeAuthorized": false,
+  "productionAuthorized": false
+}

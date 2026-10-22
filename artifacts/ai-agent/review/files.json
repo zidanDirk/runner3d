@@ -1,0 +1,143 @@
+{
+  "base": "9037646095c91640a5e42870a7539d9c50aa363c",
+  "task15": [
+    {
+      "status": "M",
+      "path": ".gitignore"
+    },
+    {
+      "status": "M",
+      "path": "AGENTS.md"
+    },
+    {
+      "status": "M",
+      "path": "README.md"
+    },
+    {
+      "status": "A",
+      "path": "agent.config.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/agent-operations.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/agent-security.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/agent-workflow.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/ai-agent.md"
+    },
+    {
+      "status": "M",
+      "path": "package.json"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/cli.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/codex.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/doctor.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/dry-run.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/github.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/orchestrator.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/probes.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/process.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/research.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/run.mjs"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/sandbox.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/security.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/state.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/store.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/types.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/validation.ts"
+    },
+    {
+      "status": "A",
+      "path": "scripts/agent/workspace.ts"
+    },
+    {
+      "status": "M",
+      "path": "tests/e2e/progression-helpers.ts"
+    },
+    {
+      "status": "M",
+      "path": "tests/e2e/progression.spec.ts"
+    },
+    {
+      "status": "A",
+      "path": "tests/unit/agent-github.test.ts"
+    },
+    {
+      "status": "A",
+      "path": "tests/unit/agent-orchestrator.test.ts"
+    },
+    {
+      "status": "A",
+      "path": "tests/unit/agent-security.test.ts"
+    },
+    {
+      "status": "M",
+      "path": "tsconfig.node.json"
+    }
+  ],
+  "evidenceDirectory": "artifacts/ai-agent/review",
+  "mainReport": "artifacts/ai-agent-evidence.md",
+  "scenarioC": {
+    "separateUnmergedBranch": "codex/agent/asset-summary-drift",
+    "files": [
+      "docs/asset-pipeline.md",
+      "tests/unit/asset-docs.test.ts"
+    ]
+  },
+  "excluded": "Raw logs, Playwright reports/videos, dependencies, worktrees, caches, authentication and unrelated historical artifacts"
+}

@@ -1,0 +1,481 @@
+{
+  "at": "2026-10-22T09:00:50.717Z",
+  "scoring": {
+    "formula": "round(Impact * Confidence * Automation / (Effort * Risk), 2)",
+    "impact": [
+      "局部文档/开发体验",
+      "少量交互或维护",
+      "核心体验子系统",
+      "多数玩家或发布可靠性",
+      "普遍不可玩/数据损坏"
+    ],
+    "confidence": [
+      "创意假设",
+      "有限推断",
+      "可复核报告",
+      "当前源码+实测",
+      "稳定最小复现"
+    ],
+    "effort": [
+      "单文件/小测试",
+      "单模块",
+      "跨模块",
+      "资产或复杂迁移",
+      "大系统/长期研究"
+    ],
+    "risk": [
+      "不影响运行时",
+      "局部可回退",
+      "跨模块",
+      "玩法经济/存档",
+      "生产/真实用户/权限"
+    ],
+    "automation": [
+      "必须真人/真机",
+      "以人工判断为主",
+      "可混合验证",
+      "主要自动化",
+      "确定性全自动检查"
+    ]
+  },
+  "github": {
+    "available": true,
+    "complete": true,
+    "error": null
+  },
+  "remoteCI": {
+    "checkedAt": "2026-10-22T09:00:50.576Z",
+    "commit": "9037646095c91640a5e42870a7539d9c50aa363c",
+    "url": "https://github.com/zidanDirk/runner3d/actions/runs/39735911105",
+    "status": "completed",
+    "conclusion": "failure",
+    "failedSteps": [
+      "release-gate: Run npm run release:check"
+    ]
+  },
+  "candidates": [
+    {
+      "id": "asset-summary-drift",
+      "state": "READY_FOR_REVIEW",
+      "candidate": {
+        "key": "asset-summary-drift",
+        "title": "修正资产流水线当前摘要并防止文档漂移",
+        "category": "Bug",
+        "kind": "observed",
+        "problem": "顶部当前摘要仍称六类/12资源，实际配置已为七类/15资源。下方历史段落应保留。",
+        "solution": "只更新顶部当前摘要，增加与真实类型注册、Manifest和generator版本的契约测试。",
+        "benefit": "避免维护者按过时数量排查资源。",
+        "complexity": "一份文档和一个小测试。",
+        "risks": [
+          "不能改GLB、生成参数或下方历史记录。"
+        ],
+        "evidence": [
+          {
+            "path": "docs/asset-pipeline.md",
+            "line": 3,
+            "excerpt": "当前为六类生成器、12个资源，Node/Python generator2.1.0、Blender5.2.2。City Runner保留四种共享材质和18语义部件，新增20骨骼、真实Skin与Idle/Run/Jump/Slide，复用原CLI/事务/验证/加载链路，详见 [character-pipeline.md](character-pipeline.md)、[character-animation.md](character-animation.md)。`npm run assets:generate -- --only=city-runner`生成单个角色；`npm run assets:validate`同时验证12份资源、角色解剖与实际AnimationMixer采样。仅character允许Skin/动画，静态道具与城市仍严格拒绝；以下Task5/Task3数量与版本保留为历史说明。",
+            "sha256": "018c18217ce8f2609359fbbf6d816c3d398a88d4e21db9db14462dc854c21bf8"
+          },
+          {
+            "path": "scripts/assets/config.mjs",
+            "line": 12,
+            "excerpt": "export const ASSET_TYPES = Object.freeze(['roadblock', 'traffic-cone', 'street-lamp', 'building', 'billboard', 'character', 'powerup']);",
+            "sha256": "76599bf6ce0eb0759c5f05d460c53f173d06083769dc74c9f671f425baf81384"
+          },
+          {
+            "path": "assets.config.json",
+            "line": 114,
+            "excerpt": "      \"id\": \"powerup-magnet\",",
+            "sha256": "9931d8bd8343ceba984697946fe1d299e64f13a3c4566ac456967271b94bf5e5"
+          }
+        ],
+        "scores": {
+          "impact": 1,
+          "confidence": 5,
+          "effort": 1,
+          "risk": 1,
+          "automation": 5
+        },
+        "priority": 25,
+        "scope": [
+          "docs/asset-pipeline.md",
+          "tests/unit/asset-docs.test.ts"
+        ],
+        "acceptance": [
+          "顶部明确当前七类、15资源、generator2.1.0。",
+          "测试读取真实ASSET_TYPES、Manifest和GENERATOR_VERSION，检查当前摘要。",
+          "保留下方Task6/5/3历史记录；不改运行时或GLB。"
+        ],
+        "tests": [
+          "typecheck",
+          "test",
+          "assets:validate",
+          "release:check",
+          "test:visual"
+        ]
+      },
+      "duplicateIssue": "https://github.com/zidanDirk/runner3d/issues/1"
+    },
+    {
+      "id": "remote-ci-gate-failure",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "remote-ci-gate-failure",
+        "title": "定位远端 CI 质量门禁的实际失败",
+        "category": "Technical Debt",
+        "kind": "observed",
+        "problem": "真实GitHub运行 https://github.com/zidanDirk/runner3d/actions/runs/39735911105 在 9037646095c91640a5e42870a7539d9c50aa363c 失败；步骤：release-gate: Run npm run release:check。失败是已观察事实，尚不能推断代码/调度/平台原因。",
+        "solution": "保留失败日志/trace并在相同环境定位最小复现，禁止降低断言、提高截图容差或自动覆盖基线。",
+        "benefit": "恢复可信的远端验证，区分本地与远端结果。",
+        "complexity": "需要单独明确CI复现范围",
+        "risks": [
+          "不能把观察到失败直接等同游戏缺陷或自动放宽测试。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/ai-agent/ci-latest.json",
+            "line": 1,
+            "excerpt": "GitHub API verified 2026-10-22T09:00:50.576Z; https://github.com/zidanDirk/runner3d/actions/runs/39735911105",
+            "sha256": "6d4368d7a70d95901d255e128d836057953bfc36ecfa9b66e07853d0f6afa090"
+          }
+        ],
+        "scores": {
+          "impact": 4,
+          "confidence": 3,
+          "effort": 2,
+          "risk": 2,
+          "automation": 3
+        },
+        "priority": 9,
+        "scope": [],
+        "acceptance": [
+          "查明失败原因并提出经人工批准的最小修改范围。",
+          "保留原测试和失败/修复证据，真实远端执行后才能称通过。"
+        ],
+        "tests": [
+          "release:check",
+          "test:visual",
+          "remote CI"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "three-bundle-budget",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "three-bundle-budget",
+        "title": "评估 Three.js 大分块的实际加载成本",
+        "category": "Performance",
+        "kind": "observed",
+        "problem": "现有构建保留超过500kB的Three分块提示，不能靠放宽警告阈值解决。",
+        "solution": "记录同环境初始依赖/冷暖加载/总gzip，评估可量化的小范围依赖改动。",
+        "benefit": "先量化加载成本再决定优化。",
+        "complexity": "依赖图与真实浏览器测量。",
+        "risks": [
+          "拆分不保证总字节减少，可能引入额外请求。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/beta-evidence.md",
+            "line": 56,
+            "excerpt": "Bundle使用实际ESM依赖闭包：初始UI 389569B / gzip估算123092B；首页含真实预览 1366101B；开始后 1408777B；总JS 1417118B / gzip估算411131B；Three 704751B；15GLB共 507052B。首页仍不导入GameSession/GameScene；反馈按需加载。相对Task13初始JS增加14547B，是新功能成本，**不宣称加载优化**。Three500kB警告保留。",
+            "sha256": "e31ea65d81bd0fd6b4524e6a8169ff94b1f08aef843efcc3f2d1f5c04ed20bbf"
+          },
+          {
+            "path": "vite.config.ts",
+            "line": 46,
+            "excerpt": "  build: { rollupOptions: { output: { onlyExplicitManualChunks: true, manualChunks(id) {",
+            "sha256": "b889c5611ddba4a71c3a71869e51f36cd6579aa38a09b9dcb839a3207a53ed27"
+          }
+        ],
+        "scores": {
+          "impact": 3,
+          "confidence": 3,
+          "effort": 3,
+          "risk": 3,
+          "automation": 4
+        },
+        "priority": 4,
+        "scope": [],
+        "acceptance": [
+          "不提高chunk警告阈值。",
+          "同条件保留实际字节/加载时间前后对比。"
+        ],
+        "tests": [
+          "build",
+          "test:loading"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "hosted-https-acceptance",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "hosted-https-acceptance",
+        "title": "配置后验证真实候选 HTTPS 与缓存",
+        "category": "Technical Debt",
+        "kind": "acceptance-gap",
+        "problem": "这是报告明确标记的人工/外部环境验收缺口，尚非已证实代码缺陷。",
+        "solution": "按现有Beta人工清单安排实测并记录真实结果；不自动部署。",
+        "benefit": "缩小发布前未知范围。",
+        "complexity": "依赖设备或托管负责人。",
+        "risks": [
+          "不得把模拟环境或本地通过冒称真实验收。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/beta-evidence.md",
+            "line": 85,
+            "excerpt": "本地工程通过；Preview部署否，HTTPS实测否，Production发布否，iOS真机否，Android真机否，人工音效否。可进入受控候选验收，**尚不能宣布公开Beta已上线或所有平台通过**。需发布负责人配置现有托管域名/证书/缓存/账号权限/审批和地区数据规则，安排真机/真人试听/试玩，再明确授权上传。已知脚滑、弱升级边际、满级后金币用途有限、Three大chunk仍保留；本轮不改物理或经济掩盖这些问题。",
+            "sha256": "e31ea65d81bd0fd6b4524e6a8169ff94b1f08aef843efcc3f2d1f5c04ed20bbf"
+          }
+        ],
+        "scores": {
+          "impact": 4,
+          "confidence": 3,
+          "effort": 2,
+          "risk": 2,
+          "automation": 1
+        },
+        "priority": 3,
+        "scope": [],
+        "acceptance": [
+          "记录真实设备/环境/日期与未解决项。"
+        ],
+        "tests": [
+          "人工验收"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "human-audio-acceptance",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "human-audio-acceptance",
+        "title": "完成人耳音效验收",
+        "category": "Audio",
+        "kind": "acceptance-gap",
+        "problem": "这是报告明确标记的人工/外部环境验收缺口，尚非已证实代码缺陷。",
+        "solution": "按现有Beta人工清单安排实测并记录真实结果；不自动部署。",
+        "benefit": "缩小发布前未知范围。",
+        "complexity": "依赖设备或托管负责人。",
+        "risks": [
+          "不得把模拟环境或本地通过冒称真实验收。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/beta-evidence.md",
+            "line": 85,
+            "excerpt": "本地工程通过；Preview部署否，HTTPS实测否，Production发布否，iOS真机否，Android真机否，人工音效否。可进入受控候选验收，**尚不能宣布公开Beta已上线或所有平台通过**。需发布负责人配置现有托管域名/证书/缓存/账号权限/审批和地区数据规则，安排真机/真人试听/试玩，再明确授权上传。已知脚滑、弱升级边际、满级后金币用途有限、Three大chunk仍保留；本轮不改物理或经济掩盖这些问题。",
+            "sha256": "e31ea65d81bd0fd6b4524e6a8169ff94b1f08aef843efcc3f2d1f5c04ed20bbf"
+          }
+        ],
+        "scores": {
+          "impact": 4,
+          "confidence": 3,
+          "effort": 2,
+          "risk": 2,
+          "automation": 1
+        },
+        "priority": 3,
+        "scope": [],
+        "acceptance": [
+          "记录真实设备/环境/日期与未解决项。"
+        ],
+        "tests": [
+          "人工验收"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "real-mobile-acceptance",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "real-mobile-acceptance",
+        "title": "安排 iOS / Android 实机验收",
+        "category": "Technical Debt",
+        "kind": "acceptance-gap",
+        "problem": "这是报告明确标记的人工/外部环境验收缺口，尚非已证实代码缺陷。",
+        "solution": "按现有Beta人工清单安排实测并记录真实结果；不自动部署。",
+        "benefit": "缩小发布前未知范围。",
+        "complexity": "依赖设备或托管负责人。",
+        "risks": [
+          "不得把模拟环境或本地通过冒称真实验收。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/beta-evidence.md",
+            "line": 85,
+            "excerpt": "本地工程通过；Preview部署否，HTTPS实测否，Production发布否，iOS真机否，Android真机否，人工音效否。可进入受控候选验收，**尚不能宣布公开Beta已上线或所有平台通过**。需发布负责人配置现有托管域名/证书/缓存/账号权限/审批和地区数据规则，安排真机/真人试听/试玩，再明确授权上传。已知脚滑、弱升级边际、满级后金币用途有限、Three大chunk仍保留；本轮不改物理或经济掩盖这些问题。",
+            "sha256": "e31ea65d81bd0fd6b4524e6a8169ff94b1f08aef843efcc3f2d1f5c04ed20bbf"
+          }
+        ],
+        "scores": {
+          "impact": 4,
+          "confidence": 3,
+          "effort": 2,
+          "risk": 2,
+          "automation": 1
+        },
+        "priority": 3,
+        "scope": [],
+        "acceptance": [
+          "记录真实设备/环境/日期与未解决项。"
+        ],
+        "tests": [
+          "人工验收"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "residual-foot-slide",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "residual-foot-slide",
+        "title": "评估 Run 残余脚滑并制定可测的下一轮改进",
+        "category": "Animation",
+        "kind": "observed",
+        "problem": "已有运动报告明确保留明显的残余滑移；硬门通过不代表脚滑消除。",
+        "solution": "先复核现有真实GLTFLoader鞋底分析，再限定一项支撑相位实验；不改变物理速度或碰撞。",
+        "benefit": "减少视觉脚滑并保留动作/物理解耦。",
+        "complexity": "涉及Blender源动画与同条件浏览器验证。",
+        "risks": [
+          "源动作可能影响接地/循环；美感仍需人工验收。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/motion-evidence.md",
+            "line": 142,
+            "excerpt": "- 仍需人工观看完整未暂停录像，判断残余脚滑、步幅/落地节奏、衣服局部形变和运动舒适度。当前残余滑移仍明显，未实现运行时地形足底IK或真实支撑受力；这是平地Low Poly视觉系统。",
+            "sha256": "5308971fe6ee8d105958c35ba2b2ca15a291428ae13d417838bc9cd3efb4028f"
+          },
+          {
+            "path": "scripts/blender/rigging/clips.py",
+            "line": 13,
+            "excerpt": "CLIPS = {\"Idle\": 2.0, \"Run\": .72, \"Jump\": .95, \"Slide\": .75}",
+            "sha256": "e5d3f22727c04a6b6eb2665d3ff237510bc38bc3ec4f26c149644f32f4208e5f"
+          }
+        ],
+        "scores": {
+          "impact": 3,
+          "confidence": 3,
+          "effort": 4,
+          "risk": 3,
+          "automation": 3
+        },
+        "priority": 2.25,
+        "scope": [
+          "scripts/blender/rigging/clips.py"
+        ],
+        "acceptance": [
+          "保留现有骨架/三角形预算和物理哈希。",
+          "记录同版本同seed源鞋底数据与连续动作前后证据。",
+          "任何基线变化须人工批准。"
+        ],
+        "tests": [
+          "assets:motion",
+          "assets:validate",
+          "test:visual"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "upgrade-marginal-utility",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "upgrade-marginal-utility",
+        "title": "针对弱升级收益设计真人与配对模拟验证",
+        "category": "Gameplay",
+        "kind": "hypothesis",
+        "problem": "有限配对模拟显示部分升级边际收益弱；不能直接推断真人价值感。",
+        "solution": "设计单项升级实验，先约定效用指标和样本，再决定是否调参。",
+        "benefit": "让购买价值的设计决定有依据。",
+        "complexity": "跨平衡模拟、玩法设计和人工评估。",
+        "risks": [
+          "修改经济会影响已有进度，需额外人工设计批准。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/balance-evidence.md",
+            "line": 88,
+            "excerpt": "护盾主实验拾取后消耗比例55.25%/27.44%/10.39%；到期、刷新与上限未决分别保留。无道具→仅护盾均距Beginner260.02→292.07、Casual756.65→1009.70、Expert2124.44→3095.10m。延长保护时长仍只有一次保护，Beginner Lv1/Lv3在60seed单元未观测到新增生存距离，Lv2约+.86m；不能宣称所有升级已证明值得购买，也不能由零样本增益证明永远无价值。",
+            "sha256": "61798eec688bc1ceee873981861339fb96887b455dccb22be89e64a29db8bdb6"
+          },
+          {
+            "path": "src/game/balance.ts",
+            "line": 3,
+            "excerpt": "export const POWERUP_TYPES = ['magnet', 'shield', 'double-score'] as const;",
+            "sha256": "5213e1eeedcccc7a162b6d537fbe0e626f55e876cde8515b489f0e56511fd918"
+          }
+        ],
+        "scores": {
+          "impact": 3,
+          "confidence": 3,
+          "effort": 3,
+          "risk": 4,
+          "automation": 2
+        },
+        "priority": 1.5,
+        "scope": [
+          "src/game/balance.ts"
+        ],
+        "acceptance": [
+          "保留存档schema、已购等级和稳定任务ID。",
+          "同seed同策略列出收益和删失，不把机器人当真人。"
+        ],
+        "tests": [
+          "balance:simulate",
+          "balance:fairness"
+        ]
+      },
+      "duplicateIssue": null
+    },
+    {
+      "id": "post-upgrade-coin-purpose",
+      "state": "AWAITING_APPROVAL",
+      "candidate": {
+        "key": "post-upgrade-coin-purpose",
+        "title": "评估满级后金币用途的设计假设",
+        "category": "Gameplay",
+        "kind": "hypothesis",
+        "problem": "既有36条模拟生涯买满后仍累积货币；当前没有足够证据自动增加消费。",
+        "solution": "人工评审可选无付费用途，再形成单独批准的设计需求。",
+        "benefit": "识别长期目标缺口。",
+        "complexity": "设计探索，尚不具备自动实现范围。",
+        "risks": [
+          "不得擅自增加货币消耗或修改玩家存档。"
+        ],
+        "evidence": [
+          {
+            "path": "artifacts/balance-evidence.md",
+            "line": 106,
+            "excerpt": "各生涯期末钱包1639–16800，显示内容买满后的货币积累风险。当前样本每格仅3条生涯，且模型没有离线时间，表中分钟不是实际用户日历成长速度。没有依据直接统一降价、延长等待或增加货币消耗，本轮保留全部经济系数，明确部分升级收益偏弱，留待定向真人试验。既有schema1、稳定任务ID、已购等级和已领奖励均保留，旧档/坏档/未来档保护与写失败回归通过；无需虚构新schema迁移。",
+            "sha256": "61798eec688bc1ceee873981861339fb96887b455dccb22be89e64a29db8bdb6"
+          }
+        ],
+        "scores": {
+          "impact": 3,
+          "confidence": 3,
+          "effort": 4,
+          "risk": 4,
+          "automation": 1
+        },
+        "priority": 0.56,
+        "scope": [],
+        "acceptance": [
+          "收集授权真人反馈并区分设计假设与程序缺陷。"
+        ],
+        "tests": [
+          "balance:simulate"
+        ]
+      },
+      "duplicateIssue": null
+    }
+  ]
+}

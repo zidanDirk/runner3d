@@ -11,8 +11,12 @@ export const RESULT_SCHEMA = {
     summary: { type: 'string' }, edits: { type: 'array', maxItems: 20, items: { type: 'object', additionalProperties: false, required: ['path', 'beforeSha256', 'content'], properties: { path: { type: 'string' }, beforeSha256: { type: ['string', 'null'] }, content: { type: 'string' } } } },
   },
 };
-export const DISABLED_FEATURES = ['shell_tool', 'unified_exec', 'apps', 'plugins', 'hooks', 'browser_use', 'computer_use', 'code_mode', 'code_mode_host', 'goals'];
+export const DISABLED_FEATURES = ['shell_tool', 'unified_exec', 'apps', 'plugins', 'hooks', 'browser_use', 'computer_use', 'code_mode', 'code_mode_host', 'goals', 'multi_agent', 'skill_search', 'view_image', 'workspace_dependencies', 'sleep_tool', 'worktrees', 'remote_plugin'];
 export interface CodexCapabilities { path: string; version: string; supported: boolean; missing: string[] }
+export class CodexFailure extends Error {
+  readonly reportedTokens: number;
+  constructor(message: string, reportedTokens: number) { super(message); this.reportedTokens = reportedTokens; }
+}
 export async function discoverCodex(runner: Runner, cwd: string, env: NodeJS.ProcessEnv = process.env): Promise<CodexCapabilities> {
   const candidates = env.CODEX_PATH ? [env.CODEX_PATH] : (env.PATH ?? '').split(delimiter).map(p => resolve(p, process.platform === 'win32' ? 'codex.exe' : 'codex')).concat(['/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex', '/Applications/Codex.app/Contents/Resources/codex']);
   let first: CodexCapabilities | undefined;
@@ -61,15 +65,17 @@ export function codexExecutor(runner: Runner, store: Store, config: Config, capa
     check(remaining > 0, 'Task wall-time budget exhausted');
     const result = await runner(capability.path, args, { cwd: workspace, timeoutMs: Math.min(remaining, config.maxCallSeconds * 1000), maxBytes: config.maxOutputBytes, input: prompt });
     await store.write(`logs/${task.id}-codex-${task.rounds}.log`, redact(result.stdout + '\n' + result.stderr));
-    check(result.exitCode === 0, `CODEX_FAILED:${result.reason ?? 'NONZERO_EXIT'}`);
-    let tokens = 0;
+    let tokens = 0, unexpectedTool = false;
     for (const line of result.stdout.split('\n')) {
       let event: Record<string, unknown>; try { event = record(JSON.parse(line)); } catch { continue; }
       if (event.type === 'turn.completed' && event.usage) { const usage = record(event.usage); for (const name of ['input_tokens', 'output_tokens']) { const n = usage[name]; if (typeof n === 'number' && Number.isSafeInteger(n) && n >= 0) tokens += n; } }
       // Fail closed if the CLI unexpectedly exposes or executes any tool despite the disabled surface.
-      if (event.type === 'item.started' && event.item && record(event.item).type !== 'reasoning' && record(event.item).type !== 'agent_message') throw new Error('UNEXPECTED_CODEX_TOOL_USE');
+      if (event.type === 'item.started' && event.item && record(event.item).type !== 'reasoning' && record(event.item).type !== 'agent_message') unexpectedTool = true;
     }
-    const output = await readFile(resolve(store.root, resultPath)); check(output.length <= config.maxOutputBytes, 'Codex result exceeds output budget');
-    return parseImplementation(JSON.parse(output.toString('utf8')), tokens);
+    await store.write(`reports/${task.id}-codex-${task.rounds}-usage.json`, { exitCode: result.exitCode, durationMs: result.durationMs, reportedTokens: tokens, usageKnown: tokens > 0, unexpectedTool });
+    if (result.exitCode !== 0) throw new CodexFailure(`CODEX_FAILED:${result.reason ?? 'NONZERO_EXIT'}`, tokens);
+    if (unexpectedTool) throw new CodexFailure('UNEXPECTED_CODEX_TOOL_USE', tokens);
+    try { const output = await readFile(resolve(store.root, resultPath)); check(output.length <= config.maxOutputBytes, 'Codex result exceeds output budget'); return parseImplementation(JSON.parse(output.toString('utf8')), tokens); }
+    catch (error) { throw new CodexFailure(error instanceof Error ? error.message : 'INVALID_CODEX_RESULT', tokens); }
   };
 }

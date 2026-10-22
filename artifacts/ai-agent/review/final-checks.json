@@ -1,0 +1,79 @@
+{
+  "at": "2026-10-22T09:47:09.245Z",
+  "typecheck": {
+    "status": "passed",
+    "source": "production release gate"
+  },
+  "unit": {
+    "files": 48,
+    "passed": 575,
+    "newAgentTests": 70,
+    "status": "passed",
+    "source": "production release gate"
+  },
+  "browser": {
+    "passed": 186,
+    "failed": 0,
+    "minutes": 16.4,
+    "exitCode": 0,
+    "includesOrdinaryVisualCases": 76,
+    "visualBaselines": 91
+  },
+  "feedbackRegression": {
+    "before": {
+      "failed": 6,
+      "total": 30
+    },
+    "after": {
+      "passed": 20,
+      "total": 20
+    },
+    "originalAssertionsPreserved": true
+  },
+  "assets": {
+    "validated": 15,
+    "actualThreeLoading": true,
+    "newGeneration": false
+  },
+  "releaseGate": {
+    "status": "passed",
+    "environment": "production",
+    "coreBrowserPassed": 22,
+    "betaPassed": 9,
+    "productionSmokePassed": 4
+  },
+  "build": {
+    "status": "passed",
+    "warning": "Existing Three.js >500kB chunk warning retained; no threshold change"
+  },
+  "research": {
+    "candidateCount": 9,
+    "duplicateIssue": "https://github.com/zidanDirk/runner3d/issues/1"
+  },
+  "production": {
+    "passed": 8,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "loading": {
+    "passed": 2,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "notVerified": [
+    "new remote CI result",
+    "public HTTPS deployment",
+    "physical iOS/Android",
+    "human listening",
+    "long unattended autonomy",
+    "full Blender generation inside Agent sandbox"
+  ],
+  "actualLogSha256": {
+    "e2e-final.log": "bb9608d608b88b33b74410aea04a58e95a8cf7219b60cc56936253a1940b8fc1",
+    "release-final.log": "05e9b8caee4cb0a8ab830b247e6c162773cccb209b9cece49f2fcb74863d7265",
+    "production-final.log": "94af49cf77800dcb7d783f9b2101037fc1b63e59ef2a1ec1111e1c1e5e9a32b6",
+    "loading-final.log": "7113167934951d689054b4942f2757cbd4e071c5637cfaa1f014dce471dc399e",
+    "feedback-after.log": "691cb4c6f95aff1114dbd24d5a5b6c5a4e80e103555641342e738616ef6a29bd",
+    "dry-run-final.log": "d5fd9c3ce7b29e87067ba8b9cc980f6194485f613148caa6c907d34322a4befd"
+  }
+}

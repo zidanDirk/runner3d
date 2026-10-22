@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-22T09:32:47.882Z",
+  "localTaskRecords": 10,
+  "candidateCount": 9,
+  "idsUnchanged": true,
+  "issueScanAvailable": true,
+  "issueScanComplete": true,
+  "existingIssue": "https://github.com/zidanDirk/runner3d/issues/1",
+  "remoteWrites": 0,
+  "extraLocalRecord": "readonly-probe (capability test, not a research candidate)"
+}

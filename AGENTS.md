@@ -18,6 +18,7 @@
 - `.agent-data/` 保存本地状态/审批/锁/日志/Worktree/草稿，`.agent-cache/`保存QA缓存，均不提交。状态原子写，任务锁串行；死亡锁只在核对同主机PID后显式恢复。保留部分改动与尝试计数，禁止reset --hard/clean -fd或盲删其他任务锁。
 - 最多1任务/1并发、4模型轮次/3修复、1800秒任务/180秒调用、64k输入字符/256KiB输出；token依据真实usage累计60k后停止（不是服务端单调用硬token上限或美元限额），不自动购买额度。最多100任务记录、20次Dry Run，达到保留上限由人工归档；日志脱敏，不保存环境变量或真实存档。
 - Fast为strict/unit及相关资产/平衡检查；Full必须原release:check、普通visual、production/loading，渲染任务额外performance及同条件比较。视觉差异不自动更新，性能缺少同条件样本/明显退化阻止READY；失败报告保留实际exit/log与未执行项，最多3次修复。
+- 人工verify不调用模型，最多3次、每次独立1800秒QA预算；保留原执行/修复/token计数和超限结果拒绝记录。基础设施权限/启动失败直接转人工检查，不交给模型修改业务源码。
 - 保留原游戏/资产/91视觉基线；新增Agent单元和真实Git/Node测试集成，覆盖审批、幂等、恢复、超范围/注入、Codex/Blender/测试失败、预算、视觉/性能阻断、远端无权限、脱敏。Dry Run使用模拟Codex+真实失败/修复/通过测试，不冒充真实模型、完整游戏门禁或长期无人值守。
 - 操作/恢复/模型调用/人工审批与边界见 `docs/ai-agent.md`、`agent-workflow.md`、`agent-security.md`、`agent-operations.md`；Task15实际证据见 `artifacts/ai-agent-evidence.md`。
 

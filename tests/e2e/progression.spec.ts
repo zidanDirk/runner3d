@@ -1,6 +1,6 @@
 import { startLiveGame, waitForHomePreview } from './session-helpers';
 import { expect, test } from '@playwright/test';
-import { startProgression, seekPower, playTo, endRun } from './progression-helpers';
+import { startProgression, seekPower, playTo, endRun, waitForProgressionFrame } from './progression-helpers';
 
 for (const type of ['magnet', 'shield', 'double-score'] as const) test(`real seeded ${type} GLB pickup and fixed-clock expiry`, async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
@@ -32,9 +32,22 @@ test('magnet confirms early remote coins once through feedback, shield blocks ex
     }
     h.stepTicks(8);
   });
+  await waitForProgressionFrame(page);
   expect(await page.evaluate(() => window.__RUNNER_TEST__?.read().status)).toBe('running');
   expect(await page.evaluate(() => window.__FEEDBACK__?.recent.some(e => e.type === 'shield-broken'))).toBe(true);
   await endRun(page);
+});
+
+test('fixed-tick helpers wait for the completed render and actual feedback snapshot', async ({ page }) => {
+  await startProgression(page);
+  for (const distance of [50, 100, 150, 200, 250, 300]) {
+    await playTo(page, distance);
+    const sample = await page.evaluate(() => ({ tick: window.__RUNNER_TEST__?.read().tick,
+      renderedTick: window.__RUNNER_RENDER__?.tick, cachedTime: window.__FEEDBACK__?.time,
+      liveTime: window.__RUNNER_TEST__?.stepFeedback(0).time }));
+    expect(sample.renderedTick).toBe(sample.tick);
+    expect(sample.cachedTime).toBe(sample.liveTime);
+  }
 });
 
 test('one-time wallet settlement, mission claim, purchase and reload keep unrelated settings', async ({ page }) => {

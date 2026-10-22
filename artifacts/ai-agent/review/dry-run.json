@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-10-22T09:25:24.915Z",
+  "fixture": "/Users/zidanzhang/work/hy/runner3d/.agent-data/dry-runs/run-hn8CUr",
+  "mode": "dry-run",
+  "mockCodex": true,
+  "realGitWorktree": true,
+  "realFailThenPassNodeTests": true,
+  "remoteCalls": 0,
+  "calls": 2,
+  "state": "READY_FOR_REVIEW",
+  "rounds": 2,
+  "fixes": 1,
+  "events": [
+    {
+      "at": "2026-10-22T09:25:24.215Z",
+      "from": null,
+      "to": "DISCOVERED",
+      "phase": "research",
+      "issue": null,
+      "branch": null,
+      "summary": "Evidence-backed candidate created"
+    },
+    {
+      "at": "2026-10-22T09:25:24.221Z",
+      "from": "DISCOVERED",
+      "to": "PROPOSED",
+      "phase": "research",
+      "issue": null,
+      "branch": null,
+      "summary": "Evidence and fixed scoring recorded"
+    },
+    {
+      "at": "2026-10-22T09:25:24.221Z",
+      "from": "PROPOSED",
+      "to": "AWAITING_APPROVAL",
+      "phase": "research",
+      "issue": null,
+      "branch": null,
+      "summary": "Human approval required"
+    },
+    {
+      "at": "2026-10-22T09:25:24.252Z",
+      "from": "AWAITING_APPROVAL",
+      "to": "APPROVED",
+      "phase": "human",
+      "issue": null,
+      "branch": null,
+      "summary": "Explicit scope/content/base-bound approval recorded"
+    },
+    {
+      "at": "2026-10-22T09:25:24.267Z",
+      "from": "APPROVED",
+      "to": "PLANNING",
+      "phase": "planning",
+      "issue": null,
+      "branch": null,
+      "summary": "Bounded one-level file/dependency/test plan"
+    },
+    {
+      "at": "2026-10-22T09:25:24.359Z",
+      "from": "PLANNING",
+      "to": "IMPLEMENTING",
+      "phase": "implementation",
+      "issue": null,
+      "branch": "codex/agent/dry-fixture-value",
+      "summary": "Read-only Codex proposals; controller owns writes"
+    },
+    {
+      "at": "2026-10-22T09:25:24.405Z",
+      "from": "IMPLEMENTING",
+      "to": "VALIDATING",
+      "phase": "qa",
+      "issue": null,
+      "branch": "codex/agent/dry-fixture-value",
+      "summary": "Fast Validation then repository Full Validation"
+    },
+    {
+      "at": "2026-10-22T09:25:24.514Z",
+      "from": "VALIDATING",
+      "to": "IMPLEMENTING",
+      "phase": "repair",
+      "issue": null,
+      "branch": "codex/agent/dry-fixture-value",
+      "summary": "Bounded repair after actual QA failure"
+    },
+    {
+      "at": "2026-10-22T09:25:24.571Z",
+      "from": "IMPLEMENTING",
+      "to": "VALIDATING",
+      "phase": "qa",
+      "issue": null,
+      "branch": "codex/agent/dry-fixture-value",
+      "summary": "Fast Validation then repository Full Validation"
+    },
+    {
+      "at": "2026-10-22T09:25:24.831Z",
+      "from": "VALIDATING",
+      "to": "READY_FOR_REVIEW",
+      "phase": "qa",
+      "issue": null,
+      "branch": "codex/agent/dry-fixture-value",
+      "summary": "Actual checks passed; human review/merge still required"
+    }
+  ],
+  "checks": [
+    {
+      "id": "synthetic-fast-actual-node-test",
+      "exitCode": 1,
+      "status": "failed",
+      "durationMs": 71,
+      "log": "logs/dry-fixture-value-1-fast-fixture.log"
+    },
+    {
+      "id": "synthetic-fast-actual-node-test",
+      "exitCode": 0,
+      "status": "passed",
+      "durationMs": 71,
+      "log": "logs/dry-fixture-value-2-fast-fixture.log"
+    },
+    {
+      "id": "synthetic-full-actual-node-test",
+      "exitCode": 0,
+      "status": "passed",
+      "durationMs": 73,
+      "log": "logs/dry-fixture-value-2-full-fixture.log"
+    }
+  ],
+  "localSideEffects": [
+    "isolated temporary Git repository/worktree/branch",
+    "synthetic source edit and commit",
+    "approval tagged dry-run only",
+    "local state, logs, patch, PR draft"
+  ],
+  "unchangedMainCheckout": true,
+  "notVerified": [
+    "real model",
+    "full game QA",
+    "remote GitHub",
+    "long unattended execution"
+  ]
+}

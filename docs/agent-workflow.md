@@ -10,6 +10,8 @@ cat .agent-data/reports/research.json
 
 Research默认只读GitHub。读取全部状态Issue，最多10页×100条；分页不完整或网络/权限失败会明确降级本地草稿，并禁止发布。稳定marker `runner3d-agent:v1:<key>` 或规范化标题去重，含已关闭Issue。相同研究重复运行不重复提案或创建分支；这是确定性去重，不承诺识别任意同义标题，操作者仍应复核。已批准后来源变更时停止，不能静默替换批准内容。
 
+Research同时只读最新master CI状态；实际失败才产生单独候选，注明运行URL、被测SHA和失败步骤，不猜测失败原因。运行中/不可读不等于通过；没有明确修复范围的CI候选保持未审核。发布前复核来源hash与最新CI，不能把已解决的旧失败再次当作当前问题。
+
 ```sh
 # 可选远程写入，确认具体任务；不会自动创建状态标签
 npm run agent -- publish-issue --task=asset-summary-drift --confirm=asset-summary-drift
@@ -30,6 +32,8 @@ npm run agent:plan -- --task=asset-summary-drift
 ```
 
 本地approve是受信任本地操作者的显式声明，不是身份认证系统或数字签名；不能让模型进程/不可信远程用户调用该CLI或写状态目录。批准绑定完整candidate SHA256、精确scope和当前HEAD。内容、证据、base变化均需重新评审，不靠过期“APPROVED”继续。
+
+权限门还按scope独立推导风险下限：game/progression/balance/observability/release域及监控runtime即使被外部输入评分为低风险，也必须额外明确批准，不能靠伪造评分降低权限门。
 
 远程方式：人类维护者在GitHub加配置中的批准标签后，执行 `npm run agent -- approve-github --task=<id>`。程序检查最新标签事件为labeled、actor.type=User、实际仓库写权限、Issue开放且正文未变化。Bot、取消标签、拒绝/挂起和正文修改都会阻止执行；Risk≥4标签本身不足，需额外本地人工批准。
 
@@ -57,6 +61,8 @@ npm run agent -- publish-pr --task=asset-summary-drift --confirm=asset-summary-d
 ```
 
 总是创建Draft PR；再次运行复用同分支已有PR。失败/BLOCKED工作仍有本地草稿和补丁，不会伪造远程URL或完成状态。流程没有merge/production/远程监控/付费工具。合并由人类在GitHub操作；ScC批准不等于合并批准。master的人类Task15交付沿用本聊天明确授权，不能被模型或未来任务继承。
+
+人工在GitHub合并或关闭后，可执行 `npm run agent -- sync --task=<id>`，只读核对真实PR head/base/commit和merged字段，再记录MERGED/REJECTED；这个命令没有合并端点。发布前还要求任务base已在远端master中，避免把未交付的父分支改动混入小任务PR。
 
 ## 状态机
 

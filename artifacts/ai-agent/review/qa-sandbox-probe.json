@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T09:25:40.649Z",
+  "result": {
+    "exitCode": 0,
+    "stdout": "{\"ownWrite\":true,\"readDenied\":true,\"writeDenied\":true,\"localOK\":true,\"externalCode\":\"EPERM\",\"credentialsAbsent\":true}\n",
+    "stderr": "",
+    "durationMs": 60
+  },
+  "npm": {
+    "exitCode": 0,
+    "stdout": "10.9.2\n",
+    "stderr": "",
+    "durationMs": 96
+  },
+  "privateFileUnchanged": true
+}

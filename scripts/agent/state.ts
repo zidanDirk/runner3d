@@ -1,5 +1,6 @@
 import { check, STATES } from './types';
 import type { State, Task } from './types';
+import { hash } from './security';
 
 const edges: Record<State, readonly State[]> = {
   DISCOVERED: ['PROPOSED', 'CANCELLED'], PROPOSED: ['AWAITING_APPROVAL', 'CANCELLED'],
@@ -18,8 +19,10 @@ export function transition(task: Task, to: State, phase: string, summary: string
 }
 export function assertApproved(task: Task, baseCommit: string, dryRun: boolean): void {
   const a = task.approval;
+  check(task.digest === hash(JSON.stringify(task.candidate)), 'Candidate mutated after approval');
   check(a && a.issueDigest === task.digest && a.baseCommit === baseCommit, 'Human approval missing, stale or scope changed');
   check(task.mode === (dryRun ? 'dry-run' : 'real') && (dryRun ? a.source === 'dry-run' : a.source !== 'dry-run'), 'Dry Run approval cannot authorize real execution');
-  check(task.candidate.scores.risk < 4 || a.highRiskAccepted, 'High risk requires additional explicit human approval');
+  const policyHighRisk = task.candidate.scope.some(p => /^src\/(?:game|progression|balance|observability|release)\//.test(p) || p === 'src/runtime/monitoring.ts');
+  check((task.candidate.scores.risk < 4 && !policyHighRisk) || a.highRiskAccepted, 'High risk requires additional explicit human approval (including scope-derived risk floor)');
   check(task.candidate.scope.length > 0 && task.candidate.acceptance.length > 0 && task.candidate.kind !== 'acceptance-gap', 'Insufficient implementation scope; return to human');
 }

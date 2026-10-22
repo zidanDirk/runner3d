@@ -25,7 +25,7 @@ export const runProcess: Runner = (command, args, options) => new Promise(resolv
   const finish = (code: number): void => {
     if (done) return; done = true; clearTimeout(timer); if (killTimer) clearTimeout(killTimer);
     process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
-    kill('SIGKILL'); // Also retire any detached descendants of a normally completed command.
+    kill('SIGKILL'); // Retire remaining members of this command's own process group.
     resolve({ exitCode: reason ? 1 : code, stdout, stderr, durationMs: Date.now() - start, ...(reason ? { reason } : {}) });
   };
   child.once('error', () => { reason = 'SPAWN_FAILED'; finish(1); }); child.once('close', code => finish(code ?? 1));

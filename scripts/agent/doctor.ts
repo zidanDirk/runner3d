@@ -17,11 +17,12 @@ export async function doctor(root: string, runner: Runner): Promise<unknown> {
   let blender: unknown;
   try { const path = discoverBlender(); const result = await runner(path, ['--version'], { cwd: root, timeoutMs: 10000 }); blender = { path, version: /^Blender ([^\n]+)/m.exec(result.stdout)?.[1] ?? null, exitCode: result.exitCode, apiProbe: 'separate explicit background probe required; --version alone is not Python API verification' }; } catch { blender = { available: false, reason: 'Set BLENDER_PATH to the pinned 5.2.2 executable' }; }
   const gh = await runner('gh', ['--version'], { cwd: root, timeoutMs: 10000 });
+  const git = await runner('git', ['--version'], { cwd: root, timeoutMs: 10000 });
   const github = name ? new GitHub(name, runner, root) : null;
   const pkg: unknown = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   const status = await runner('git', ['status', '--porcelain=v1', '--untracked-files=no'], { cwd: root });
   const index = await github?.index();
-  return { at: new Date().toISOString(), repository: name, trackedChanges: status.stdout.trim().length > 0, githubCli: gh.exitCode === 0 ? gh.stdout.split('\n')[0] : 'missing', githubPermissions: await github?.permissions() ?? null, issueIndex: index ? { available: index.available, complete: index.complete, count: index.issues.length, error: index.error ?? null } : null, codex, blender, package: pkg, limits: ['No Issue/PR mutation or publication by doctor', 'Permission response is not proof of a successful write', 'No CI/HTTPS/device acceptance inferred'] };
+  return { at: new Date().toISOString(), repository: name, trackedChanges: status.stdout.trim().length > 0, git: git.stdout.trim(), githubCli: gh.exitCode === 0 ? gh.stdout.split('\n')[0] : 'missing', githubPermissions: await github?.permissions() ?? null, issueIndex: index ? { available: index.available, complete: index.complete, count: index.issues.length, error: index.error ?? null } : null, remoteCI: await github?.latestCI() ?? null, codex, blender, package: pkg, limits: ['No Issue/PR mutation or publication by doctor', 'Permission response is not proof of a successful write', 'No HTTPS/device acceptance inferred'] };
 }
 export async function blenderProbe(root: string, runner: Runner): Promise<unknown> {
   const executable = discoverBlender();

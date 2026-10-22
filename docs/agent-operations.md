@@ -11,11 +11,14 @@ npm run agent:doctor
 npm run agent -- probe                 # 真实模型，只返回空修改JSON；消耗账号额度
 npm run agent -- blender-probe         # 真实bpy探针，不生成模型
 npm run agent -- sandbox-probe         # 真实文件/loopback/外网/凭据隔离负例
+npm run agent -- browser-probe --task=<已批准且有Worktree的任务ID>
 npm run agent:research
 npm run agent:dry-run
 ```
 
 探测本机实际支持后再调用；PATH旧0.36不支持必要的output-schema/ignore-config，当前应用内CLI已验证0.163.0-alpha.11。`CODEX_PATH`可设实际可执行文件（不是.app目录）；指定错误/不兼容不会悄悄换另一个版本。Blender通过现有discoverBlender查找，优先BLENDER_PATH，再PATH/常见安装路径；已验证5.2.2 LTS，无手工UI步骤。
+
+`probe`首次才实际调用模型；已有成功记录时返回cached=true并重新探测当前CLI能力，历史推理结果不代表本次认证/模型执行。显式重新调用需 `--confirm=rerun-readonly-probe`，仍受4轮/60k累计usage门限制。与任务共用串行锁，不让重复探针意外并发消耗额度。
 
 ```sh
 CODEX_PATH="/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex" npm run agent -- probe
@@ -23,6 +26,8 @@ BLENDER_PATH="/Applications/Blender.app/Contents/MacOS/Blender" npm run agent --
 ```
 
 本机外层开发沙盒有时不能嵌套启动Seatbelt/Blender，表现为Operation not permitted或139；需由宿主允许启动内部更严格沙盒，不能去掉Agent内部隔离或换成danger-full-access。Doctor版本通过不等于Python API/生成通过。
+
+macOS Chromium需要 `MAC_CHROMIUM_TMPDIR`，不仅是TMPDIR；适配器为每条QA命令创建独立短路径临时目录并清理，仅该目录允许Unix socket。依据[Chromium临时目录实现](https://chromium.googlesource.com/chromium/src/+/HEAD/base/files/file_util_apple.mm)与[GPU沙盒规则](https://chromium.googlesource.com/chromium/src/+/main/sandbox/policy/mac/gpu.sb)开放必要图形IPC，不改渲染参数或截图容差。QA使用当前PATH实际Git，并通过固定本地包装禁用宿主全局配置读取；本机系统Xcode Git启动异常，不自动重配/修复Xcode。
 
 ## 状态与产物
 
@@ -36,7 +41,7 @@ Dry Run使用忽略目录中的独立合成Git仓库，不碰主仓库refs；零
 npm run agent:status
 # 检查 .agent-data/run.lock/owner.json，核对同主机且进程真的已死亡
 npm run agent -- recover-lock --pid=<确认死亡的PID>
-# 保留任务工作区，显式恢复；不重置轮次、token、时间预算
+# 保留任务工作区，显式恢复；不重置模型轮次、token和自动实现时间预算
 npm run agent -- recover --task=<id> --confirm=<id>
 npm run agent:execute -- --task=<id>
 # 重新执行Fast/Full；批准范围和基线均不变且全部通过，才提交并进入待人工审查
@@ -45,6 +50,8 @@ npm run agent:report -- --task=<id>
 ```
 
 实时锁或未知PID不可删除；审批base/content变更先人工重新评审，预算耗尽后不能通过resume反复重置。网络写入超时先检查Issue marker/PR分支，不能直接重复POST。没有GitHub权限时保留真实本地提交、补丁和PR正文，URL显示未创建。
+
+人工`verify`不调用模型，只重验保留改动，最多3次、每次独立1800秒上限，记录verifications与状态事件。它不重置原始执行/修复/token计数，也不应用因token超限被拒绝的模型结果；可在修复宿主验证基础设施后完成已有修改的QA。超过次数仍失败则保留草稿等待人工检查。
 
 ## Blender与性能
 

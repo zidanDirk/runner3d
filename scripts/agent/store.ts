@@ -17,6 +17,7 @@ export class Store {
   async write(path: string, data: unknown): Promise<void> {
     check(/^(?:tasks|reports|logs|drafts)\/[a-zA-Z0-9._-]+$/.test(path), 'Invalid state artifact path');
     const target = resolve(this.root, path); try { check(!(await lstat(target)).isSymbolicLink(), 'State artifact symlink forbidden'); } catch (e) { if (!(e instanceof Error && 'code' in e && e.code === 'ENOENT')) throw e; }
+    if (path.startsWith('logs/')) { let exists = false; try { await lstat(target); exists = true; } catch { /* New immutable log. */ } check(!exists, 'LOG_COLLISION: existing audit log must never be overwritten'); }
     const body = typeof data === 'string' ? redact(data) : JSON.stringify(data, null, 2) + '\n';
     check(Buffer.byteLength(body) <= 1048576, 'State artifact exceeds 1MiB');
     const temporary = `${target}.${randomUUID()}.tmp`, file = await open(temporary, 'wx', 0o600);
@@ -38,6 +39,7 @@ export class Store {
       const existing = await this.read(id);
       if (existing.digest !== hash(JSON.stringify(candidate))) {
         check(existing.state === 'AWAITING_APPROVAL', 'Candidate evidence changed after approval: human review/new task required');
+        check(existing.events.length < 128, 'Audit event budget exhausted');
         existing.candidate = candidate; existing.digest = hash(JSON.stringify(candidate)); existing.approval = null;
         existing.events.push({ at: new Date().toISOString(), from: existing.state, to: existing.state, phase: 'research', issue: existing.issue?.number ?? null, branch: existing.branch, summary: 'Unapproved evidence revised; digest/approval invalidated' });
         await this.save(existing);
