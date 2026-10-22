@@ -32,6 +32,9 @@ jobs:
     outputs:
       sha: ${{ steps.source.outputs.sha }}
     steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: '22.17.0'
@@ -43,12 +46,12 @@ jobs:
         run: |
           node --input-type=module <<'JS'
           import { appendFileSync } from 'node:fs';
+          import { verifyCandidateRun } from './scripts/release/preflight.mjs';
           if (!/^\d+$/.test(process.env.SOURCE_RUN)) throw new Error('Invalid source run ID');
           const response = await fetch(`https://api.github.com/repos/${process.env.REPOSITORY}/actions/runs/${process.env.SOURCE_RUN}`, { headers: { Authorization: `Bearer ${process.env.GH_TOKEN}`, Accept: 'application/vnd.github+json' } });
           if (!response.ok) throw new Error('Cannot read candidate workflow run');
           const run = await response.json();
-          if (run.name !== 'Reviewed Qiniu Beta candidate' || run.conclusion !== 'success' || !/^[a-f0-9]{40}$/.test(run.head_sha)) throw new Error('Source is not a successful candidate workflow');
-          appendFileSync(process.env.GITHUB_OUTPUT, `sha=${run.head_sha}\n`);
+          appendFileSync(process.env.GITHUB_OUTPUT, `sha=${verifyCandidateRun(run, process.env.REPOSITORY)}\n`);
           JS
   promote:
     needs: identity
@@ -73,7 +76,8 @@ jobs:
       - name: Match reviewed artifact identity
         env:
           EXPECTED_BUILD: ${{ inputs.build_id }}
-        run: node -e "const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/release.json'));if(r.buildId!==process.env.EXPECTED_BUILD||r.environment!=='production')throw new Error('Wrong reviewed production artifact');"
+          EXPECTED_COMMIT: ${{ needs.identity.outputs.sha }}
+        run: node -e "const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/release.json'));if(r.buildId!==process.env.EXPECTED_BUILD||r.commit!==process.env.EXPECTED_COMMIT||r.environment!=='production')throw new Error('Wrong reviewed production artifact');"
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - name: Recheck immutable candidate before changing the entry

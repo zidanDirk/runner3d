@@ -87,11 +87,13 @@ test('real A/D and arrow keys change lanes; Space jumps; S and down arrow slide'
 });
 
 test('collision ends the run and retry resets the same seed and world', async ({ page }) => {
-  await begin(page);
+  await begin(page, true);
   // Seek the first real obstacle with keyboard input; never inject an artificial collision.
   const initial = await read(page);
+  expect(initial.distance).toBe(0);
   const first = initial.entities.find((entity) => entity.kind !== 'coin');
   if (!first) throw new Error('Expected seeded obstacles');
+  await page.evaluate(() => window.__RUNNER_TEST__?.freeze(false));
   for (let i = initial.player.lane; i > first.lane; i--) await page.keyboard.press('ArrowLeft');
   for (let i = initial.player.lane; i < first.lane; i++) await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('heading', { name: '每一步，都算数。' })).toBeVisible({ timeout: 15000 });

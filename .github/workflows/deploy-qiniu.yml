@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: reviewed-qiniu-release
@@ -38,6 +39,19 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Require successful full CI for this exact candidate commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          EXPECTED_COMMIT: ${{ github.sha }}
+        run: |
+          node --input-type=module <<'JS'
+          import { verifyCandidateCI } from './scripts/release/preflight.mjs';
+          const response = await fetch(`https://api.github.com/repos/${process.env.REPOSITORY}/actions/workflows/ci.yml/runs?per_page=100`, { headers: { Authorization: `Bearer ${process.env.GH_TOKEN}`, Accept: 'application/vnd.github+json' } });
+          if (!response.ok) throw new Error('Cannot verify candidate CI');
+          const data = await response.json();
+          console.log(verifyCandidateCI(data.workflow_runs, process.env.EXPECTED_COMMIT));
+          JS
       - run: npm run release:check
       - id: identity
         run: node -e "const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/release.json'));fs.appendFileSync(process.env.GITHUB_OUTPUT,'build_id='+r.buildId+'\n')"
@@ -72,10 +86,11 @@ jobs:
           QINIU_BUCKET: ${{ vars.QINIU_BUCKET }}
           RELEASE_BASE_URL: ${{ vars.RELEASE_BASE_URL }}
           RELEASE_CONFIRM: UPLOAD ${{ needs.verify.outputs.build_id }}
-      - run: node scripts/release/remote-smoke.mjs "$RELEASE_TEST_URL" "$RELEASE_BUILD_ID"
+      - run: node scripts/release/remote-smoke.mjs "$RELEASE_TEST_URL" "$RELEASE_BUILD_ID" "$RELEASE_EXPECTED_COMMIT"
         env:
           RELEASE_TEST_URL: ${{ vars.RELEASE_BASE_URL }}releases/${{ needs.verify.outputs.build_id }}/
           RELEASE_BUILD_ID: ${{ needs.verify.outputs.build_id }}
+          RELEASE_EXPECTED_COMMIT: ${{ github.sha }}
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:release

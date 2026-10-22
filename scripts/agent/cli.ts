@@ -18,6 +18,7 @@ const HELP = `Runner3D 本地 Agent（无服务器/无调度/无自动合并）
 doctor | research | plan | execute | verify | report | status | dry-run | probe | blender-probe | sandbox-probe
 browser-probe --task=<id>               已批准工作区的固定浏览器/WebGL探针
 import --file=<candidate.json>
+beta-feedback --file=<human-reviewed-beta.json>  只读审核文件、查重并生成未审核草稿
 approve --task=<id> --confirm=<digest> --reviewer=<human> [--high-risk=true]
 approve-github --task=<id>                 验证真实人工label事件/权限/正文
 publish-issue --task=<id> --confirm=<id>   明确写入GitHub
@@ -68,6 +69,7 @@ export async function main(args = process.argv.slice(2), root = process.cwd()): 
   switch (command) {
     case 'research': { const tasks = await agent.research(); console.table(tasks.map(t => ({ id: t.id, state: t.state, priority: t.candidate.priority, type: t.candidate.kind, issue: t.issue?.number ?? 'local draft' }))); break; }
     case 'import': { check(flags.file && !flags.file.startsWith('-'), '--file is required'); const content = await readFile(await contained(root, relative(root, resolve(root, flags.file)))); check(content.length < config.maxInputChars, 'Candidate exceeds input budget'); const task = await agent.store.lock(() => agent.propose(parseCandidate(JSON.parse(content.toString('utf8'))))); console.log(JSON.stringify(task, null, 2)); break; }
+    case 'beta-feedback': { check(flags.file, '--file is required'); const path = relative(root, resolve(root, flags.file)); const tasks = await agent.importBetaFeedback(path); console.table(tasks.map(t => ({ id: t.id, state: t.state, issue: t.issue?.url ?? 'local draft', synthetic: t.mode === 'dry-run' }))); break; }
     case 'approve': console.log(JSON.stringify(await agent.approve(taskId(), flags.confirm ?? '', flags.reviewer ?? '', flags['high-risk'] === 'true'), null, 2)); break;
     case 'approve-github': console.log(JSON.stringify(await agent.approveFromGitHub(taskId()), null, 2)); break;
     case 'plan': console.log(JSON.stringify((await agent.plan(taskId())).plan, null, 2)); break;

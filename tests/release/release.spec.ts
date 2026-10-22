@@ -1,7 +1,41 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { followPowerupRoute, POWERUP_ROUTE } from '../production/route-journey';
 
 const metadata: { version: string; buildId: string; environment: string } = JSON.parse(readFileSync('dist/release.json', 'utf8'));
+
+test('release real keyboard journey collects every powerup and settles without production hooks', async ({ page }, testInfo) => {
+  test.setTimeout(120000);
+  const errors: string[] = [], models = new Set<string>();
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  page.on('requestfailed', request => errors.push(new URL(request.url()).pathname));
+  page.on('response', response => {
+    const path = new URL(response.url()).pathname;
+    if (/powerup-(magnet|shield|double-score)\.glb$/.test(path)) { expect(response.ok()).toBe(true); models.add(path); }
+  });
+  await page.goto('./');
+  await expect(page.locator('.character-preview')).toHaveAttribute('data-model-status', 'loaded');
+  await page.locator('.route-details > summary').click();
+  await page.getByLabel('路线 Seed').fill(POWERUP_ROUTE);
+  await page.getByRole('button', { name: '应用路线', exact: true }).click();
+  await page.getByRole('button', { name: '开始奔跑', exact: true }).click();
+  await expect(page.getByRole('button', { name: '暂停游戏', exact: true })).toBeVisible();
+  // Real trusted inputs; exact jump/slide poses are asserted in the fixed-tick e2e suite.
+  await page.keyboard.press('ArrowLeft');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('Space');
+  // >20m exceeds the actual ~0.95s jump at initial speed; send slide after landing.
+  await expect.poll(async () => Number(await page.getByTestId('distance').innerText())).toBeGreaterThan(20);
+  await page.keyboard.press('ArrowDown');
+  await followPowerupRoute(page, testInfo.outputPath('release-active-powerups.png'), 75000);
+  expect(models.size).toBe(3);
+  const coins = await page.getByTestId('coins').innerText();
+  expect(Number(coins)).toBeGreaterThan(0);
+  await expect(page.getByTestId('wallet')).toHaveText(coins);
+  expect(await page.evaluate(() => '__RUNNER_TEST__' in window || '__RUNNER_RENDER__' in window)).toBe(false);
+  expect(errors).toEqual([]);
+});
 
 test('release HTML metadata revalidates, GLB paths are immutable and missing models stay real 404s', async ({ request, baseURL }) => {
   const html = await request.get(new URL('index.html', baseURL).href);

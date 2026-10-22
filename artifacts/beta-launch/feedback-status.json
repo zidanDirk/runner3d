@@ -1,0 +1,10 @@
+{
+  "realParticipants": 0,
+  "realFeedbackRecords": 0,
+  "ios": "PENDING",
+  "android": "PENDING",
+  "humanAudio": "PENDING",
+  "humanPlay": "PENDING",
+  "syntheticDemoExcluded": true,
+  "reason": "No actual device or tester report has been received in this task."
+}

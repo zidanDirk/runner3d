@@ -11,6 +11,7 @@ import { issueBody, research, SCORING } from './research';
 import { baselineHashes, planTask, reportBody, validator } from './validation';
 import type { Validator } from './validation';
 import { CodexFailure } from './codex';
+import { loadReviewedBeta } from './beta-feedback';
 
 export class Orchestrator {
   readonly store: Store; readonly workspaces: Workspaces; private validate: Validator;
@@ -46,6 +47,21 @@ export class Orchestrator {
         if (existing && !task.issue) { task.issue = { number: existing.number, url: existing.url, bodyHash: hash(existing.body) }; await this.store.save(task); } tasks.push(task);
       }
       await this.store.write('reports/research.json', { at: new Date().toISOString(), scoring: SCORING, github: { available: index.available, complete: index.complete, error: index.error ?? null }, remoteCI: ci, candidates: tasks.map(t => ({ id: t.id, state: t.state, candidate: t.candidate, duplicateIssue: t.issue?.url ?? null })) }); return tasks;
+    });
+  }
+  async importBetaFeedback(path: string): Promise<Task[]> {
+    return this.store.lock(async () => {
+      const imported = await loadReviewedBeta(this.root, path, this.config.maxInputChars);
+      const index = !imported.batch.synthetic && this.github ? await this.github.index() : { available: false, complete: false, issues: [], error: imported.batch.synthetic ? 'Synthetic input: no remote calls' : 'No GitHub adapter' };
+      const tasks: Task[] = [];
+      for (const candidate of imported.candidates) {
+        const task = await this.propose(candidate, imported.batch.synthetic ? 'dry-run' : 'real');
+        const existing = duplicate(candidate.key, candidate.title, index.issues);
+        if (existing && !task.issue) { task.issue = { number: existing.number, url: existing.url, bodyHash: hash(existing.body) }; await this.store.save(task); }
+        tasks.push(task);
+      }
+      await this.store.write('reports/beta-feedback-import.json', { at: new Date().toISOString(), ...imported.summary, github: { available: index.available, complete: index.complete }, tasks: tasks.map(t => ({ id: t.id, state: t.state, issue: t.issue?.url ?? null })), note: 'Human review labels are observations, not engineering proof; no approval, model execution or remote write.' });
+      return tasks;
     });
   }
   async approve(id: string, confirm: string, actor: string, highRisk = false, source: 'local-human' | 'dry-run' = 'local-human'): Promise<Task> {

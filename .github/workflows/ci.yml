@@ -36,9 +36,11 @@ jobs:
           path: test-results/task14/gate-core/
           retention-days: 14
   visual-comparison:
-    runs-on: ubuntu-latest
+    # Existing reviewed PNGs were captured on macOS/arm64. Linux remains the
+    # functional release gate; visual comparisons keep all cases and thresholds.
+    runs-on: macos-26
     # Leave time to upload actual/diff evidence even when software rendering is slow.
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7
         with:

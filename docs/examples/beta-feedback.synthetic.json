@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "synthetic": true,
+  "review": {
+    "reviewerId": "r00",
+    "reviewedAt": "2026-10-22T01:02:03.000Z",
+    "decision": "reviewed-for-research",
+    "privacyReviewed": true
+  },
+  "feedback": [
+    {
+      "id": "fb-synthetic-001",
+      "participantId": "p00",
+      "version": "0.14.0-beta",
+      "buildId": "synthetic-task16",
+      "device": "ios-safari",
+      "category": "UX Problem",
+      "problem": "合成样例：核对菜单聚焦时不会触发游戏输入。",
+      "steps": [
+        "此记录仅用于导入测试",
+        "查看现有输入过滤规则"
+      ],
+      "frequency": {
+        "occurrences": 1,
+        "attempts": 1
+      },
+      "severity": "P2",
+      "verification": "unverified",
+      "issueKey": "input-review",
+      "evidence": [
+        {
+          "path": "src/input/dom.ts",
+          "line": 1,
+          "sha256": "f4261683b9258eaa2635677837e0695bf4946d868aab1b0ffde3bd978bc3f903"
+        }
+      ]
+    },
+    {
+      "id": "fb-synthetic-002",
+      "participantId": "p00",
+      "version": "0.14.0-beta",
+      "buildId": "synthetic-task16",
+      "device": "ios-safari",
+      "category": "UX Problem",
+      "problem": "合成样例：核对菜单聚焦时不会触发游戏输入。",
+      "steps": [
+        "此记录仅用于导入测试",
+        "查看现有输入过滤规则"
+      ],
+      "frequency": {
+        "occurrences": 1,
+        "attempts": 1
+      },
+      "severity": "P2",
+      "verification": "unverified",
+      "issueKey": "input-review",
+      "evidence": [
+        {
+          "path": "src/input/dom.ts",
+          "line": 1,
+          "sha256": "f4261683b9258eaa2635677837e0695bf4946d868aab1b0ffde3bd978bc3f903"
+        }
+      ]
+    }
+  ]
+}

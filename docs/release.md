@@ -101,8 +101,10 @@ RELEASE_TEST_URL="$RELEASE_TEST_URL" npm run test:release
 
 `remote-smoke` 拒绝 HTTP/含凭据/查询参数的入口，逐文件下载核对 hash 和长度；浏览器 Smoke 另验证 WebGL/模型/实际导航/存档。两个层级必须分别记录，静态 hash 不能证明视觉、音频、GPU 或真机合格。没有实际候选 URL 时不执行、不报告 HTTPS 成功。
 
-## 首次远端CI的待验证项
+## Task16 真实状态与人工验收
 
-当前本地工作树含Task13及更早未提交修改。发布前须人工审查并提交完整的预期代码与依赖，不要只摘取Task14文件清单而漏掉仍未跟踪的既有渲染资源文件；本地HEAD并不能重现这些未提交源码。这里没有代替持有人提交或推送。
+Task15 已提交至 master `da5f99a`。首次真实远端 CI 已运行并失败，不能沿用“尚未运行”或把本地通过当作远端通过。Task16 修复记录、精确SHA与最终两个Job结果见 [beta-launch-evidence.md](../artifacts/beta-launch-evidence.md)。保留91张基线与原差异阈值，平台策略须依据真实actual/diff审核，不自动重建。
 
-远端GitHub Actions尚未运行。现有91张基线来自本机Chromium，Ubuntu视觉job的字体、浏览器与WebGL平台一致性需要首次实际执行确认。平台差异也必须保留actual/diff逐图审查，使用明确的平台基线或受控同环境runner解决；不得自动覆盖或放宽阈值把远端失败当通过。普通CI配置已建立，不代表远端CI已绿。
+2026-10-22只读审计发现 Environments/Variables 均为空，仅核对了三个仓库Secret名称；没有已知可验证的候选URL或本次上传授权。部署目前Blocked。准确配置、只读预检查与获得授权后的命令见 [beta-deployment-audit.md](beta-deployment-audit.md)。代码同步不代表公开部署。
+
+`remote-smoke.mjs URL buildId expected40SHA` 核对真实TLS、跳转、原Manifest、文件Hash、MIME/缓存及缺失GLB404；`test:release`另跑真实生产UI/角色/键盘/道具/碰撞/结算/持久化。合成HTTP单元测试、localhost与浏览器机器人均不能替代真实CDN、iPhone/Android、真人听感或玩家数据。验收表见 [beta-device-acceptance.md](beta-device-acceptance.md)。生产晋升保留实际 Environment 审核，不能仅靠一个变量声明审批已配置。

@@ -34,6 +34,7 @@
     "build:preview": "npm run build -- --mode preview",
     "release:check": "node scripts/release/check.mjs",
     "release:verify": "node scripts/release/verify.mjs",
+    "release:preflight": "node scripts/release/preflight.mjs",
     "release:package": "node scripts/release/package.mjs",
     "test:release": "playwright test --config playwright.release.config.ts",
     "test:beta": "playwright test --config playwright.beta.config.ts tests/beta/beta.spec.ts",

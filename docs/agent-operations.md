@@ -71,4 +71,6 @@ npm run agent:report -- --task=<id>
 
 ## 人工职责与未来调度
 
+Task16新增人工审核Beta文件入口：`npm run agent -- beta-feedback --file=docs/examples/beta-feedback.synthetic.json`。该示例明确synthetic，零远端调用，只生成忽略目录中的未审核草稿；重复运行幂等。真实文件先由组织者去隐私/分类/分配稳定匿名ID/核对代码或测试Hash，导入后仍为无文件范围的hypothesis，不自动实现、批准或发布。完整Schema和边界见 [beta-feedback-import.md](beta-feedback-import.md)。
+
 人负责批准Issue范围/高风险设计、审查代码/视觉、实机与音效验收、合并PR和授权发布；本工具没有这些自动工具。Task15不创建每日任务、Heartbeat或cron。未来调度只能调用既有研究/已批准执行入口，保留相同状态锁、预算、幂等、权限与人工审查；需另行授权并先完成可靠性评估。

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-22T15:36:13.576Z",
+  "environment": "preview",
+  "source": {
+    "headCommit": "aef20e61a0b312d11cd55cfd5b151ed703968f51",
+    "dirty": true,
+    "changedPathCount": 311,
+    "commitProvenance": "HEAD only: local dirty source is identified by buildId and exact artifact manifest, not by commit alone"
+  },
+  "status": "passed",
+  "checks": [
+    {
+      "name": "strict",
+      "exitCode": 0,
+      "durationMs": 4659
+    },
+    {
+      "name": "unit",
+      "exitCode": 0,
+      "durationMs": 8374
+    },
+    {
+      "name": "asset-config",
+      "exitCode": 0,
+      "durationMs": 119
+    },
+    {
+      "name": "assets",
+      "exitCode": 0,
+      "durationMs": 307
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "durationMs": 6876
+    },
+    {
+      "name": "built-version-and-integrity",
+      "exitCode": 0
+    },
+    {
+      "name": "core-browser",
+      "exitCode": 0,
+      "durationMs": 73612
+    },
+    {
+      "name": "beta-adapters",
+      "exitCode": 0,
+      "durationMs": 23112
+    },
+    {
+      "name": "production-smoke",
+      "exitCode": 0,
+      "durationMs": 33824
+    }
+  ],
+  "notIncluded": [
+    "Full visual comparison (separate CI job)",
+    "50 lifecycle cycles and 10-minute wall-clock soak",
+    "Remote deployment/HTTPS",
+    "Real iOS/Android and human audio acceptance"
+  ],
+  "artifact": {
+    "release": {
+      "version": "0.14.0-beta",
+      "buildId": "0.14.0-beta-aef20e61a0b3-20261022T153631980Z",
+      "commit": "aef20e61a0b312d11cd55cfd5b151ed703968f51",
+      "buildTime": "2026-10-22T15:36:31.980Z",
+      "environment": "preview"
+    },
+    "fileCount": 32,
+    "bytes": 1980090,
+    "glbs": 15,
+    "manifestSha256": "b6ffd17150b11c4d79e0443ff8826f5f45a5cc0c464d2d71a28e1e24121d49a2"
+  },
+  "completedAt": "2026-10-22T15:38:44.470Z"
+}

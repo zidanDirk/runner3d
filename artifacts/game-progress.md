@@ -15,3 +15,22 @@
 已知限制仍在：脚滑、部分升级边际弱、满级金币用途少、Three大chunk警告、有限桌面样本不证明无限期GPU无泄漏。下一步按docs/beta-testing.md招募5～10人及实机验收，再由持有人配置托管/HTTPS/审批并授权有限发布。
 
 Task13历史在artifacts/beta/task13-progress-before.md及artifacts/ui-ux-evidence.md。不要重新启动已经完成的长跑；只有新的相关修改/失败才重复。
+
+
+## Task16 · 真实Beta发布验收（进行中）
+
+用户范围：复用现有发布流程，确认真实CI，修复最小问题，人工审核反馈导入，Go/No-Go；未授权上传、生产晋升或合并PR #2。2026-10-22。
+
+基线：master da5f99a；PR #2 draft/open/unmerged，head06a772c；本次分支codex/task16-beta-launch。master release-gate真实失败，visual cancelled；PR2 release-gate5个浏览器用例失败，visual25min超时取消，旧流程未保留截图。日志/门禁JSON在artifacts/beta-launch/。
+
+已验证：本机450ms观察延迟复现重试7.34m与期望0竞态；保留原输入/物理断言，固定tick采样短动作和重试，目标6项×3轮=18通过。CI上传失败截图/trace，视觉step38min/job45min留上传时间，未改91基线/容差。阶段提交aef20e6已推开发分支等真实Linux结果。
+
+部署只读观察：0 Environment、0 Variables；repoSecrets名称QINIU_AK/QINIU_BUCKET/QINIU_SK；未读取值。Bucket变量/HTTPS根地址及Required reviewers未配，候选上传BLOCKED。真人设备与人数已异步询问，尚无结果，不能伪造。
+
+执行说明：两项委派未能开始执行，已停止等待；本阶段工程、审计、反馈模块、文档与验证均由主Agent实际完成，不把未产出的委派算完成。
+
+remote-smoke已扩展只读证据：严格reviewedmanifest、源SHA、有限传输、MIME/缓存、HTTP精确HTTPS跳转、缺失GLB404、前后manifest一致；单元测试使用injected-test-transport，不能算真实HTTPS。
+
+注意：有一次master Job只读请求自动审批因usage limit未执行；用户要求继续后通过同一审批流程重试成功，未绕过审批。后续审批目前可用。外部部署仍需具体候选审核与明确本次上传授权。
+
+待办：核对新CI；读取实际Linux visual actual/diff再决定经人工审核的平台策略；集成反馈CLI/发布预检查；扩展生产真实输入Smoke；更新AGENTS/发布文档；全部相关测试/构建/ReleaseGate/普通visual；实机/人耳/真人无条件则Pending；最终真实报告和commit/pushmaster（PR2不合并）。

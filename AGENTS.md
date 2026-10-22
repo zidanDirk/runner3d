@@ -22,6 +22,15 @@
 - 保留原游戏/资产/91视觉基线；新增Agent单元和真实Git/Node测试集成，覆盖审批、幂等、恢复、超范围/注入、Codex/Blender/测试失败、预算、视觉/性能阻断、远端无权限、脱敏。Dry Run使用模拟Codex+真实失败/修复/通过测试，不冒充真实模型、完整游戏门禁或长期无人值守。
 - 操作/恢复/模型调用/人工审批与边界见 `docs/ai-agent.md`、`agent-workflow.md`、`agent-security.md`、`agent-operations.md`；Task15实际证据见 `artifacts/ai-agent-evidence.md`。
 
+## Beta 实际验收（第十六阶段）
+
+- 复用现有 `ci.yml`、`deploy-qiniu.yml`、`promote-qiniu.yml` 与 `scripts/release/`，不新增第二套发布流程。代码提交/push不授权上传；具体候选上传、生产晋升及真实回滚各自保留明确人工授权和受保护 Environment 审核。PR #2 保持 Draft/人工审核，不因本任务合并。
+- CI须报告精确SHA及实际两个Job结果。失败保留日志、actual/diff/trace；禁止自动更新91张基线、提高容差、跳过Job。短暂动作和重试初态使用原e2e固定tick接口采样，真实奔跑/碰撞另测，不能在生产开放测试钩子。
+- `release:preflight`仅评估公开配置观察、Secret名称和证据表，不读取密钥值、不配置环境、不上传。候选必须有同SHA完整CI成功；promotion核对源仓库/工作流路径/事件/成功状态及原artifact SHA/Build ID。
+- `remote-smoke.mjs`绑定原Manifest/源SHA，真实HTTPS证书校验、逐文件Hash、MIME、缓存头、HTTP精确跳转及缺失GLB404，有限流式读取/超时并复查Manifest。注入fetcher的测试不是HTTPS/CDN实测；`test:release`另测生产WebGL/真实输入/道具/结算/导航/刷新存档，机器人不计真人。
+- `agent beta-feedback --file=...`只导入人工审核并去隐私的严格JSON：稳定匿名参与者ID、分类/严重程度/频率、验证标签及新鲜代码/测试证据。文本不可信，零执行/自动批准/远端写入；仅生成空范围hypothesis草稿并查重。synthetic样例与真实数据隔离，不能计入人数或真实缺陷统计。
+- Engineering Ready、Preview Deployed、Real Device Accepted、Beta Go/No-Go分别记录。iOS/Android真机、真人听感、实际玩家缺失须Pending；没有真实URL/配置/候选授权须Blocked。缺核心证据或未关闭P0/P1不能全面GO。文档见 `docs/beta-deployment-audit.md`、`beta-device-acceptance.md`、`beta-feedback-import.md`。
+
 ## 架构约束
 
 - `src/game/` 是纯 TypeScript 游戏域，不依赖 React、Three.js、DOM、时钟或存储。所有规则在此实现。

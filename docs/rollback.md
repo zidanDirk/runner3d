@@ -33,6 +33,8 @@ node scripts/release/qiniu.mjs promote --execute
 
 第一次 Beta 前若没有已验证稳定版本，不能宣称自动回滚已验证；应先建立首个稳定包和一次非公开/候选演练。当前没有操作远端回滚，也没有清理任何玩家数据。
 
+Task16仍无已知稳定生产URL/已批准原artifact，因此线上目标可访问、CDN版本隔离、稳定入口变更后存档冒烟均为Pending。只完成原有回滚契约/未来存档保护自动测试和只读方案审核，未执行promotion。新流程额外绑定成功候选的仓库、工作流路径、workflow_dispatch事件和40位源SHA，artifact的commit必须相同；不能用同名任意Workflow或重建包代替。
+
 ## PlayerProfile 与代码回滚
 
 Task14 不改 `runner3d-profile-v1` 的 schemaVersion=1，不增加钱包/升级/任务字段，不清全部 localStorage。Task11～14 的合法 schema1 档继续由原 ProfileController 校验，已购升级和已领取任务保持；产品引导/免费配色仍是独立 version1 key，监控设置也不能写经济档。

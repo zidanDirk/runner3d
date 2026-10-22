@@ -1,0 +1,25 @@
+{
+  "masterCommit": "da5f99af234e60b4d54559cf93ecab03c2514443",
+  "ci": {
+    "commit": "da5f99af234e60b4d54559cf93ecab03c2514443",
+    "releaseGate": "FAIL",
+    "visualComparison": "BLOCKED"
+  },
+  "environmentNames": [],
+  "secretNames": [
+    "QINIU_AK",
+    "QINIU_BUCKET",
+    "QINIU_SK"
+  ],
+  "variables": {
+    "QINIU_BUCKET": null,
+    "RELEASE_BASE_URL": null,
+    "RELEASE_APPROVAL_CONFIGURED": null
+  },
+  "productionProtection": {
+    "requiredReviewers": 0,
+    "preventSelfReview": false,
+    "branchPolicyConfigured": false
+  },
+  "uploadAuthorizationCommit": null
+}
