@@ -14,8 +14,9 @@ export class Workspaces {
   async head(): Promise<string> { return this.git(['rev-parse', 'HEAD']); }
   async clean(): Promise<void> {
     check(!(await this.git(['status', '--porcelain=v1', '--untracked-files=no'])), 'UNCOMMITTED_CHANGES: commit or preserve user changes before starting');
-    const source = await this.git(['ls-files', '--others', '--exclude-standard', '--', 'src', 'scripts', 'tests', 'docs', '.github', '*.json', '*.ts']);
-    check(!source, 'UNTRACKED_SOURCE: user files must not be silently omitted from the task base');
+    const untracked = await this.git(['ls-files', '--others', '--exclude-standard']);
+    const source = untracked.split('\n').filter(path => path && !path.startsWith('artifacts/'));
+    check(source.length === 0, 'UNTRACKED_SOURCE: user files must not be silently omitted from the task base');
   }
   async create(task: Task, reserve?: () => Promise<void>): Promise<string> {
     check(task.approval, 'Missing approval');

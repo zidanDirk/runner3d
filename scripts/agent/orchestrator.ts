@@ -42,6 +42,7 @@ export class Orchestrator {
   async approve(id: string, confirm: string, actor: string, highRisk = false, source: 'local-human' | 'dry-run' = 'local-human'): Promise<Task> {
     return this.store.lock(async () => {
       const task = await this.store.read(id); check(confirm === task.digest && actor.trim().length > 0 && actor.length < 100, 'Exact issue digest and human reviewer are required');
+      if ((task.state === 'FAILED' || task.state === 'BLOCKED') && task.rounds === 0 && task.workspace === null) { transition(task, 'AWAITING_APPROVAL', 'human', 'No implementation attempt/workspace exists; operator rebinds unchanged scope to current base'); task.approval = null; }
       check(task.state === 'AWAITING_APPROVAL', 'Only awaiting tasks may be approved');
       check((source === 'dry-run') === (task.mode === 'dry-run'), 'Synthetic approval cannot approve a real task');
       for (const e of task.candidate.evidence) check(hash(await readFile(await contained(this.root, e.path))) === e.sha256, 'Evidence changed: rerun research and request fresh approval');

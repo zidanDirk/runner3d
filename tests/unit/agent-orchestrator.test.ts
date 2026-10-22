@@ -47,6 +47,10 @@ describe('Agent serial orchestration integration (isolated synthetic repositorie
   it('rejects new untracked user source rather than silently dropping it', async () => {
     const { root, agent, task } = await setup(); await approved(agent, task); await writeFile(resolve(root, 'src/new.mjs'), 'user file'); const done = await agent.execute(task.id, true); expect(done.lastError).toContain('UNTRACKED_SOURCE');
   });
+  it('allows untracked generated artifact JSON without treating a recursive pathspec as source', async () => {
+    const { root, agent, task } = await setup(); await mkdir(resolve(root, 'artifacts'), { recursive: true }); await writeFile(resolve(root, 'artifacts/report.json'), '{"generated":true}');
+    await approved(agent, task); const done = await agent.execute(task.id, true); expect(done.state).toBe('READY_FOR_REVIEW'); expect(await readFile(resolve(root, 'artifacts/report.json'), 'utf8')).toContain('generated');
+  });
   it('copies dependencies independently and preserves relative bin links inside the worktree', async () => {
     const { root, agent, task } = await setup(); await approved(agent, task); const approvedTask = await agent.store.read(task.id); const work = await agent.workspaces.create(approvedTask);
     await mkdir(resolve(root, 'node_modules/lib'), { recursive: true }); await mkdir(resolve(root, 'node_modules/.bin'), { recursive: true });
