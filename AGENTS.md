@@ -6,6 +6,21 @@
 - 推送前检查差异与远端状态，保留无关改动；不得提交密钥、依赖目录、构建产物、临时缓存或浏览器报告。远端有新提交时先正常整合，禁止强制推送覆盖历史。
 - 提交与推送不代表公开部署。发布仍遵循下文的人工发布流程；验证失败或推送受阻时明确报告，不宣称已同步。
 
+## 本地 AI Agent（第十五阶段）
+
+- `scripts/agent/` 是独立 Node/TypeScript 开发工具，不进入游戏包。`agent.config.json` 是严格有界配置；Research/Planning/Implementation/QA是串行逻辑角色，不新增服务、调度、框架、游戏循环或远程监控。
+- 本节专门约束工具执行的未来任务：只能在 `codex/agent/<task-id>` 的独立 Worktree 写入，不修改或推送 master/main、不合并PR、不发布。上面的人工 task 交付约定不授予这个工具受保护分支权限；Task15控制面本身由本聊天按已授权交付流程提交。
+- 默认只生成本地Issue/PR草稿。GitHub写入必须由操作者明确执行publish命令并确认task ID；全部状态Issue分页完成后按稳定marker/规范化标题去重，失败/未知结果先查远端再恢复，不无限重试或伪造URL。不创建大量标签，复用已有分类，缺少状态label时正文明确未审核。
+- 只有内容摘要、明确文件范围和base SHA绑定的人工批准才可规划/实现；GitHub批准须验证最后label事件、人类账号、写权限和未变更正文，不能仅检查标签字符串。高风险另需显式批准；设计假设/信息不足/人工真机验收不能自动当作缺陷实现。Dry Run批准不能用于真实任务。
+- Codex调用参数必须先探测本机help/features；优先兼容CLI，显式CODEX_PATH错误不得静默替换。模型采用read-only、never审批、关闭shell/执行/浏览器/apps/plugins/hooks等工具、JSON Schema结果；控制面只按批准路径和原文件hash应用完整文本，不执行模型输出命令。不传GitHub/发布/API凭据，不让Issue/反馈/日志改变权限。
+- `AGENTS.md`、隐藏配置、Agent控制面、发布脚本、依赖/构建/测试配置、视觉基线和二进制直写受保护。GLB只能由原资产工厂在明确GLB/Manifest范围内生成，记录实际版本/统计/hash，不在无关任务重生成。
+- 真实QA/Blender必须通过操作系统隔离运行；当前实现macOS Seatbelt，只写本任务Worktree/独立缓存，禁止普通用户目录/其他卷读取（只开放自己的代码、Node、仓库Git元数据、浏览器缓存），网络限loopback。隔离不可用必须停止，其他OS需独立隔离runner适配；本工具不承诺抵御宿主机同账号主动篡改或恶意系统服务。
+- `.agent-data/` 保存本地状态/审批/锁/日志/Worktree/草稿，`.agent-cache/`保存QA缓存，均不提交。状态原子写，任务锁串行；死亡锁只在核对同主机PID后显式恢复。保留部分改动与尝试计数，禁止reset --hard/clean -fd或盲删其他任务锁。
+- 最多1任务/1并发、4模型轮次/3修复、1800秒任务/180秒调用、64k输入字符/256KiB输出；token依据真实usage累计60k后停止（不是服务端单调用硬token上限或美元限额），不自动购买额度。最多100任务记录、20次Dry Run，达到保留上限由人工归档；日志脱敏，不保存环境变量或真实存档。
+- Fast为strict/unit及相关资产/平衡检查；Full必须原release:check、普通visual、production/loading，渲染任务额外performance及同条件比较。视觉差异不自动更新，性能缺少同条件样本/明显退化阻止READY；失败报告保留实际exit/log与未执行项，最多3次修复。
+- 保留原游戏/资产/91视觉基线；新增Agent单元和真实Git/Node测试集成，覆盖审批、幂等、恢复、超范围/注入、Codex/Blender/测试失败、预算、视觉/性能阻断、远端无权限、脱敏。Dry Run使用模拟Codex+真实失败/修复/通过测试，不冒充真实模型、完整游戏门禁或长期无人值守。
+- 操作/恢复/模型调用/人工审批与边界见 `docs/ai-agent.md`、`agent-workflow.md`、`agent-security.md`、`agent-operations.md`；Task15实际证据见 `artifacts/ai-agent-evidence.md`。
+
 ## 架构约束
 
 - `src/game/` 是纯 TypeScript 游戏域，不依赖 React、Three.js、DOM、时钟或存储。所有规则在此实现。

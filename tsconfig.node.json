@@ -29,6 +29,7 @@
     "tests/production",
     "src/test-hooks.d.ts",
     "scripts/balance",
+    "scripts/agent",
     "playwright.beta.config.ts",
     "tests/beta",
     "playwright.release.config.ts",

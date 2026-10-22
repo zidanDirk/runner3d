@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "maxTasks": 1,
+  "maxConcurrency": 1,
+  "maxRounds": 4,
+  "maxFixes": 3,
+  "maxTaskSeconds": 1800,
+  "maxCallSeconds": 180,
+  "maxOutputBytes": 262144,
+  "maxInputChars": 64000,
+  "maxTokens": 60000,
+  "retainRuns": 20,
+  "approvedLabel": "同意实现"
+}

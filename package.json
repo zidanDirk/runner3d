@@ -37,7 +37,16 @@
     "release:package": "node scripts/release/package.mjs",
     "test:release": "playwright test --config playwright.release.config.ts",
     "test:beta": "playwright test --config playwright.beta.config.ts tests/beta/beta.spec.ts",
-    "test:beta:stability": "playwright test --config playwright.beta.config.ts tests/beta/stability.spec.ts"
+    "test:beta:stability": "playwright test --config playwright.beta.config.ts tests/beta/stability.spec.ts",
+    "agent:doctor": "node scripts/agent/run.mjs doctor",
+    "agent:research": "node scripts/agent/run.mjs research",
+    "agent:plan": "node scripts/agent/run.mjs plan",
+    "agent:execute": "node scripts/agent/run.mjs execute",
+    "agent:verify": "node scripts/agent/run.mjs verify",
+    "agent:report": "node scripts/agent/run.mjs report",
+    "agent:status": "node scripts/agent/run.mjs status",
+    "agent:dry-run": "node scripts/agent/run.mjs dry-run",
+    "agent": "node scripts/agent/run.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.0",

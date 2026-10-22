@@ -173,3 +173,17 @@ npm run test:beta:stability             # 50次实际结算/导航 + 600秒真�
 ```
 
 [发布](docs/release.md)、[监控](docs/observability.md)、[行为指标](docs/analytics.md)、[真实试玩与设备模板](docs/beta-testing.md)、[回滚](docs/rollback.md)。沿用七牛/GitHub方向，候选上传和生产切换均须明确人工操作；配置已编写不代表远端CI、HTTPS、公开部署或真机已通过。
+
+## 本地 AI 开发流程（Task 15）
+
+```sh
+npm run agent:doctor
+npm run agent:research
+npm run agent:dry-run
+npm run agent:status
+npm run agent -- help
+```
+
+研究默认只生成有证据的本地Issue草稿。人工批准具体内容/文件范围/base后，才通过兼容Codex在隔离分支生成修改，运行Fast/Full验收并准备PR草稿；不自动改master、合并或发布。真实QA使用本机操作系统隔离，失败不会回退无限制执行。
+
+[架构](docs/ai-agent.md)、[审批与工作流](docs/agent-workflow.md)、[安全](docs/agent-security.md)、[操作与恢复](docs/agent-operations.md)。本工具不进入生产游戏页面，不新增调度或远程监控。
