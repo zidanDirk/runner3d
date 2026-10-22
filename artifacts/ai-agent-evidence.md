@@ -146,4 +146,8 @@ npm run agent:report -- --task=<id>
 
 文件清单见 [files.json](ai-agent/review/files.json)：32 个控制面/配置/文档/测试文件，另附本报告与精选 JSON/Markdown 证据；原始日志、视频、浏览器报告、依赖和工作区均不提交。
 
-下一步按本聊天既有授权提交并推送 Task15 控制面到 master，再显式发布 C 的 Draft PR；尚未合并 C 或部署。远端写入完成后补充真实提交与 PR URL。
+Task15 控制面已正常快进并推送到远端 master，代码提交 `e3a3d0d2dce061a31f9e95c301918ab5921b347d`，推送后本地与 origin/master 一致。没有强制推送。
+
+Scenario C 已由实际发布入口创建 [Draft PR #2](https://github.com/zidanDirk/runner3d/pull/2)，并附到当前聊天；GitHub API 实查 draft=true、open、merged=false，base=master，head=codex/agent/asset-summary-drift，恰好两文件：docs/asset-pipeline.md、tests/unit/asset-docs.test.ts。保持待人工审核，未合并、未部署。
+
+实际交付核对见 [delivery.json](ai-agent/review/delivery.json)。本报告和 PR 链接补记作为随后单独文档提交推送；没有修改已验证源码。新远端 CI 为异步执行，不能把本地门禁通过描述为远端通过。

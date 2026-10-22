@@ -43,3 +43,9 @@ https://github.com/zidanDirk/runner3d/issues/1
 人工重验=3；曾因模型token预算停止并拒绝响应；后续重验不再调用模型，不应称为无人干预成功。
 分支=codex/agent/asset-summary-drift；提交=06a772c42cb37105a60d0ab46be48498b36095ab。
 只有批准范围可写；不修改master/main、不自动合并、发布或改远程监控。人工仍需审查代码、视觉差异、设备/音效与设计判断。
+
+## Evidence for this execution
+
+[Task15 actual execution and limits](https://github.com/zidanDirk/runner3d/blob/master/artifacts/ai-agent-evidence.md) · [Structured Scenario C audit](https://github.com/zidanDirk/runner3d/blob/master/artifacts/ai-agent/review/scenario-c.json).
+
+实际 CLI 报告用量为 62,416 tokens（两轮，第二轮响应未应用）；独立只读探针为 16,543 tokens。此任务经宿主验证适配修复与三次人工重验后通过，不能称为无人干预自动成功。PR仅含已批准的两个文件，等待人工代码审查，不自动合并或部署。

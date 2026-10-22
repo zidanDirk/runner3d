@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T09:50:04.439Z",
+  "controlPlane": {
+    "branch": "master",
+    "codeCommit": "e3a3d0d2dce061a31f9e95c301918ab5921b347d",
+    "remoteCommit": "e3a3d0d2dce061a31f9e95c301918ab5921b347d",
+    "pushSucceeded": true,
+    "forcePush": false
+  },
+  "scenarioC": {
+    "url": "https://github.com/zidanDirk/runner3d/pull/2",
+    "draft": true,
+    "state": "open",
+    "merged": false,
+    "base": "master",
+    "head": "codex/agent/asset-summary-drift",
+    "commit": "06a772c42cb37105a60d0ab46be48498b36095ab",
+    "files": [
+      "docs/asset-pipeline.md",
+      "tests/unit/asset-docs.test.ts"
+    ],
+    "attachedToChat": true,
+    "mergeAuthorized": false
+  },
+  "productionDeployment": false,
+  "remoteCI": "New runs are asynchronous; this delivery does not claim remote CI passed."
+}

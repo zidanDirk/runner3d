@@ -19,7 +19,7 @@
   "workspace": "/Users/zidanzhang/work/hy/runner3d/.agent-data/worktrees/asset-summary-drift",
   "baseCommit": "65ebca35a31e5b63ae6d384e48a95d75aa27e65f",
   "commit": "06a772c42cb37105a60d0ab46be48498b36095ab",
-  "prUrl": null,
+  "prUrl": "https://github.com/zidanDirk/runner3d/pull/2",
   "scope": [
     "docs/asset-pipeline.md",
     "tests/unit/asset-docs.test.ts"
@@ -280,5 +280,11 @@
   "realTaskSampleCount": 1,
   "readyAfterOperatorInfrastructureRepair": true,
   "mergeAuthorized": false,
-  "productionAuthorized": false
+  "productionAuthorized": false,
+  "remoteDraftVerified": true,
+  "remoteMerged": false,
+  "remoteFiles": [
+    "docs/asset-pipeline.md",
+    "tests/unit/asset-docs.test.ts"
+  ]
 }
