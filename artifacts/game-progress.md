@@ -1,19 +1,17 @@
-# Runner3D Task13 in progress
+# Runner3D Task14 已完成（本地工程）
 
-Original Task13 spec: attachment 2f066d2e-2f1f-435b-b9e1-63e1d9bcd6bb/Pasted text.txt. Product UI implementation is complete; final browser/visual/performance acceptance is NOT yet complete. No physics/economic/model changes.
+状态：Engineering Ready / Real Device Acceptance Pending。App0.14.0-beta。最终生产Build ID：0.14.0-beta-aa4a77ac729f-20261022T032822911Z。
 
-Implemented: App home/playing/paused/results and one mutually exclusive native dialog panel via pure navigation reducer; lightweight true Idle character preview vs game Canvas; first-visit nonblocking three-step guidance done/skipped persistence; three free clothing skins with isolated materials and same GLB; central shop/missions/settings; results derived from before-profile+real lastSettlement; confirmed abandonment retires without wallet payment; actual menu input lock separate from graphics/audio lock. GameSession owns game RAF/city/inputs only while game visible. Loading during blur/hidden cancels automatic start. Keyboard dialog protection and node test guard.
+完整A～I报告：artifacts/beta-evidence.md。机器结果/日志哈希：artifacts/beta/final-checks.json。涉及文件：artifacts/beta/files.md。发布包：artifacts/beta-release/packages/<上述Build ID>/site/（忽略的本地归档，不是部署）。
 
-Workers: product_state owns new product-helpers/spec/visual/video and production product tests, currently fixing worker-level video option split then9business/3visual; only this worker may run GPU. product_character owns performance spec/summarizer, waiting for GPU handoff. product_review finished read-only review and static old-test adaptation:22 old files+session-helpers, strict pass; no GPU.
+已完成：审计原master push直覆盖风险并移除自动公开发布；三环境/版本/全文件SHA256；两次手工候选与production流程/回滚；本地有限监控/性能/匿名流程及关闭控制；可见诊断与手动反馈；文档与设备计划。
 
-Actual checks:451unit/40files passed (unit-phase3.log), strict passed; build-phase3.log pass (before latest input-lock tweak, finalbuild required later);15assets validate passed. Original before-source/before71PNG/hash and fivebefore-ui images preserved.
+最终实测：505unit/45文件，15资产静态+结构+真实Three验证；ReleaseGate strict/build/完整性/core22/Beta9/嵌套静态Smoke4全通过。原生产8、加载2通过。旧完整185为183通过、2处有意UI视觉差异；6图审查后显式更新，普通76视觉用例/91图全部通过，另外85图哈希不变。没有声称单次185/185全绿。
 
-Actual first Desktop journey10checkpoints succeeded:177 legitimate earned+settled coins, magnet purchase100→77, distance mission40→117, second actual magnet9.9667s withLv1 config10s vsbase8, actual rendered cyan #32c5cf, refreshwallet117+skin/tutorial restored. However that Playwright attempt ultimately FAILED during video/trace teardown while another chat was simultaneously running fullsuite. Do not count it as passed. Failure/control-overlap images retained; trace large moved/tmp by worker. Final formal video stillpending.
+最终50次真实结算/商店/首页循环及600.092s真实RAF通过，36011个实际RAF间隔；单页APP_OPENED/GAME_READY均1、无意外页面错误、活跃Canvas/Mixer/Audio/renderer资源owner各1。GPU字节N/A。首轮600s发现GAME_READY去重键被128滚动表淘汰，已增加4固定标记并实测复验；历史和旧版证据在beta/before-page-dedupe/。
 
-User explicitly said another chat's full test suite should continue; did NOT stop it. It later exited itself (PID39728/port5174 freed). From now own Playwright output MUST isolate: PLAYWRIGHT_HTML_OUTPUT_DIR=test-results/task13/report and --output=test-results/task13/e2e. Do not clear/overwrite other chat defaulttest-results/e2e/playwright-report. Do not run concurrent GPU suites or --list.
+未执行：远端CI/Preview或Production部署/HTTPS/远程监控/真实玩家收集。未连接iOS/Android真机、未做真人音效与平衡验收。远端Ubuntu视觉平台一致性需首次审核；本地包含Task13历史未提交改动，发布前必须审查提交完整依赖，不可只提交本轮清单。
 
-Fixed from actual/review: nonrunning screen controls intercepted result homeclick→hidecontrols; desktop menu top+height could clip→centerwithinworld; delayed loading couldautostartbehindpage→cancelpending; mobilebuttons tutorial accidentallykeyboard→buttoncopy; submenu gameplaylock broke purchaseaudio→separatemenu/hardwarelocks+2units. Independent review no other confirmed settlement/appearance pollution defects.
+已知限制仍在：脚滑、部分升级边际弱、满级金币用途少、Three大chunk警告、有限桌面样本不证明无限期GPU无泄漏。下一步按docs/beta-testing.md招募5～10人及实机验收，再由持有人配置托管/HTTPS/审批并授权有限发布。
 
-Docs already added:docs/ui-ux-audit.md/ui-ux.md/navigation.md/onboarding.md, AGENTS Task13 section. Finalreport artifacts/ui-ux-evidence.md and files/finalchecks stillpending. expected-captures.json has20required states.
-
-Next: finish9business+20realcaptures, rootdirectvisualreview, fixture960x666 actual fulljourneyvideo withfixedstepaccelerationsdisclosed, characterperformance6actualcycles; fullold+newE2E,71oldvisualcompare preserving actual/diff and onlyapproveintentionalupdates; finalbuild/production/loading, filesizeperformance/data/docs. Never delete tests, relax thresholds, fake wallet/over, or call mobile emulation realphones.
+Task13历史在artifacts/beta/task13-progress-before.md及artifacts/ui-ux-evidence.md。不要重新启动已经完成的长跑；只有新的相关修改/失败才重复。

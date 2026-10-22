@@ -34,8 +34,8 @@ for (const name of cases) test(`progression visual ${name}`, async ({ page }) =>
       const box = await button.boundingBox(); if (box) expect(box.height).toBeGreaterThanOrEqual(44);
     }
   }
-  mkdirSync('artifacts/progression/visual-actual', { recursive: true });
+  mkdirSync('artifacts/ui-ux/regression/progression/visual-actual', { recursive: true });
   // Native dialogs live in the browser top layer, so capture viewport including the real 3D background.
-  await page.screenshot({ path: `artifacts/progression/visual-actual/${name}.png`, animations: 'disabled' });
+  await page.screenshot({ path: `artifacts/ui-ux/regression/progression/visual-actual/${name}.png`, animations: 'disabled' });
   await expect(page).toHaveScreenshot(`progression-${name}.png`, { animations: 'disabled', maxDiffPixelRatio: .003 });
 });

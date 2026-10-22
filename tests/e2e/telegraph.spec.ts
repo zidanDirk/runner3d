@@ -50,8 +50,8 @@ for (const viewport of [{ name: 'portrait', width: 390, height: 844 }, { name: '
   points.push({ x: canvas.x + (forward[0] + 1) * canvas.width / 2, y: canvas.y + (1 - forward[1]) * canvas.height / 2 });
   for (const point of points) expect(point.x < bounds.x - 8 || point.x > bounds.x + bounds.width + 8 || point.y < bounds.y - 8 || point.y > bounds.y + bounds.height + 8).toBe(true);
   expect(bounds.x).toBeGreaterThanOrEqual(0); expect(bounds.x + bounds.width).toBeLessThanOrEqual(viewport.width);
-  mkdirSync('artifacts/balance/screenshots', { recursive: true });
-  await page.screenshot({ path: `artifacts/balance/screenshots/mobile-high-warning${viewport.name === 'landscape' ? '-landscape' : ''}.png` });
+  mkdirSync('artifacts/ui-ux/regression/balance/screenshots', { recursive: true });
+  await page.screenshot({ path: `artifacts/ui-ux/regression/balance/screenshots/mobile-high-warning${viewport.name === 'landscape' ? '-landscape' : ''}.png` });
   const config = DIFFICULTY_CONFIG.telegraph;
   const windows = Object.fromEntries((['slow', 'ordinary', 'fast'] as const).map(profile => [profile, analyzeReactionWindow({ visibleDistance: config.lookAhead, speed: 24, kind: 'hurdle', action: 'jump', assumptions: REACTION_ASSUMPTIONS[profile] })]));
   const observedWindows = Object.fromEntries((['slow', 'ordinary', 'fast'] as const).map(profile => [profile, analyzeReactionWindow({ visibleDistance: target - state.distance, speed: 24, kind: 'hurdle', action: 'jump', assumptions: REACTION_ASSUMPTIONS[profile] })]));
@@ -88,11 +88,11 @@ for (const viewport of [{ name: 'portrait', width: 390, height: 844 }, { name: '
     const box = await timer.boundingBox(); if (box) expect(box.x + box.width <= warningBox.x || warningBox.x + warningBox.width <= box.x || box.y + box.height <= warningBox.y || warningBox.y + warningBox.height <= box.y).toBe(true);
     timerBoxes.push({ label: await timer.innerText(), bounds: box });
   }
-  await page.screenshot({ path: `artifacts/balance/screenshots/mobile-high-warning-career-${viewport.name}.png` });
+  await page.screenshot({ path: `artifacts/ui-ux/regression/balance/screenshots/mobile-high-warning-career-${viewport.name}.png` });
   let prior: unknown[] = [];
-  try { const data: unknown = JSON.parse(readFileSync('artifacts/balance/telegraph-analysis.json', 'utf8')); if (Array.isArray(data)) prior = data.filter(item => !(item && typeof item === 'object' && 'viewport' in item && item.viewport && typeof item.viewport === 'object' && 'name' in item.viewport && item.viewport.name === viewport.name)); } catch { /* First viewport starts this evidence artifact. */ }
+  try { const data: unknown = JSON.parse(readFileSync('artifacts/ui-ux/regression/balance/telegraph-analysis.json', 'utf8')); if (Array.isArray(data)) prior = data.filter(item => !(item && typeof item === 'object' && 'viewport' in item && item.viewport && typeof item.viewport === 'object' && 'name' in item.viewport && item.viewport.name === viewport.name)); } catch { /* First viewport starts this evidence artifact. */ }
   const models = await page.evaluate(() => ({ city: window.__CITY_RENDER__, character: window.__RUNNER_RENDER__?.character }));
-  writeFileSync('artifacts/balance/telegraph-analysis.json', JSON.stringify([...prior, { ...record, actualCareerLayout: { careerState, bannerBox, warningBox, timerBoxes, models } }], null, 2));
+  writeFileSync('artifacts/ui-ux/regression/balance/telegraph-analysis.json', JSON.stringify([...prior, { ...record, actualCareerLayout: { careerState, bannerBox, warningBox, timerBoxes, models } }], null, 2));
   await page.setViewportSize({ width: 1440, height: 1000 }); await expect(preview).toBeHidden();
   await page.goto('/'); await waitForThemeAssets(page); await expect(preview).toHaveCount(0);
   expect(errors).toEqual([]);

@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import type { BrowserContext, CDPSession, Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { cpus, platform, release } from 'node:os';
+import { playTo } from './progression-helpers';
 
 const OUTPUT = 'artifacts/ui-ux';
 interface BrowserProbe {
@@ -113,12 +114,18 @@ async function listeners(cdp: CDPSession) {
       const byType: Record<string, number> = {};
       for (const listener of inventory.listeners) byType[listener.type] = (byType[listener.type] ?? 0) + 1;
       result[label] = { total: inventory.listeners.length, byType };
+      // CDP allocates remote handles for returned listener functions separately
+      // from our evaluated target group. Retaining those handles can retain a
+      // detached Canvas and its renderer through the listener's closure.
+      const handlers = new Set(inventory.listeners.flatMap(listener => [listener.handler?.objectId, listener.originalHandler?.objectId]).filter((handle): handle is string => !!handle));
+      for (const objectId of handlers) await cdp.send('Runtime.releaseObject', { objectId });
     }
   } finally { await cdp.send('Runtime.releaseObjectGroup', { objectGroup: 'product-performance-listeners' }).catch(() => {}); }
   return result;
 }
 async function snapshot(page: Page, cdp: CDPSession) {
   const sample = await page.evaluate(() => ({ probe: window.__PRODUCT_PERFORMANCE__?.(), lifecycle: window.__PRODUCT_LIFECYCLE__?.(),
+    resourceOwnership: window.__PRODUCT_RESOURCES__?.(),
     screen: document.querySelector('[data-screen]')?.getAttribute('data-screen') ?? null,
     state: window.__RUNNER_TEST__ ? { status: window.__RUNNER_TEST__.read().status, tick: window.__RUNNER_TEST__.read().tick, distance: window.__RUNNER_TEST__.read().distance } : null,
     render: window.__RUNNER_RENDER__ ?? null, mobile: window.__MOBILE_RENDER__ ?? null,
@@ -191,12 +198,21 @@ async function sampleLiveFrames(page: Page) {
 
 // This test deliberately uses ordinary profile logic and genuine collision death.
 // It sets optional tutorial/quality preferences, never profile, wallet or game state.
-test('product homepage costs and six real settlement/navigation cycles retain one Canvas and bounded native resources', async ({ browser }) => {
+test('product homepage costs and six real settlement/navigation cycles retain one Canvas and bounded native resources', async ({ browser, baseURL }) => {
   test.setTimeout(240000);
-  const context = await browser.newContext({ baseURL: 'http://127.0.0.1:5174', viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+  const context = await browser.newContext({ baseURL, viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
   await instrument(context);
   const page = await context.newPage(); const cdp = await context.newCDPSession(page);
   const errors: string[] = [], models: string[] = [];
+  mkdirSync(OUTPUT, { recursive: true });
+  const cycleEvidence: unknown[] = [];
+  const checkpoint = (stage: string, details: unknown): void => {
+    writeFileSync(`${OUTPUT}/product-performance-progress.json`, JSON.stringify({
+      observedAt: new Date().toISOString(), complete: false, stage, details,
+      completedCycles: cycleEvidence, requests: models, errors,
+      note: 'Incremental observations only. This file is not a passing test result; use the formal product-performance.json and Playwright outcome.',
+    }, null, 2));
+  };
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('request', request => { if (new URL(request.url()).pathname.endsWith('.glb')) models.push(request.url()); });
@@ -207,6 +223,7 @@ test('product homepage costs and six real settlement/navigation cycles retain on
     const observedInteractiveMs = await page.evaluate(() => performance.now());
     await settleHome(page);
     const homeResources = await observeResources(page), homeRequests = [...models], initial = await snapshot(page, cdp);
+    checkpoint('initial-home', { observedInteractiveMs, homeResources, homeRequests, initial });
     expect(homeRequests).toHaveLength(1); expect(new URL(homeRequests[0] ?? '').pathname.endsWith('/city-runner.glb')).toBe(true);
     expect(initial.probe?.contexts.connected).toBe(1); expect(initial.probe?.audio.created).toBe(0);
     const cycles = [];
@@ -230,7 +247,11 @@ test('product homepage costs and six real settlement/navigation cycles retain on
       expect(playing.probe?.audio.created).toBe(1); expect(playing.probe?.audio.live).toBe(1);
       expect(playing.probe?.contexts.connected).toBe(1);
       if (playing.lifecycle) expect(playing.lifecycle.mixers.active).toBe(1);
-      const death = await actualCollision(page); expect(death.status).toBe('over'); expect(death.distance).toBeGreaterThan(0); expect(death.coins).toBeGreaterThan(0);
+      // Earn through the original safe-lane input helper before steering into a
+      // genuine obstacle. Seeking a collision immediately can legitimately miss
+      // every coin; it is not evidence of a failed settlement or page lifecycle.
+      await playTo(page, 95);
+      const death = await actualCollision(page); expect(death.status).toBe('over'); expect(death.distance).toBeGreaterThan(95); expect(death.coins).toBeGreaterThan(0);
       await expect(page.locator('[data-screen="results"]')).toBeVisible();
       const walletAfterDeath = await page.getByTestId('wallet').innerText();
       const shopOpenedAt = await page.evaluate(() => performance.now());
@@ -242,6 +263,7 @@ test('product homepage costs and six real settlement/navigation cycles retain on
       await page.getByRole('button', { name: '返回首页', exact: true }).click();
       await settleHome(page);
       const home = await snapshot(page, cdp);
+      checkpoint(`cycle-${cycle + 1}-home-before-assertions`, { playing, liveFrames, death, walletAfterDeath, shop, home });
       const walletAtHome = await page.getByTestId('wallet').innerText(); expect(walletAtHome).toBe(walletAfterDeath);
       expect(home.probe?.contexts.connected).toBe(1); expect(home.probe?.contexts.retiredUnlost).toBe(0);
       expect(home.probe?.audio.created).toBe(1); expect(home.probe?.audio.live).toBe(1); expect(home.probe?.audio.running).toBe(0);
@@ -252,9 +274,11 @@ test('product homepage costs and six real settlement/navigation cycles retain on
       await page.waitForTimeout(200);
       const stateAfterWait = await page.evaluate(() => { const state = window.__RUNNER_TEST__?.read(); return state ? { status: state.status, tick: state.tick, distance: state.distance } : null; });
       expect(stateAfterWait).toEqual(stateBeforeWait);
-      cycles.push({ cycle: cycle + 1, startClickToRunningObservedMs: runningObservedMs - clickStartMs,
+      const completedCycle = { cycle: cycle + 1, startClickToRunningObservedMs: runningObservedMs - clickStartMs,
         startClickToRealModelsReadyObservedMs: actualModelReadyMs - clickStartMs, shopOpenToVisibleObservedMs: shopVisibleMs - shopOpenedAt,
-        playing, liveFrames, death, walletAfterDeath, shop, home, homeSimulationStopped: true });
+        playing, liveFrames, death, walletAfterDeath, shop, home, homeSimulationStopped: true };
+      cycles.push(completedCycle); cycleEvidence.push(completedCycle);
+      checkpoint(`cycle-${cycle + 1}-completed`, { completedCycles: cycles.length });
     }
     const afterWarmup = cycles[0]?.home, final = cycles.at(-1)?.home;
     if (!afterWarmup || !final) throw new Error('Missing completed lifecycle samples');
@@ -268,11 +292,29 @@ test('product homepage costs and six real settlement/navigation cycles retain on
     expect(final.probe?.timers.timeouts).toBeLessThanOrEqual((afterWarmup.probe?.timers.timeouts ?? 0) + 1);
     expect(final.probe?.timers.animationFrames).toBeLessThanOrEqual((afterWarmup.probe?.timers.animationFrames ?? 0) + 1);
     expect(final.heap.usedBytes).toBeLessThan(afterWarmup.heap.usedBytes + 8 * 1024 * 1024);
+    if (process.env.PRODUCT_OPTIMIZED === '1') {
+      expect(final.heap.dom.nodes).toBeLessThanOrEqual(afterWarmup.heap.dom.nodes + 5);
+      expect(final.heap.dom.eventListeners).toBeLessThanOrEqual(afterWarmup.heap.dom.eventListeners);
+      expect(final.resourceOwnership).toEqual(afterWarmup.resourceOwnership);
+      expect(final.resourceOwnership?.owners).toBe(1);
+      const native = final.probe?.contexts;
+      if (!native) throw new Error('Native WebGL ownership probe unavailable');
+      expect(native.collected).toBeGreaterThanOrEqual(native.created - 2);
+    }
     expect(models.filter(url => new URL(url).pathname.endsWith('/city-runner.glb'))).toHaveLength(1);
     expect(errors).toEqual([]);
-    mkdirSync(OUTPUT, { recursive: true });
-    writeFileSync(`${OUTPUT}/product-performance.json`, JSON.stringify({ finished: new Date().toISOString(),
-      scope: 'Desktop Chromium / Vite e2e development server, 1440×900, device DPR1, explicit High quality. Browser performance timings are local-machine observed upper bounds including driver scheduling, not standardized TTI or production CDN timings. First navigation is cold for this isolated context; later GLTF/parsed/model caches intentionally persist.',
+    if (process.env.PRODUCT_HEAP_SNAPSHOT === '1') {
+      const chunks: string[] = [];
+      const captureChunk = ({ chunk }: { chunk: string }) => chunks.push(chunk);
+      cdp.on('HeapProfiler.addHeapSnapshotChunk', captureChunk);
+      try {
+        await cdp.send('HeapProfiler.takeHeapSnapshot', { reportProgress: false });
+        writeFileSync(`${OUTPUT}/product-memory.heapsnapshot`, chunks.join(''));
+      } finally { cdp.off('HeapProfiler.addHeapSnapshotChunk', captureChunk); }
+    }
+    writeFileSync(`${OUTPUT}/${process.env.PRODUCT_OPTIMIZED === '1' ? 'product-performance-optimized.json' : 'product-performance.json'}`, JSON.stringify({ finished: new Date().toISOString(),
+      scope: `Desktop Chromium / ${process.env.PRODUCT_OPTIMIZED === '1' ? 'optimized E2E build without React Refresh; explicit test hooks retained, distinct from the separately verified production build' : 'Vite e2e development server with React Refresh, which retains unmounted roots'};1440×900, device DPR1, explicit High quality. Timings include driver scheduling, not standardized TTI or CDN timings. First navigation is cold in this context; later parsed GLTF caches persist.`,
+      optimized: process.env.PRODUCT_OPTIMIZED === '1',
       host: { os: platform(), release: release(), cpu: cpus()[0]?.model ?? null, browser: browser.version() },
       initialPageInteractiveObservedMs: observedInteractiveMs, homeResources, homeRequests, initial, cycles,
       requests: models, errors,

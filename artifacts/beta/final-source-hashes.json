@@ -1,0 +1,41 @@
+{
+  "release": {
+    "version": "0.14.0-beta",
+    "buildId": "0.14.0-beta-aa4a77ac729f-20261022T032822911Z",
+    "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+    "buildTime": "2026-10-22T03:28:22.911Z",
+    "environment": "production"
+  },
+  "manifestSha256": "51d72e33a30b4c7b3ba810bbe608f18c979955c55d4d778bcb2112908c6dfab4",
+  "files": {
+    "package.json": "5bf9a742ef7e448e9ba13a731e7cda9da5821e25cbf0c10d4f894e1f9c42ffb2",
+    "src/App.tsx": "76072c1fdc56b41ce2eeb4be8945af75c1a0f8fcf5635c25e1d2f0d7bc51fdf5",
+    "src/assets/loading.ts": "c42bff37b899435fd11553641e8ad456e3a65c86d81e5b5b1a113b0427b85ee2",
+    "src/beta-feedback/adapter.ts": "550233573ae4453fa8323f284f41508a180279938a2e1ad2e1c6b6d99a94a775",
+    "src/beta-feedback/schema.ts": "c448340f2dd9acd4644385dbb4922f641603f0d93a7cbd727ebf06bafb89dad7",
+    "src/main.tsx": "bce5ab003e8627a1be59f1e95d7083d51b6f1d757c6848aa20bf70ddeebe4ebd",
+    "src/observability/Monitor.ts": "94ae0f6c89b17e9f00a9578b82cf5f2a3fb698280497a8123bdafc879c7b62aa",
+    "src/observability/SessionAnalytics.ts": "ea6d8634b2051283d386b4e79b288f02500b8d332a034548d119b7a6264b669f",
+    "src/observability/client.ts": "c61a4bed55414470d521ed7efcafdd1670a58fa1dde37049230963df157d2f77",
+    "src/observability/schema.ts": "2f5b0e8e596a4b7af0390a802f75c3aa226627c38fb39f3caf26d6987a318688",
+    "src/product/navigation.ts": "31c61ea4b440ae4499d2780444e395179aeb42e321b5ed52e5f113dba87237a1",
+    "src/release/config.ts": "285ad8cf231dc0c4c600ac8c397ee99ded6ea1175f83ddb390af1e1c4258ac85",
+    "src/release/info.ts": "d345d9bac7db0db42d56ff596b608cea840763bbe3de0bfed0f131f36b2d7ae7",
+    "src/runtime/monitoring.ts": "7a3f94840d13eeec4e9050609142ed8b92414718b32340b99542de20e0358b7e",
+    "src/runtime/profile.ts": "0a754b6296c39668a4e4ebd449214d424b95c39fe920c927843372ba81fe2b3d",
+    "src/runtime/progression.ts": "975b140a3a91c72520eab5faf4ac7e6edbc9461d373b0e350c24c7d2cc57a626",
+    "src/scene/GameScene.tsx": "4063030d963dc94c3b236352676cc69c88c0fb4f0b1d7ab4db020474ec301063",
+    "src/scene/ReleaseTelemetry.tsx": "1efe51f64bcb242518d8f2d352f1cc844a51d8b4c77b453d4d0b4a8a80fe7455",
+    "src/test-hooks.d.ts": "fef91b49ac15b218dac017f0b10d04f6afa8ee6f577c236ecb78fefe843cf7ff",
+    "src/ui/BetaFeedback.tsx": "c59b764415b10088004b9dafbb605faf6ee9493f51170fd7c8c89053abe4a5fb",
+    "src/ui/CharacterPreview.tsx": "a48203d0d4bb4c273b133cc60eabe1e75f484fe321b7bd4e024a4fe10404ce83",
+    "src/ui/FatalBoundary.tsx": "dfaeb6febb9540ccf663130a479ca413f999dcc3e4caab772f6292039e8dba63",
+    "src/ui/FeedbackPanel.tsx": "ec1b346ad14e70ffb346f42261a935ae5e4015dd84a245cb8d66ae43c8edc049",
+    "src/ui/MobileSettings.tsx": "b6507801824d9098dcb777f5dddd56b9ba735ef0c99fb055933a7467b6b9d504",
+    "src/ui/ProductUI.tsx": "b63d2479b861fff6eae6a5c36afa4f76c675712bb230f5bb9c058bc2c35ac8f5",
+    "src/ui/ReleaseDebug.tsx": "cccc684bd1dc862312e75b70c9564fafb6b2cc869a6af70171519f8ac7b47be3",
+    "src/ui/beta-feedback.css": "6bea183891624f3070ca44ddb59a390b5db92b0c67e97ea071bc6c49a218904f",
+    "src/ui/product.css": "9372eb3cb35eb1a11a56a5156b2b5853c889d32c043acd4a1fa137a9643fd239",
+    "vite.config.ts": "b889c5611ddba4a71c3a71869e51f36cd6579aa38a09b9dcb839a3207a53ed27"
+  }
+}

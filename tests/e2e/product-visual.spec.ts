@@ -6,15 +6,16 @@ import {
   waitForProductHome, writeProductEvidence,
 } from './product-helpers';
 
-/** Evidence captures only: existing goldens are never created or overwritten here. */
+/** Twenty approved product baselines; ordinary runs never create or update them. */
 for (const viewport of PRODUCT_VIEWPORTS) test(`product UI screenshot evidence ${viewport.id}`, async ({ browser, baseURL }) => {
   test.setTimeout(100000);
   const context = await browser.newContext({ baseURL, viewport: { width: viewport.width, height: viewport.height },
-    isMobile: viewport.mobile, hasTouch: viewport.mobile, deviceScaleFactor: 1 });
+    isMobile: viewport.mobile, hasTouch: viewport.mobile, deviceScaleFactor: 1, reducedMotion: 'reduce' });
   const page = await context.newPage();
   const frames: unknown[] = [];
   const capture = async (state: string) => {
     await captureProductScreen(page, viewport.id, state);
+    await expect.soft(page).toHaveScreenshot(`product-${viewport.id}-${state}.png`, { animations: 'disabled' });
     frames.push({ state, actualFrame: await readProductFrame(page), saved: await readStoredProduct(page) });
   };
   try {
@@ -22,7 +23,7 @@ for (const viewport of PRODUCT_VIEWPORTS) test(`product UI screenshot evidence $
     await capture('home');
     if (viewport.id === 'desktop') {
       await openTutorial(page); await capture('tutorial');
-      await page.getByRole('button', { name: '跳过引导', exact: true }).click();
+      await page.getByRole('dialog', { name: '新手引导' }).getByRole('button', { name: '跳过引导', exact: true }).click();
     }
     if (viewport.id !== 'landscape') {
       await page.getByRole('button', { name: '角色外观', exact: true }).click();
@@ -56,6 +57,6 @@ for (const viewport of PRODUCT_VIEWPORTS) test(`product UI screenshot evidence $
       await expect(page.getByTestId('record-badge')).toHaveCount(0);
       await capture('results');
     }
-    writeProductEvidence(`visual-${viewport.id}`, { viewport, scope: 'Actual Chromium screenshots; new captures pending explicit human/lead review; no golden updates', frames });
+    writeProductEvidence(`visual-${viewport.id}`, { viewport, scope: 'Actual Chromium screenshots with OS Reduced Motion for a stationary Idle preview; twenty product baselines approved after individual root view_image review; normal runs do not update snapshots', frames });
   } finally { await context.close(); }
 });

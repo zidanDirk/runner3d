@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { monitor } from '../observability/client';
 import { assetIds } from './catalog';
 import type { AssetId } from './catalog';
 import { cityPreloadPlan, CORE_ASSET_IDS, NEXT_THEME_PRELOAD_DISTANCE } from './city-loading';
@@ -113,7 +114,7 @@ export class AssetLoadingStore {
       // A timed-out request is still in useLoader's pending cache. Reuse it; never
       // start a second request/parse while the browser's original request is alive.
       const clearCache = entry.error?.kind === 'load' && !entry.parsed;
-      this.retryAsset(id, clearCache);
+      try { this.retryAsset(id, clearCache); } catch { monitor.error('CACHE_FAILURE', { assetId: id }); continue; }
       entry.revision++; entry.status = 'loading'; delete entry.error; this.startTimer(id, entry); changed = true;
     }
     if (changed) { this.revision++; this.publish(); }

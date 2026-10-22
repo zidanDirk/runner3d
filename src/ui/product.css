@@ -78,7 +78,7 @@
 .product-dialog .panel-hint, .product-dialog > small, .product-dialog .panel-wallet > span { color: var(--ui-muted); }
 .product-dialog .panel-wallet { border-bottom: 1px solid var(--ui-line); padding-bottom: 14px; }
 .product-dialog .panel-wallet strong { color: var(--ui-orange); }
-.product-dialog .upgrade-row, .product-dialog .mission-row { background: #1a3041; border: 1px solid var(--ui-line); color: var(--ui-paper); border-radius: 10px; }
+.product-dialog .upgrade-row, .product-dialog .mission-row { background: #1a3041; border: 1px solid var(--ui-line); color: var(--ui-paper); border-radius: 10px; padding: 16px; margin: 10px 0; }
 .product-dialog .upgrade-row p, .product-dialog .upgrade-row h3 small, .product-dialog .mission-row small { color: var(--ui-muted); }
 .product-dialog .upgrade-row button, .product-dialog .mission-row button { min-height: 44px; color: #172d3d; background: var(--ui-orange); border: 0; border-radius: 6px; }
 .product-dialog .upgrade-row button:disabled, .product-dialog .mission-row button:disabled { color: #c1ced5; background: #324b5e; opacity: 1; }
@@ -101,6 +101,8 @@
 .tutorial-steps li { display: flex; align-items: center; gap: 18px; min-height: 64px; border-bottom: 1px solid var(--ui-line); font-size: 14px; }
 .tutorial-steps li > span { display: grid; place-content: center; width: 40px; min-width: 40px; color: var(--ui-orange); font-size: 26px; }
 .character-dialog { width: min(850px, calc(100vw - 32px)); }
+.character-dialog > .primary-button { width: 100%; }
+.section-heading h1:focus { outline: none; } /* Screen-change announcement target; interactive controls keep focus rings. */
 .wardrobe { display: grid; grid-template-columns: 1fr 1.1fr; gap: 20px; align-items: center; margin: 14px 0 24px; }
 .skin-options { border: 0; padding: 0; min-width: 0; }
 .skin-options legend { font-size: 12px; color: var(--ui-muted); margin-bottom: 10px; }
@@ -181,8 +183,8 @@
   .preview-loading, .preview-placeholder { min-height: 230px; }
   .product-dialog { padding: 20px; max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); width: calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)); }
   .product-dialog h2 { font-size: 24px; }
-  .wardrobe { grid-template-columns: 1fr; gap: 20px; }
-  .wardrobe .character-preview__stage { height: 240px; }
+  .wardrobe { grid-template-columns: 1fr; gap: 12px; margin-bottom: 14px; }
+  .wardrobe .character-preview__stage { height: 180px; }
   .skin-options { width: 100%; }
   .skin-option { min-height: 76px; padding: 12px; }
   .dialog-actions { flex-wrap: wrap; }
@@ -191,6 +193,7 @@
   .product-shell .run-menu { max-height: calc(100% - 90px); }
 }
 @media (max-height: 520px) and (orientation: landscape) {
+  .product-shell[data-screen=home] .site-header { display: flex; height: 48px; padding: 7px 0; }
   .home-screen { display: grid; grid-template-columns: 1.1fr 1fr; padding: 0; }
   .home-copy { display: block; padding: 24px; }
   .home-copy h2 { font-size: 39px; margin: 18px 0 12px; }
@@ -204,5 +207,28 @@
   .wardrobe { grid-template-columns: 1fr 1.3fr; }
   .product-dialog { max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
   .product-shell .run-menu { max-height: calc(100% - 26px); }
-  .product-shell .over-menu { width: min(480px, calc(100% - 100px)); }
+  .product-shell .over-menu { width: min(700px, calc(100% - 60px)); padding: 12px 16px; display: grid; grid-template-columns: 1.15fr 1fr; grid-template-areas: 'eyebrow retry' 'title home' 'description links' 'summary links'; gap: 2px 28px; }
+  .product-shell .over-menu .menu-eyebrow { grid-area: eyebrow; margin: 0; align-self: center; font-size: 7px; }
+  .product-shell .over-menu h2 { grid-area: title; font-size: 22px; align-self: center; }
+  .product-shell .over-menu .menu-description { grid-area: description; font-size: 10px; line-height: 1.5; margin: 3px 0; }
+  .product-shell .over-menu .run-summary { grid-area: summary; margin: 5px 0 0; }
+  .product-shell .over-menu > .primary-button { grid-area: retry; min-height: 44px; margin: 0; }
+  .product-shell .over-menu > .text-button { grid-area: home; min-height: 44px; margin: 0; }
+  .product-shell .over-menu .progression-menu { grid-area: links; margin-top: 6px; align-self: start; }
+  .product-shell .over-menu .result-line { margin: 6px 0; }
+  .product-shell .over-menu .result-line strong { font-size: 20px; }
+  .product-shell .over-menu .result-line span { font-size: 9px; }
+  .product-shell .over-menu .record-badge { font-size: 10px; padding: 4px; }
+  .product-shell .over-menu .result-reward { font-size: 10px; padding: 7px 0; }
+  .product-shell .over-menu .summary-note { font-size: 10px; margin: 6px 0; line-height: 1.5; }
 }
+
+/* Release metadata stays outside the play field and never intercepts gestures. */
+.site-footer { flex-wrap: wrap; gap: .75rem; }
+.beta-feedback-entry { min-width: 44px; min-height: 44px; color: var(--ui-ink); background: transparent; border: 1px solid #414e63; border-radius: 8px; font-size: 12px; font-weight: 600; }
+.beta-version { color: #526676; font-size: 11px; overflow-wrap: anywhere; }
+.beta-privacy { margin: 12px 0; font-size: 12px; color: #b6c2d6; }
+.beta-privacy summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.release-debug { position: fixed; z-index: 100; top: 8px; left: 8px; max-width: min(450px, 92vw); max-height: 80vh; overflow: auto; padding: 12px; background: #101725ed; color: #dce9ff; font: 11px monospace; border: 1px solid #ff9954; }
+.beta-privacy summary::after { content: '⌄'; margin-left: auto; color: var(--ui-orange); font-size: 18px; }
+.beta-privacy[open] summary::after { content: '⌃'; }

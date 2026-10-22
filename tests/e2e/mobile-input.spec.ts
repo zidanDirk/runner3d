@@ -229,8 +229,8 @@ test('the real WEBGL_lose_context extension restores one renderer with unchanged
     const after = window.__RUNNER_TEST__?.read();
     return { supported: true as const, original, after: after && { tick: after.tick, score: after.score, seed: after.seed, distance: after.distance, status: after.status }, lost, restored, lossStatus, contextLost: gl.isContextLost() };
   });
-  mkdirSync('artifacts/mobile', { recursive: true });
-  writeFileSync('artifacts/mobile/context-recovery.json', JSON.stringify({ scope: 'real WEBGL_lose_context extension in desktop Chromium touch emulation; not hardware GPU reclamation', ...recovery }, null, 2));
+  mkdirSync('artifacts/ui-ux/regression/mobile', { recursive: true });
+  writeFileSync('artifacts/ui-ux/regression/mobile/context-recovery.json', JSON.stringify({ scope: 'real WEBGL_lose_context extension in desktop Chromium touch emulation; not hardware GPU reclamation', ...recovery }, null, 2));
   test.skip(!recovery.supported, 'This Chromium renderer does not expose WEBGL_lose_context; real context recovery remains unverified.');
   if (!recovery.supported) return;
   expect(recovery.lost).toBe(1); expect(recovery.restored).toBe(1); expect(recovery.contextLost).toBe(false); expect(recovery.lossStatus).toBe('paused');

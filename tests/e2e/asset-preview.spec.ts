@@ -22,7 +22,7 @@ test('asset preview loads every actual GLB, exposes measured stats, rotates and 
   expect(await page.evaluate(() => window.__RUNNER_TEST__)).toBeUndefined();
   expect(await page.evaluate(() => window.__CITY_RENDER__)).toBeUndefined();
   await expect(page.getByLabel('城市调试信息')).toHaveCount(0);
-  await page.screenshot({ path: 'artifacts/screenshots/asset-factory-overview.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/asset-factory-overview.png' });
   for (const id of ids) {
     const expected = generated.assets[id];
     if (!expected) throw new Error(`Missing manifest entry ${id}`);
@@ -35,7 +35,7 @@ test('asset preview loads every actual GLB, exposes measured stats, rotates and 
     expect(actual?.materials).toEqual([...expected.materials].sort());
     await expect(page.getByTestId('asset-triangles')).toHaveText(expected.triangles.toLocaleString('en-US'));
     if (id === 'street-lamp') expect(actual?.emissiveMaterials).toBeGreaterThan(0);
-    await page.locator('.asset-viewport').screenshot({ path: `artifacts/screenshots/asset-${id}.png` });
+    await page.locator('.asset-viewport').screenshot({ path: `artifacts/ui-ux/regression/screenshots/asset-${id}.png` });
   }
   const camera = await page.evaluate(() => window.__ASSET_PREVIEW__?.camera);
   const box = await page.locator('.asset-viewport canvas').boundingBox();
@@ -66,6 +66,6 @@ test('preview remains usable if one model fails and fits a narrow screen', async
   await page.getByRole('button', { name: '查看 street-lamp', exact: true }).click();
   await expect.poll(async () => page.evaluate(() => Object.keys(window.__ASSET_PREVIEW__?.models ?? {}))).toEqual(['street-lamp']);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: 'artifacts/screenshots/asset-factory-mobile.png', fullPage: true });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/asset-factory-mobile.png', fullPage: true });
   expect(errors.filter((message) => !/^Could not load \/models\/generated\/traffic-cone\.glb\?v=[a-f0-9]{64}: Failed to fetch$/.test(message))).toEqual([]);
 });

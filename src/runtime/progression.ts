@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { monitor } from '../observability/client';
 import { input } from './input';
 import { game } from './store';
 import { profile, publishProfile } from './profile';
@@ -23,6 +24,8 @@ export const useProgressNotice = () => useSyncExternalStore(subscribe, () => not
 const names = { magnet: '磁铁', shield: '护盾', 'double-score': '双倍得分' };
 function events(trustedTransaction = false): void {
   for (const event of profile.drainEvents()) {
+    if (event.type === 'UPGRADE_PURCHASED') monitor.track(event.type, `${event.upgrade}:${event.level}`, { upgrade: event.upgrade, level: event.level });
+    else monitor.track(event.type, event.missionId, { mission: event.missionId });
     const type = event.type === 'MISSION_COMPLETED' ? 'mission-completed' : event.type === 'MISSION_REWARD_CLAIMED' ? 'mission-reward-claimed' : 'upgrade-purchased';
     notice = event.type === 'UPGRADE_PURCHASED' ? `${names[event.upgrade]}升级成功 · Lv.${event.level} · 下一局生效` : event.type === 'MISSION_COMPLETED' ? '任务已完成 · 结束后领取奖励' : `已领取任务奖励 +${event.reward} 金币`;
     const view = game.view;

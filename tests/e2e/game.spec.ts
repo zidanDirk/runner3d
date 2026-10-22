@@ -23,13 +23,13 @@ test('renders a real 3D scene, advances, collects coins and pauses without drift
   await page.goto('/');
   await expect(page.getByRole('heading', { name: '三条跑道，一路向前。' })).toBeVisible();
   await expect(page.locator('.home-screen [data-model-status="loaded"]')).toBeVisible();
-  await page.screenshot({ path: 'artifacts/screenshots/desktop-ready.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/desktop-ready.png' });
   await startLiveGame(page);
   await expect.poll(async () => page.evaluate(() => window.__RUNNER_RENDER__?.triangles ?? 0)).toBeGreaterThan(100);
   await expect.poll(async () => (await read(page)).distance).toBeGreaterThan(15);
   expect((await read(page)).coins).toBeGreaterThan(0);
   expect((await read(page)).score).toBeGreaterThan(25);
-  await page.screenshot({ path: 'artifacts/screenshots/desktop-running.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/desktop-running.png' });
   await page.getByRole('button', { name: '暂停游戏' }).click();
   const paused = (await read(page)).distance;
   await page.waitForTimeout(200);
@@ -42,7 +42,7 @@ test('renders a real 3D scene, advances, collects coins and pauses without drift
     const extension = gl?.getExtension('WEBGL_debug_renderer_info');
     return { renderer: gl && extension ? String(gl.getParameter(extension.UNMASKED_RENDERER_WEBGL)) : 'unavailable', dpr: Math.min(devicePixelRatio, 1.5) };
   });
-  writeFileSync('artifacts/render-metrics.json', JSON.stringify({ viewport: { width: 1440, height: 1000 }, ...diagnostics, ...gpu }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/render-metrics.json', JSON.stringify({ viewport: { width: 1440, height: 1000 }, ...diagnostics, ...gpu }, null, 2));
   expect(diagnostics?.triangles).toBeGreaterThan(100);
   expect(diagnostics?.calls).toBeLessThan(300);
   expect(diagnostics?.geometries).toBeLessThan(300);
@@ -79,7 +79,7 @@ test('collision ends the run and retry resets the same seed and world', async ({
   const ended = await read(page);
   expect(ended.status).toBe('over');
   expect(ended.hit).toBe(first.kind);
-  await page.screenshot({ path: 'artifacts/screenshots/desktop-over.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/desktop-over.png' });
   await page.getByRole('button', { name: '再跑一次' }).click();
   const retry = await read(page);
   expect(retry.status).toBe('running');
@@ -126,7 +126,7 @@ test('narrow layout fits and screen buttons control actual simulation', async ({
   await expect.poll(async () => (await read(page)).player.lane).toBe(1);
   await page.getByRole('button', { name: '跳跃', exact: true }).click();
   await expect.poll(async () => (await read(page)).player.y, { intervals: [20] }).toBeGreaterThan(0.1);
-  await page.screenshot({ path: 'artifacts/screenshots/mobile-running.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/mobile-running.png' });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   for (const name of ['向左换道', '向右换道', '跳跃', '滑铲']) {
     const box = await page.getByRole('button', { name, exact: true }).boundingBox();

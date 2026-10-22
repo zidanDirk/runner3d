@@ -141,7 +141,7 @@ test('theme performance measures steady completed scenes and repeated rendered c
     expect((stats?.triangles ?? Infinity) - powerupTriangles).toBeLessThan(sceneTriangleBudget);
     const character = await page.evaluate(() => window.__RUNNER_RENDER__?.character);
     expect(character).toMatchObject({ models: 1, fallbacks: 0, visible: 1, triangles: characterAsset.triangles });
-    await page.locator('.game-stage').screenshot({ path: `artifacts/screenshots/theme-${label}-debug.png` });
+    await page.locator('.game-stage').screenshot({ path: `artifacts/ui-ux/regression/screenshots/theme-${label}-debug.png` });
     const start = await page.evaluate(() => {
       const hooks = window.__RUNNER_TEST__;
       if (!hooks) throw new Error('Autopilot hook missing');
@@ -176,6 +176,6 @@ test('theme performance measures steady completed scenes and repeated rendered c
   const longDistance = await captureThemeAt(page, 10000);
   const reset = await captureThemeAt(page, 95);
   expect(reset.geometries).toBeLessThan(220);
-  writeFileSync('artifacts/feel-scene-performance.json', JSON.stringify({ started, finished: new Date().toISOString(), browser: 'Playwright Chromium', viewport: { width: 1440, height: 1000 }, gpu, characterAsset, replacedBody: { meshes: 13, triangles: replacedBodyTriangles }, sceneTriangleBudget, samples, crossings, longDistance, reset, errors }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/feel-scene-performance.json', JSON.stringify({ started, finished: new Date().toISOString(), browser: 'Playwright Chromium', viewport: { width: 1440, height: 1000 }, gpu, characterAsset, replacedBody: { meshes: 13, triangles: replacedBodyTriangles }, sceneTriangleBudget, samples, crossings, longDistance, reset, errors }, null, 2));
   expect(errors).toEqual([]);
 });

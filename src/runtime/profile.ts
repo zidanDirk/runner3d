@@ -1,7 +1,8 @@
 import { useSyncExternalStore } from 'react';
+import { monitor } from '../observability/client';
 import { ProfileController } from '../progression';
 import type { PlayerProfile, ProfileStorage } from '../progression';
-function storage(): ProfileStorage { return { getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) }; }
+function storage(): ProfileStorage { return { getItem: key => { try { return localStorage.getItem(key); } catch (error) { monitor.error('PROFILE_READ'); throw error; } }, setItem: (key, value) => { try { localStorage.setItem(key, value); } catch (error) { monitor.error('PROFILE_WRITE'); throw error; } } }; }
 export const profile = new ProfileController(storage());
 const listeners = new Set<() => void>();
 let snapshot = profile.snapshot;

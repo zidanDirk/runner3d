@@ -55,9 +55,14 @@ export async function completeProductTutorial(page: Page): Promise<void> {
   throw new Error('Tutorial never reached its finite completion action');
 }
 
-export async function chooseNeonAppearance(page: Page): Promise<void> {
+export async function chooseNeonAppearance(page: Page, recording = false): Promise<void> {
   await page.getByRole('button', { name: '角色外观', exact: true }).click();
   await page.getByRole('radio', { name: /Neon Cyan/ }).check();
+  if (recording) {
+    await expect(page.locator('[data-model-status="loaded"][data-skin-id="neon-cyan"]').first()).toBeVisible();
+    await page.getByRole('button', { name: '向右旋转角色', exact: true }).click();
+    await page.waitForTimeout(900);
+  }
   await page.getByRole('button', { name: '确认外观', exact: true }).click();
   await expect(page.getByRole('button', { name: '关闭角色', exact: true })).toHaveCount(0);
   await expect(page.locator('[data-model-status="loaded"][data-skin-id="neon-cyan"]').first()).toBeVisible();
@@ -95,6 +100,13 @@ export async function readProductFrame(page: Page) {
     view: window.__RUNNER_TEST__?.read(), render: window.__RUNNER_RENDER__, city: window.__CITY_RENDER__,
     feedback: window.__FEEDBACK__, canvasCount: document.querySelectorAll('canvas').length,
     preview: document.querySelector('[data-model-status]')?.getAttribute('data-model-status') ?? null,
+    layout: {
+      scrollX, scrollY, pageHeight: document.documentElement.scrollHeight,
+      viewport: { width: innerWidth, height: innerHeight },
+      stage: document.querySelector('.game-stage')?.getBoundingClientRect().toJSON() ?? null,
+      menu: document.querySelector('.run-menu')?.getBoundingClientRect().toJSON() ?? null,
+      menuScroll: (() => { const menu = document.querySelector('.run-menu'); return menu ? { top: menu.scrollTop, height: menu.clientHeight, contentHeight: menu.scrollHeight } : null; })(),
+    },
   }));
 }
 
@@ -119,6 +131,24 @@ export async function captureProductScreen(page: Page, viewport: string, state: 
   const width = page.viewportSize()?.width;
   if (width === undefined) throw new Error('Screenshot requires a fixed actual viewport');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  if (viewport === 'landscape' && (state === 'hud' || state === 'results')) {
+    const names = state === 'hud' ? ['向左换道', '向右换道', '跳跃', '滑铲', '暂停游戏'] : ['再跑一次', '返回首页', '升级商店'];
+    for (const name of names) {
+      const button = page.getByRole('button', { name, exact: true });
+      await expect(button).toBeVisible();
+      const box = await button.boundingBox();
+      if (box === null) throw new Error(`Landscape control ${name} has no actual layout box`);
+      expect(box.x, `${name} starts inside viewport`).toBeGreaterThanOrEqual(0);
+      expect(box.y, `${name} starts inside viewport`).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width, `${name} ends inside viewport`).toBeLessThanOrEqual(width + 1);
+      expect(box.y + box.height, `${name} ends inside viewport`).toBeLessThanOrEqual((page.viewportSize()?.height ?? 0) + 1);
+      expect(box.height, `${name} touch target`).toBeGreaterThanOrEqual(44);
+    }
+    const stage = await page.locator('.game-stage').boundingBox();
+    if (stage === null) throw new Error('Landscape scene has no layout box');
+    expect(stage.y).toBeGreaterThanOrEqual(0);
+    expect(stage.y + stage.height).toBeLessThanOrEqual((page.viewportSize()?.height ?? 0) + 1);
+  }
   const dialogs = page.getByRole('dialog');
   if (await dialogs.count()) {
     const box = await dialogs.boundingBox();
@@ -145,6 +175,7 @@ export async function collectAtLeast(page: Page, coins: number, minimumDistance 
 
 type ProductViewport = typeof PRODUCT_VIEWPORTS[number];
 export async function runProductJourney(page: Page, viewport: ProductViewport, evidenceId: string = viewport.id, recording = false) {
+  const journeyStartedAt = Date.now();
   if (recording) await page.addInitScript(() => {
     window.addEventListener('DOMContentLoaded', () => {
       const label = document.createElement('div');
@@ -156,11 +187,12 @@ export async function runProductJourney(page: Page, viewport: ProductViewport, e
   const errors: string[] = [];
   const requests: string[] = [];
   const timeline: unknown[] = [];
+  const realtimeSegments: unknown[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('request', (request) => { if (new URL(request.url()).pathname.endsWith('.glb')) requests.push(request.url()); });
   const checkpoint = async (state: string) => {
-    timeline.push({ state, browserTimeMs: await page.evaluate(() => performance.now()), saved: await readStoredProduct(page), frame: await readProductFrame(page) });
+    timeline.push({ state, elapsedFromJourneyStartMs: Date.now() - journeyStartedAt, browserTimeMs: await page.evaluate(() => performance.now()), saved: await readStoredProduct(page), frame: await readProductFrame(page) });
     writeProductEvidence(`journey-progress-${evidenceId}`, { complete: false, timeline, errors });
     if (recording) await page.waitForTimeout(900);
     else if (viewport.id === 'desktop') await page.waitForTimeout(300);
@@ -171,7 +203,7 @@ export async function runProductJourney(page: Page, viewport: ProductViewport, e
     await checkpoint('new-home');
     await openTutorial(page);
     if (viewport.id === 'desktop') await completeProductTutorial(page);
-    else await page.getByRole('button', { name: '跳过引导', exact: true }).click();
+    else await page.getByRole('dialog', { name: '新手引导' }).getByRole('button', { name: '跳过引导', exact: true }).click();
     const tutorialStatus = viewport.id === 'desktop' ? 'done' : 'skipped';
     expect((await readStoredProduct(page)).preferences?.tutorial).toBe(tutorialStatus);
     await checkpoint(`tutorial-${tutorialStatus}`);
@@ -179,13 +211,19 @@ export async function runProductJourney(page: Page, viewport: ProductViewport, e
     await openTutorial(page);
     await page.getByRole('button', { name: '关闭引导', exact: true }).click();
     expect((await readStoredProduct(page)).preferences?.tutorial).toBe(tutorialStatus);
-    await chooseNeonAppearance(page);
+    await chooseNeonAppearance(page, recording);
     await checkpoint('neon-appearance-selected');
     await startProductRun(page);
     if (recording) {
+      const start = { elapsedFromJourneyStartMs: Date.now() - journeyStartedAt, frame: await readProductFrame(page) };
       await page.evaluate(() => window.__RUNNER_TEST__?.autopilot(true));
       await page.waitForTimeout(2000);
       await page.evaluate(() => window.__RUNNER_TEST__?.freeze(true));
+      await settleProductFrame(page);
+      const finish = { elapsedFromJourneyStartMs: Date.now() - journeyStartedAt, frame: await readProductFrame(page) };
+      expect(finish.frame.view?.tick).toBeGreaterThan(start.frame.view?.tick ?? 0);
+      expect(finish.frame.view?.distance).toBeGreaterThan(start.frame.view?.distance ?? 0);
+      realtimeSegments.push({ scope: 'Actual two-second browser RAF segment with e2e safe-lane bot; no fixed-step fast-forward during this segment', start, finish });
     }
     await collectAtLeast(page, 100);
     const running = await readProductFrame(page);
@@ -263,7 +301,7 @@ export async function runProductJourney(page: Page, viewport: ProductViewport, e
       walletTransactions: { firstRunCoins: coins, walletSettled: settled.profile.walletCoins, magnetPrice: 100, walletAfterPurchase: purchased.profile.walletCoins, missionReward: 40, walletAfterClaim: claimed.profile.walletCoins, walletAfterReload: restored.profile.walletCoins },
       requests, beforeReloadRequests,
       cityRunnerRequestCount: requests.filter((url) => new URL(url).pathname.endsWith('/city-runner.glb')).length,
-      errors, timeline,
+      errors, timeline, realtimeSegments,
     });
 }
 

@@ -7,6 +7,13 @@ coverage/
 *.local
 .DS_Store
 __pycache__/
+artifacts/ui-ux/performance-build/
+artifacts/ui-ux/*.heapsnapshot
 public/models/generated/.roadblock-*/
 public/models/generated/.asset-job-*/
 public/models/generated/.asset-generation.lock/
+
+# Task14 optimized browser artifacts and private test reports
+artifacts/beta/browser-build/
+artifacts/beta-release/packages/
+artifacts/beta/task13-regression-before/

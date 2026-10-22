@@ -1,7 +1,7 @@
 import type { Status } from '../game/types';
 
 export type ProductScreen = 'home' | 'playing' | 'paused' | 'results';
-export type ProductPanel = 'character' | 'shop' | 'missions' | 'settings' | 'tutorial' | 'quit-confirm';
+export type ProductPanel = 'character' | 'shop' | 'missions' | 'settings' | 'tutorial' | 'feedback' | 'quit-confirm';
 
 /** A panel belongs to one base screen; there is no navigation stack to grow or cycle. */
 export type NavigationState =

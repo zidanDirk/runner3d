@@ -16,6 +16,6 @@ test('sixty seconds of real running crosses a zone while particle, audio and ren
   expect(samples.at(-1)?.state.distance).toBeGreaterThan(600);
   await page.keyboard.press('Escape'); await settleFeedback(page);
   expect(await page.evaluate(() => window.__FEEDBACK__?.audio.activeVoices)).toBe(0);
-  writeFileSync('artifacts/feel-stability.json', JSON.stringify({ scope: '60 wall-clock seconds of real RAF running under original autopilot input hook, four forced-GC samples. Does not establish long-term GPU leak freedom.', started, finished: new Date().toISOString(), samples, errors }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/feel-stability.json', JSON.stringify({ scope: '60 wall-clock seconds of real RAF running under original autopilot input hook, four forced-GC samples. Does not establish long-term GPU leak freedom.', started, finished: new Date().toISOString(), samples, errors }, null, 2));
   expect(errors).toEqual([]);
 });

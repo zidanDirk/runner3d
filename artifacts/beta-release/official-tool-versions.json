@@ -1,0 +1,20 @@
+{
+  "verifiedDate": "2026-10-22",
+  "scope": "Official GitHub API tag references and release asset digest; no remote CI/deploy executed",
+  "actions": {
+    "actions/checkout@v7": { "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1", "source": "https://api.github.com/repos/actions/checkout/git/ref/tags/v7" },
+    "actions/setup-node@v7": { "sha": "949feb2413d6458794dcd2491c4babbbce0c15c1", "source": "https://api.github.com/repos/actions/setup-node/git/ref/tags/v7" },
+    "actions/upload-artifact@v4": { "sha": "ea165f8d65b6e75b540449e92b4886f43607fa02", "source": "https://api.github.com/repos/actions/upload-artifact/git/ref/tags/v4" },
+    "actions/download-artifact@v4": { "sha": "d3f86a106a0bac45b974a628896c90dbdf5c8093", "source": "https://api.github.com/repos/actions/download-artifact/git/ref/tags/v4" }
+  },
+  "qshell": {
+    "version": "2.19.12",
+    "linuxAmd64ArchiveSha256": "19edaf7337f08609d2570b6e1337ca5a912bfe45155133a6b7fc66efa53bf965",
+    "digestSource": "https://api.github.com/repos/qiniu/qshell/releases/tags/v2.19.12",
+    "parameters": [
+      "https://github.com/qiniu/qshell/blob/v2.19.12/docs/qupload2.md",
+      "https://github.com/qiniu/qshell/blob/v2.19.12/docs/fput.md",
+      "https://github.com/qiniu/qshell/blob/v2.19.12/docs/cdnrefresh.md"
+    ]
+  }
+}

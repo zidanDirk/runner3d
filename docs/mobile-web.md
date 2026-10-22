@@ -65,3 +65,9 @@ Playwright验证320×568、375×667、390×844、430×932、667×375、844×390�
 本地自动化证据与已验证层级见 `artifacts/mobile-web-evidence.md` 和 `docs/performance.md`。
 
 启动阶段还有无需JavaScript的HTML提示和重新加载链接；脚本完成后进入3D初始化，再显示角色/道具（包含GLB内四个动画）和当前主题真实完成数量。JavaScript被禁用时有明确说明。生产测试延迟入口脚本验证此提示，不把DOM画布出现当作模型或动画已加载成功。
+
+## Beta 真机与远程发布状态
+
+Task14正式设备清单与逐台记录模板在[beta-testing.md](beta-testing.md)，包括设备/OS/浏览器/日期/质量/DPR/均值/P95/时长与问题。iOS Safari、Android Chrome必须由真实设备逐项执行；本机Chromium竖横模拟不算实机。人工音效试听、Safe Area系统行为、长时间热机仍需真人。
+
+发布沿用已存在七牛托管方向，但本轮不自动公开上线。局域网HTTP可做本机试玩，不能据此声称HTTPS通过。HTTPS证书、CDN缓存/MIME、版本目录与远端Smoke需发布负责人实际配置执行，步骤见[release.md](release.md)。默认监控只留本页，反馈文本需要手动交给组织者；不得让受邀者误以为已经在线提交。

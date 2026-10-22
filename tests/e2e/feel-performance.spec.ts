@@ -30,7 +30,7 @@ test('measures completed scene, 192-particle saturation and real active frames u
     expect(live.status).toBe('running'); expect(live.feedback?.peak).toBeLessThanOrEqual(192);
     scenes.push({ name, distance, baseline, baselineFrames, baselineHeap, saturated, saturatedFrames, saturatedHeap, live, liveFrames, liveHeap: await heap() });
   }
-  writeFileSync('artifacts/feel-performance.json', JSON.stringify({ scope: '90 RAF intervals per case; main completed render pass. Saturation = explicit synthetic 80-fact pool stress, never claimed as actual game coin events. Live = real engine/autopilot route. No GPU timer available.', browser: 'Chromium', viewport: { width: 1440, height: 1000 }, gpu, scenes, errors }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/feel-performance.json', JSON.stringify({ scope: '90 RAF intervals per case; main completed render pass. Saturation = explicit synthetic 80-fact pool stress, never claimed as actual game coin events. Live = real engine/autopilot route. No GPU timer available.', browser: 'Chromium', viewport: { width: 1440, height: 1000 }, gpu, scenes, errors }, null, 2));
   expect(errors).toEqual([]);
 });
 
@@ -47,5 +47,5 @@ test('browser lifecycle stress reuses one context and returns voice/particle cou
   await page.evaluate(() => window.__RUNNER_TEST__?.captureAt('CLEANUP-09', 0)); await page.waitForTimeout(600); await settleFeedback(page);
   const end = await page.evaluate(() => window.__FEEDBACK__);
   expect(end?.particles).toBe(0); expect(end?.activeEffects).toBe(0); expect(end?.audio.activeVoices).toBe(0); expect(end?.audio.contextCount).toBe(1); expect(end?.audio.stateListenerCount).toBe(1);
-  writeFileSync('artifacts/feel-lifecycle.json', JSON.stringify({ scope: '24 real rendered resets/zone swaps with synthetic visual/audio load; accelerated simulation is not a long-duration GPU leak proof', samples, end }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/feel-lifecycle.json', JSON.stringify({ scope: '24 real rendered resets/zone swaps with synthetic visual/audio load; accelerated simulation is not a long-duration GPU leak proof', samples, end }, null, 2));
 });

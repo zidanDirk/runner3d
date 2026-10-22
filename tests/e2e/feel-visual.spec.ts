@@ -18,27 +18,27 @@ for (const name of cases) test(`visual feedback ${name}`, async ({ page }) => {
   }
   await settleFeedback(page);
   await page.evaluate(() => document.fonts.ready);
-  mkdirSync('artifacts/feel-visual-actual', { recursive: true });
-  await page.locator('.game-stage').screenshot({ path: `artifacts/feel-visual-actual/${name}.png` });
+  mkdirSync('artifacts/ui-ux/regression/feel-visual-actual', { recursive: true });
+  await page.locator('.game-stage').screenshot({ path: `artifacts/ui-ux/regression/feel-visual-actual/${name}.png` });
   await expect(page.locator('.game-stage')).toHaveScreenshot(`feel-${name}.png`, { animations: 'disabled', maxDiffPixelRatio: .003 });
 });
 
 // Task10: keep the existing image contract under repeated host lifecycles.
 test('camera and instance matrices remain finite across capture and jump', async({browser})=>{
-  test.setTimeout(120000);mkdirSync('artifacts/mobile-investigation',{recursive:true});
+  test.setTimeout(120000);mkdirSync('artifacts/ui-ux/regression/mobile-investigation',{recursive:true});
   const context=await browser.newContext({viewport:{width:1440,height:1000}});const page=await context.newPage();const frames=[];
   await prepareFeel(page);
   for(let i=0;i<30;i++) {
     await captureThemeAt(page,95);await page.keyboard.press('Space');await page.evaluate(()=>window.__RUNNER_TEST__?.stepTicks(8));
     await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
     const before=await page.evaluate(()=>({render:window.__RUNNER_RENDER__,scene:window.__RUNNER_INSPECT__?.()}));
-    const screenshot = await page.locator('.game-stage').screenshot({path:`artifacts/mobile-investigation/capture-${i}.png`,animations:'disabled'});
+    const screenshot = await page.locator('.game-stage').screenshot({path:`artifacts/ui-ux/regression/mobile-investigation/capture-${i}.png`,animations:'disabled'});
     expect(screenshot).toMatchSnapshot('feel-dusk.png',{maxDiffPixelRatio:.003});
     const after=await page.evaluate(()=>({render:window.__RUNNER_RENDER__,scene:window.__RUNNER_INSPECT__?.()}));
     frames.push({i,before,after});
     expect(after.render?.character.visible).toBe(1);
   }
-  writeFileSync('artifacts/mobile-investigation/captures.json',JSON.stringify(frames,null,2));
+  writeFileSync('artifacts/ui-ux/regression/mobile-investigation/captures.json',JSON.stringify(frames,null,2));
   await context.close();
 });
 
@@ -49,8 +49,8 @@ test('fresh scene loading never leaves constructor identity instances after capt
   await prepareFeel(page);await captureThemeAt(page,95);await page.keyboard.press('Space');await page.evaluate(()=>window.__RUNNER_TEST__?.stepTicks(8));
   await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
   const inspect=await page.evaluate(()=>({render:window.__RUNNER_RENDER__,scene:window.__RUNNER_INSPECT__?.()}));
-  reports.push({i,...inspect});writeFileSync('artifacts/mobile-investigation/fresh.json',JSON.stringify(reports,null,2));
-  const screenshot = await page.locator('.game-stage').screenshot({path:`artifacts/mobile-investigation/fresh-${i}.png`,animations:'disabled'});
+  reports.push({i,...inspect});writeFileSync('artifacts/ui-ux/regression/mobile-investigation/fresh.json',JSON.stringify(reports,null,2));
+  const screenshot = await page.locator('.game-stage').screenshot({path:`artifacts/ui-ux/regression/mobile-investigation/fresh-${i}.png`,animations:'disabled'});
   expect(screenshot).toMatchSnapshot('feel-dusk.png',{maxDiffPixelRatio:.003});
   for(const batch of inspect.scene?.batches??[]) {
    expect(batch.count).toBe(batch.declared);

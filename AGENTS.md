@@ -1,5 +1,11 @@
 # Runner3D 开发约定
 
+## 交付与提交
+
+- 每个 task 完成并通过相关验证后，将该任务的代码、文档和必要测试基线提交并推送到远端 `origin/master`，交付时报告提交号与推送结果。这是用户明确要求的持续交付约定。
+- 推送前检查差异与远端状态，保留无关改动；不得提交密钥、依赖目录、构建产物、临时缓存或浏览器报告。远端有新提交时先正常整合，禁止强制推送覆盖历史。
+- 提交与推送不代表公开部署。发布仍遵循下文的人工发布流程；验证失败或推送受阻时明确报告，不宣称已同步。
+
 ## 架构约束
 
 - `src/game/` 是纯 TypeScript 游戏域，不依赖 React、Three.js、DOM、时钟或存储。所有规则在此实现。
@@ -202,4 +208,22 @@ artifacts/     进度、验收记录与截图
 - UI token在`ui/product.css`，保留品牌与世界主题的边界、Safe Area、44px触摸、清晰焦点、长值文本和Reduced Motion。商店当前/下级效果来自实际配置，不夸大Task12弱边际；满级/任务全完成有真实空状态，不编造新消费。
 - 保留全部旧测试，适配新首页启动流程但不跳过原实际运动/资源/碰撞/输入/生命周期/交易验证。新玩家旅程必须实际收币/死亡/入钱包/购买/领奖/下一局/刷新，不以写余额冒充。20产品画面来自真实浏览器；旧视觉有意变化先保留before/actual/diff并审核，之后只更新批准文件，不降低容差。
 - 记录首页JS真实字节/交互观察口径、Canvas/GLB请求、入局/商店时序、重复实际旅程的Renderer/Mixer/Audio/监听/定时器/GC后heap及运行帧间隔。有限桌面样本不证明长期无泄漏或iOS/Android实机。实际录像必须涵盖完整产品旅程，明确固定步加速和真正RAF片段。
+- `assets/renderer-resources.ts`按渲染器记录共享GLTF几何/材质的dispose监听，只在该渲染器退休时解除其注册，不dispose缓存数据或修改Three全局prototype。城市缓存视图也须标记；`RendererResources`接入每个使用缓存模型的Canvas。作用域在render异常后也恢复，效果重放通过延后释放保护，禁止留下活跃或历史Renderer引用。
+- 页面内存验收使用`npm run test:product-performance`的优化E2E构建，显式保留测试接口而不含React Refresh；正式生产包另验证接口剔除。开发热更新本身会保留R3F历史root，不能把其heap当作生产泄漏结论；同时验证完整DOM计数、原生上下文实际回收和共享资源登记有界，不能只断言当前Canvas数量。
 - 架构/扩展/验证见`docs/ui-ux.md`、`navigation.md`、`onboarding.md`。本阶段审计和证据在`artifacts/ui-ux/`与`artifacts/ui-ux-evidence.md`；最终数值以实际执行记录为准。
+
+## Beta发布与可观测性（第十四阶段）
+
+- `src/release/`统一公开version/buildId/commit/buildTime/environment；Vite只注入白名单。Development/Preview/Production明确区分，Preview同样优化且剔除危险调试接口。dirty本地HEAD不代表源码已提交，实际产物由Build ID+全文件SHA256 Manifest锁定。
+- 复用现有七牛/GitHub配置，不自动创建服务、账号或公开发布。push/PR只验证；候选上传与生产promotion分别人工workflow_dispatch，生产environment必须配置Required reviewers/禁止自审。CI不能替代账号权限或真实远端验收。
+- `release:check`顺序运行strict/unit/assets配置与实际加载验证/build及全文件校验/core browser/Beta适配/嵌套生产Smoke，任一失败非零阻断。完整视觉独立普通比较，禁止自动覆盖基线；长跑独立执行。输出实际检查记录，不能把历史结果当本轮通过。
+- 发布包使用相对base和不可变`releases/<buildId>/`，JS/CSS/GLB与Manifest完整保留，禁止覆盖旧版本或只留最新GLB。稳定入口/可变元数据no-store、固定版本资源immutable；托管方须实际配置HTTPS/MIME/缓存/尾斜线目录入口。不对GLB 404回退HTML。
+- 回滚使用已审查原artifact和原Build ID，不重新构建旧commit冒充相同版本。代码回滚不回滚localStorage；当前Profile schema1保持兼容，未来schema保留原文内存降级，不默认清进度。步骤见docs/release.md、rollback.md。
+- `src/observability/`是有界本地观察与可替换MonitoringAdapter，runtime只读连接事实；不得改GameEngine/计分/碰撞/seed，不为统计创建第二个玩法循环。默认无远程adapter/同意、无SDK/追踪cookie、事件仅本页内存。未来启用远程须单独确认接收域/地区告知与同意/保留删除渠道，不能在VITE变量放服务端密钥。
+- 错误仅固定安全码/说明、版本、粗浏览器/质量/状态、时间；堆栈最多生成包名和行列，不保存原文、完整URL/查询、用户输入或存档。错误每码/资产60s去重、10新条/分钟；去重表128、最近/队列各100、批20、30s受控flush/失败退避。关闭同意或分析后，在途失败不能把旧分析重新入队。适配器/订阅异常不能阻断游戏。
+- 行为schema1严格字段与原始类型；只记开始/暂停/结束/引导/成功交易等事实边沿，不逐枚上传金币或逐帧位置。仅本页flowId不持久化，不称用户/D1/D7留存。距离区间不能伪造精确均值；删失、模拟机器人与真人分开。设置可关闭并清除本页非必要流程统计。
+- `ReleaseTelemetry`复用600间隔环形窗口，可见running完成帧每5s聚合主pass统计；不遍历场景、不逐帧setState/上传。TTP首次真实start含玩家等待，homeToPlay按最近开始意图，GLB pending→真实解析校验口径须注明。未知指标N/A，JS Heap不等于GPU字节。
+- 反馈在`src/beta-feedback/`与`ui/BetaFeedback`，默认手动生成/复制/下载，明确尚未发送；只有真实接收adapter确认才可显示已收到。类型/长度/并发/重复校验，版本始终可见，额外诊断默认不附带且全文可审阅；不自动上传截图/正文/存档。
+- DEV `debugRelease=1`只读面板、E2E只读监控钩子须生产剔除。正式页可见安全版本，不能暴露钱包/分数修改接口。正常本地监控不采集原始GPU型号或设备指纹。
+- 实测至少50轮真实结算/商店/首页/重开，检查Canvas/Renderer所有权/Mixer/原生AudioContext/监听/GC后Heap/主pass与Chunk。原生弱引用计数在GC后读取，不能只数DOM或靠Heap猜泄漏。600s墙钟真实RAF另测，不用加速tick替代；机器人不等于真人、Chromium触屏模拟不等于iOS/Android。
+- 完整发布/隐私/指标/试玩/设备/已知限制见docs/release.md、observability.md、analytics.md、beta-testing.md、rollback.md；本轮证据artifacts/beta/及beta-release/。未连接实机/未公开发布必须明确pending，不宣称HTTPS、真机或人工音频通过。

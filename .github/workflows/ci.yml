@@ -1,4 +1,4 @@
-name: Verify game and committed assets
+name: Verify release and committed assets
 
 on: [push, pull_request]
 
@@ -10,9 +10,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verify:
+  release-gate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         with:
@@ -22,7 +22,30 @@ jobs:
           node-version: '22.17.0'
           cache: npm
       - run: npm ci
-      - run: npm run assets:config
-      - run: npm run assets:validate
-      - run: npm test
-      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run release:check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: local-release-gate
+          path: artifacts/beta-release/gate/report.json
+  visual-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Never --update-snapshots. A failure requires actual/diff review.
+      - run: npm run test:visual
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-failures
+          path: test-results/

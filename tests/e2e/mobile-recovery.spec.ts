@@ -158,8 +158,8 @@ test('an isolated browser with WebGL disabled presents a finite visible graphics
     expect(await page.evaluate(() => document.querySelector('canvas')?.getContext('webgl2') ?? null)).toBeNull();
     const result = await page.evaluate(() => ({ error: document.querySelector('.loading-panel')?.textContent, progressBars: document.querySelectorAll('progress').length, gameStatus: window.__RUNNER_TEST__?.read().status }));
     expect(result.progressBars).toBe(0); expect(result.gameStatus).toBe('ready');
-    mkdirSync('artifacts/mobile', { recursive: true });
-    await page.screenshot({ path: 'artifacts/mobile/webgl-disabled.png' });
-    writeFileSync('artifacts/mobile/webgl-disabled.json', JSON.stringify({ scope: 'isolated desktop Chromium with --disable-webgl, mobile viewport simulation; not a physical GPU failure', ...result }, null, 2));
+    mkdirSync('artifacts/ui-ux/regression/mobile', { recursive: true });
+    await page.screenshot({ path: 'artifacts/ui-ux/regression/mobile/webgl-disabled.png' });
+    writeFileSync('artifacts/ui-ux/regression/mobile/webgl-disabled.json', JSON.stringify({ scope: 'isolated desktop Chromium with --disable-webgl, mobile viewport simulation; not a physical GPU failure', ...result }, null, 2));
   } finally { await browser.close(); }
 });

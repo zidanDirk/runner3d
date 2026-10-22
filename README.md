@@ -146,3 +146,30 @@ npm run test:balance
 ```
 
 `--runs`为每种策略的局数，达到距离上限的存活局按删失记录；不把机器人当作真人。开发`/?debugBalance=1`只读显示阶段/证书/反应预算/钱包，生产移除入口。配置、模型假设和复现方法见[平衡决策](docs/game-balance.md)、[难度系统](docs/difficulty-system.md)、[模拟器](docs/balance-simulation.md)，完整A–H验收与实际录像见[Task12报告](artifacts/balance-evidence.md)。
+
+## 产品界面（Task 13）
+
+首页提供开始、引导、三个免费服装配色、升级商店、任务和设置。角色预览使用同一个真实 City Runner GLB；进入跑道后才加载城市和游戏循环。暂停可以确认退出，正常结束显示真实钱包入账和新纪录，原玩法、平衡和存档继续沿用。
+
+```sh
+npm run test:e2e -- tests/e2e/product.spec.ts tests/e2e/product-visual.spec.ts
+npm run test:e2e -- tests/e2e/product-video.spec.ts
+npm run test:product-performance
+```
+
+结构和扩展方法见[界面设计](docs/ui-ux.md)、[导航与结算](docs/navigation.md)、[引导与外观](docs/onboarding.md)。完整旅程、20张产品画面、原视觉差异审查、实际录像与性能限制见[Task13验收](artifacts/ui-ux-evidence.md)。
+
+## Beta 工程（Task14）
+
+当前版本 `0.14.0-beta`。默认错误、性能与匿名流程只在本页内存；设置可关闭本页流程统计，反馈由玩家手动复制/下载交给试玩组织者。未配置或启用远程追踪。
+
+```sh
+npm run release:check                  # 默认优化Preview；失败阻止发布后续步骤
+RELEASE_ENV=production npm run release:check
+npm run release:verify
+npm run release:package                # 只归档，不上传
+npm run test:beta
+npm run test:beta:stability             # 50次实际结算/导航 + 600秒真实RAF
+```
+
+[发布](docs/release.md)、[监控](docs/observability.md)、[行为指标](docs/analytics.md)、[真实试玩与设备模板](docs/beta-testing.md)、[回滚](docs/rollback.md)。沿用七牛/GitHub方向，候选上传和生产切换均须明确人工操作；配置已编写不代表远端CI、HTTPS、公开部署或真机已通过。

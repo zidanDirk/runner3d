@@ -1,0 +1,23 @@
+.beta-feedback { min-width: 0; }
+.beta-feedback__destination { padding: 12px; border: 1px solid var(--ui-line); border-radius: var(--ui-radius-small); color: var(--ui-muted); }
+.beta-feedback__release { color: var(--ui-muted); font-size: 11px; overflow-wrap: anywhere; }
+.beta-feedback form { display: grid; gap: 10px; }
+.beta-feedback label { font-weight: 600; }
+.beta-feedback select, .beta-feedback textarea { width: 100%; box-sizing: border-box; font: inherit; color: var(--ui-paper); background: var(--ui-navy-raised); border: 1px solid var(--ui-line); border-radius: var(--ui-radius-small); padding: 10px; }
+.beta-feedback textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+.beta-feedback textarea::placeholder { color: var(--ui-muted); opacity: 1; }
+.beta-feedback textarea:focus-visible { outline: 3px solid var(--ui-orange); outline-offset: 3px; }
+.beta-feedback small { color: var(--ui-muted); }
+.beta-feedback__toggle { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.beta-feedback__toggle input { width: 20px; height: 20px; accent-color: var(--ui-orange); flex-shrink: 0; }
+.beta-feedback__diagnostics { border: 1px solid var(--ui-line); border-radius: var(--ui-radius-small); padding: 12px; }
+.beta-feedback__diagnostics p { margin-top: 0; font-size: 12px; }
+.beta-feedback__diagnostics pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; line-height: 1.5; }
+.beta-feedback .primary-button { margin-top: 10px; min-height: 48px; }
+.beta-feedback__notice { color: var(--ui-success); overflow-wrap: anywhere; }
+.beta-feedback__prepared { margin-top: 20px; }
+.beta-feedback__prepared textarea { margin-top: 10px; }
+.beta-feedback__prepared .dialog-actions { flex-wrap: wrap; }
+.beta-feedback__prepared button { min-width: 140px; }
+.beta-dialog > header { position: sticky; top: -28px; z-index: 1; background: var(--ui-navy); padding: 10px 0; border-bottom: 1px solid var(--ui-line); }
+@media (max-width: 600px) { .beta-dialog > header { top: -20px; } }

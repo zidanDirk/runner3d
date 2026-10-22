@@ -1,12 +1,15 @@
 import { requestGameScene, startLiveGame } from './session-helpers';
 import { expect, test } from '@playwright/test';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { AnimationMixer, Mesh } from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { measureDeformed } from '../../scripts/assets/character-rig-validation.mjs';
 import { captureThemeAt, waitForThemeAssets } from './theme-helpers';
 
 const manifest = JSON.parse(readFileSync(new URL('../../src/assets/generated/manifest.json', import.meta.url), 'utf8'));
 const character = manifest.assets['city-runner'];
 const round = process.env.CHARACTER_CAPTURE_ROUND ?? 'final';
-const out = round === 'final' ? 'artifacts/screenshots' : `artifacts/character-iteration/${round}`;
+const out = round === 'final' ? 'artifacts/ui-ux/regression/screenshots' : `artifacts/ui-ux/regression/character-iteration/${round}`;
 
 // Fixed camera/light/viewports; wait for the actual GLB and a completed sampled frame.
 test('character preview renders five real views, theme lighting, joints, orbit and zoom', async ({ page }) => {
@@ -92,7 +95,38 @@ test('GLB character preserves real input, jump, slide, coin, collision and retry
   const model = await page.evaluate(() => window.__RUNNER_RENDER__?.character);
   expect(model).toMatchObject({ models: 1, fallbacks: 0, visible: 1, jointMetadata: true, triangles: character.triangles });
   expect(model?.bounds?.minY).toBeCloseTo(0, 4);
-  expect(Math.abs((model?.bounds?.size[1] ?? 0) - character.height)).toBeLessThan(.005);
+  // The neutral preview above still checks the exact Rest dimensions. A formal
+  // launch now starts Run, so compare its real CPU-skinned pose at the sampled
+  // AnimationMixer phase instead of treating its bent knees as a scale defect.
+  expect(model?.animation?.state).toBe('run');
+  expect(model?.animation?.weights).toEqual({ idle: 0, run: 1, jump: 0, slide: 0 });
+  expect(model?.scale).toEqual([1, 1, 1]);
+  expect(model?.skinnedMeshes).toBe(character.skinnedMeshCount);
+  expect(model?.skinCount).toBe(character.skinCount);
+  expect(Object.keys(model?.bones ?? {})).toHaveLength(character.boneCount);
+  const data = readFileSync(new URL('../../public/models/generated/city-runner.glb', import.meta.url));
+  const gltf = await new GLTFLoader().parseAsync(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), '');
+  const mixer = new AnimationMixer(gltf.scene);
+  try {
+    const clip = gltf.animations.find(candidate => candidate.name === 'Run');
+    if (!clip || !model?.animation || !model.bounds) throw new Error('Actual Run clip, phase and rendered bounds are required');
+    const action = mixer.clipAction(clip).play();
+    action.time = model.animation.time;
+    mixer.update(0);
+    const deformed = measureDeformed(gltf.scene);
+    for (const axis of [0, 1, 2]) {
+      const min = deformed.min[axis], max = deformed.max[axis], actual = model.bounds.size[axis];
+      if (min === undefined || max === undefined || actual === undefined) throw new Error('Actual posed dimension missing');
+      expect(Math.abs(actual - (max - min))).toBeLessThan(.005);
+    }
+  } finally {
+    mixer.stopAllAction(); mixer.uncacheRoot(gltf.scene);
+    gltf.scene.traverse(object => {
+      if (!(object instanceof Mesh)) return;
+      object.geometry.dispose();
+      for (const material of Array.isArray(object.material) ? object.material : [object.material]) material.dispose();
+    });
+  }
   expect(model?.materials).toHaveLength(character.materialCount);
   await startLiveGame(page);
   await page.keyboard.press('a');
@@ -161,7 +195,7 @@ test('character request failure reports the fallback and keeps collision/retry w
   expect(await page.evaluate(() => window.__RUNNER_TEST__?.read().status)).toBe('running');
   expect(errors.length).toBeGreaterThan(0);
   expect(errors.filter((error) => !/^Could not load \/models\/generated\/city-runner\.glb\?v=[a-f0-9]{64}: Failed to fetch$/.test(error))).toEqual([]);
-  writeFileSync('artifacts/character-fallback-errors.json', JSON.stringify({ errors, consoleErrors, failedRequests }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/character-fallback-errors.json', JSON.stringify({ errors, consoleErrors, failedRequests }, null, 2));
   const expectedFailure = /Could not load \/models\/generated\/city-runner\.glb\?v=[a-f0-9]{64}: Failed to fetch/;
   expect(consoleErrors.some((message) => message.text.includes('[assets] city-runner:'))).toBe(true);
   expect(consoleErrors.filter((message) => !expectedFailure.test(message.text)

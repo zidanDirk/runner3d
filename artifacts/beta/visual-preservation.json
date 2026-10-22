@@ -1,0 +1,13 @@
+{
+  "total": 91,
+  "changed": [
+    "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-settings.png",
+    "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-record.png",
+    "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-paused.png",
+    "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-settings.png",
+    "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-hud.png",
+    "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-results.png"
+  ],
+  "unchanged": 85,
+  "tolerancesUnchanged": true
+}

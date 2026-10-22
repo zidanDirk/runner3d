@@ -15,7 +15,7 @@ async function frames(page: Page, count: number) {
   }), count);
 }
 test('records growth-system draw budgets, real frames and bounded entities on all quality/theme combinations', async ({ browser }) => {
-  test.setTimeout(180000); mkdirSync('artifacts/progression', { recursive: true }); const results = [];
+  test.setTimeout(180000); mkdirSync('artifacts/ui-ux/regression/progression', { recursive: true }); const results = [];
   for (const [name, width, height, dpr, level] of [['desktop-high', 1440, 900, 1, 'high'], ['mobile-medium', 390, 844, 3, 'medium'], ['mobile-low', 390, 844, 3, 'low']] as const) {
     const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr, hasTouch: name !== 'desktop-high', isMobile: name !== 'desktop-high' });
     await context.addInitScript(level => localStorage.setItem('runner3d-quality-v1', level), level);
@@ -46,5 +46,5 @@ test('records growth-system draw budgets, real frames and bounded entities on al
     results.push({ name, width, height, deviceDpr: dpr, level, fixed, live: { frames: live, fromTick: before, initialPowers, ...active } });
     await context.close();
   }
-  writeFileSync('artifacts/progression/performance.json', JSON.stringify({ host: { cpu: cpus()[0]?.model, platform: platform(), release: release(), browser: browser.version() }, mobile: 'Chromium emulation, not physical iOS/Android', pass: 'main scene completed pass; frozen90frames and separately real180frame play; forcedGC JS heap; no GPU bytes/timings available', results }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/progression/performance.json', JSON.stringify({ host: { cpu: cpus()[0]?.model, platform: platform(), release: release(), browser: browser.version() }, mobile: 'Chromium emulation, not physical iOS/Android', pass: 'main scene completed pass; frozen90frames and separately real180frame play; forcedGC JS heap; no GPU bytes/timings available', results }, null, 2));
 });

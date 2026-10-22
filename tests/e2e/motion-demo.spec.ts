@@ -5,7 +5,7 @@ import { MOTION_DEMO_SEED as seed, MOTION_INPUTS as schedule, stepMotionTo } fro
 
 // Preserve the archived Task8 final evidence during subsequent feature regressions.
 const stage = process.env.MOTION_CAPTURE_STAGE ?? 'task9-regression';
-const dir = `artifacts/motion-iteration/${stage}`;
+const dir = `artifacts/ui-ux/regression/motion-iteration/${stage}`;
 // Verified in the unchanged GameEngine: this route survives all 960 ticks.
 
 test('fixed seed and tick inputs produce an eight second real rendered motion sequence', async ({ page }) => {

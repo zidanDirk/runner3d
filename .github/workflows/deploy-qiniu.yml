@@ -1,71 +1,83 @@
-name: Build and deploy H5 game to Qiniu
+name: Reviewed Qiniu Beta candidate
 
 on:
-  push:
-    branches: [master]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Public build environment (promotion uses a separate manual workflow)
+        type: choice
+        options: [preview, production]
+        default: preview
+      confirm_upload:
+        description: Type UPLOAD REVIEWED CANDIDATE to authorize a new immutable public candidate
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: deploy-qiniu-master
+  group: reviewed-qiniu-release
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  verify:
+    if: inputs.confirm_upload == 'UPLOAD REVIEWED CANDIDATE'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
+    outputs:
+      build_id: ${{ steps.identity.outputs.build_id }}
+    env:
+      RELEASE_ENV: ${{ inputs.environment }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22.17.0'
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Verify committed assets and game
-        run: |
-          npm run assets:config
-          npm run assets:validate
-          npm test
-
-      - name: Build H5 game
-        run: npm run build
-
-      - name: Install Qshell
-        run: |
-          set -euo pipefail
-          curl --fail --location --silent --show-error --retry 3 \
-            --output qshell.tar.gz \
-            https://github.com/qiniu/qshell/releases/download/v2.19.12/qshell-v2.19.12-linux-amd64.tar.gz
-          echo '19edaf7337f08609d2570b6e1337ca5a912bfe45155133a6b7fc66efa53bf965  qshell.tar.gz' | sha256sum --check
-          mkdir -p "$RUNNER_TEMP/qshell-bin"
-          tar -xzf qshell.tar.gz -C "$RUNNER_TEMP/qshell-bin" qshell
-          echo "$RUNNER_TEMP/qshell-bin" >> "$GITHUB_PATH"
-
-      - name: Upload to Qiniu Kodo
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run release:check
+      - id: identity
+        run: node -e "const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/release.json'));fs.appendFileSync(process.env.GITHUB_OUTPUT,'build_id='+r.buildId+'\n')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-release
+          path: |
+            dist/
+            artifacts/beta-release/gate/report.json
+          retention-days: 30
+  candidate:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: preview
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+      - uses: actions/download-artifact@v4
+        with:
+          name: reviewed-release
+          path: .
+      - run: bash scripts/release/install-qshell.sh
+      - run: node scripts/release/qiniu.mjs upload --execute
         env:
           QINIU_AK: ${{ secrets.QINIU_AK }}
           QINIU_SK: ${{ secrets.QINIU_SK }}
-          QINIU_BUCKET: ${{ vars.QINIU_BUCKET || secrets.QINIU_BUCKET }}
-        run: |
-          set -euo pipefail
-          if [[ -z "$QINIU_AK" || -z "$QINIU_SK" || -z "$QINIU_BUCKET" ]]; then
-            echo 'Configure QINIU_AK and QINIU_SK as secrets, and QINIU_BUCKET as a variable or secret.' >&2
-            exit 1
-          fi
-          qshell account -- "$QINIU_AK" "$QINIU_SK" qiniu-deploy-user
-          qshell qupload2 \
-            --src-dir=dist \
-            --bucket="$QINIU_BUCKET" \
-            --key-prefix=runner/ \
-            --overwrite \
-            --rescan-local \
-            --skip-fixed-strings=.DS_Store
+          QINIU_BUCKET: ${{ vars.QINIU_BUCKET }}
+          RELEASE_BASE_URL: ${{ vars.RELEASE_BASE_URL }}
+          RELEASE_CONFIRM: UPLOAD ${{ needs.verify.outputs.build_id }}
+      - run: node scripts/release/remote-smoke.mjs "$RELEASE_TEST_URL" "$RELEASE_BUILD_ID"
+        env:
+          RELEASE_TEST_URL: ${{ vars.RELEASE_BASE_URL }}releases/${{ needs.verify.outputs.build_id }}/
+          RELEASE_BUILD_ID: ${{ needs.verify.outputs.build_id }}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:release
+        env:
+          RELEASE_TEST_URL: ${{ vars.RELEASE_BASE_URL }}releases/${{ needs.verify.outputs.build_id }}/

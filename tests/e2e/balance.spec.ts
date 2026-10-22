@@ -10,7 +10,7 @@ import { analyzeReactionWindow, REACTION_ASSUMPTIONS } from '../../src/game/reac
 import { startProgression, playTo, endRun } from './progression-helpers';
 import { captureThemeAt, waitForThemeAssets } from './theme-helpers';
 
-const OUTPUT = 'artifacts/balance';
+const OUTPUT = 'artifacts/ui-ux/regression/balance';
 const errorsByPage = new WeakMap<Page, string[]>();
 test.beforeEach(async ({ page }) => {
   const errors: string[] = []; errorsByPage.set(page, errors);

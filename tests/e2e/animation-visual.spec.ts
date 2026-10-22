@@ -26,7 +26,7 @@ for (const [name, animation, seconds, view, skeleton] of [
         && stats.animation.paused && Math.abs(stats.animation.time - seconds) < .001;
     }, { animation, seconds });
     await page.evaluate(async () => { await document.fonts.ready; });
-    await page.locator('.asset-viewport').screenshot({ path: `artifacts/visual-actual/animation-${name}.png` });
+    await page.locator('.asset-viewport').screenshot({ path: `artifacts/ui-ux/regression/visual-actual/animation-${name}.png` });
     await expect(page.locator('.asset-viewport')).toHaveScreenshot(`animation-${name}.png`, { animations: 'disabled', threshold: .22, maxDiffPixelRatio: .003 });
     expect(errors).toEqual([]);
   });
@@ -40,7 +40,7 @@ for (const [side, key] of [['left', 'a'], ['right', 'd']] as const) {
     await page.keyboard.press(key);
     await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(4));
     await page.waitForFunction(() => window.__RUNNER_TEST__?.read().tick === 4 && Math.abs(window.__RUNNER_RENDER__?.character.lean ?? 0) > .02);
-    await page.locator('.game-stage').screenshot({ path: `artifacts/visual-actual/animation-lean-${side}.png` });
+    await page.locator('.game-stage').screenshot({ path: `artifacts/ui-ux/regression/visual-actual/animation-lean-${side}.png` });
     await expect(page.locator('.game-stage')).toHaveScreenshot(`animation-lean-${side}.png`, { animations: 'disabled', threshold: .22, maxDiffPixelRatio: .003 });
   });
 }

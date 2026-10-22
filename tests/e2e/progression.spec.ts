@@ -153,7 +153,7 @@ test('Reduced Motion preserves real power-ups and collection while using the sha
   for (const type of ['magnet', 'shield', 'double-score']) await expect(page.getByTestId(`active-${type}`)).toBeVisible();
   expect(await page.evaluate(() => window.__FEEDBACK__?.reducedMotion)).toBe(true);
   expect(await page.evaluate(() => window.__RUNNER_TEST__?.read().powerupsCollected)).toBe(3);
-  await page.screenshot({ path: 'artifacts/progression/reduced-active.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/progression/reduced-active.png' });
 });
 
 test('mission completion produces a brief visible game-time banner without opening a modal', async ({ page }) => {
@@ -164,7 +164,7 @@ test('mission completion produces a brief visible game-time banner without openi
   }
   await expect(page.getByLabel('任务完成提示')).toBeVisible();
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  await page.screenshot({ path: 'artifacts/progression/mission-banner.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/progression/mission-banner.png' });
   const distance = await page.evaluate(() => window.__RUNNER_TEST__?.read().distance ?? 0); await playTo(page, distance + 70);
   await expect(page.getByLabel('任务完成提示')).toHaveCount(0);
 });

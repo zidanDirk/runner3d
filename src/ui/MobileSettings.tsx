@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { monitor, useMonitoring } from '../runtime/monitoring';
 import { game } from '../runtime/store';
 import { input, inputPreferences, useInputMode } from '../runtime/input';
 import { quality, useQuality } from '../runtime/quality';
@@ -11,8 +12,9 @@ export function SettingsButton({ mobile = false, onOpen }: { mobile?: boolean; o
   return <><button className={mobile ? 'mobile-settings-button' : 'settings-entry'} type="button" aria-label={mobile ? '游戏设置' : '更多游戏设置'} onClick={() => { input.clear(); game.pause(); if (onOpen) onOpen(); else setOpen(true); }}>⚙<span>设置</span></button>{open && <SettingsDialog close={() => setOpen(false)} />}</>;
 }
 
-export function SettingsDialog({ close, returnLabel = '完成设置' }: { close: () => void; returnLabel?: string }) {
+export function SettingsDialog({ close, returnLabel = '完成设置', onFeedback }: { close: () => void; returnLabel?: string; onFeedback?: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const telemetry = useMonitoring();
   const q = useQuality(); const mode = useInputMode(); const audio = useAudioSettings(); const reduced = useReducedMotion();
   useEffect(() => { const element = dialog.current; element?.showModal(); return () => element?.close(); }, []);
   return <dialog ref={dialog} className="settings-panel product-dialog" aria-labelledby="settings-title" onCancel={(event) => { event.preventDefault(); close(); }}>
@@ -27,6 +29,7 @@ export function SettingsDialog({ close, returnLabel = '完成设置' }: { close:
     <small role="status">{audio.status === 'unsupported' ? '当前浏览器无法启动音频，游戏仍可继续。' : audio.status === 'blocked' ? '声音暂未启用；回到游戏后点击开始或继续可重试。' : '音量与静音设置即时生效。声音需要一次开始或继续操作。'}</small>
     <label className="setting-toggle"><input type="checkbox" aria-label="设置减少动态效果" checked={reduced} onChange={(event) => motionPreferences.set(event.target.checked)} />减少动态效果</label>
     <button className="settings-system" type="button" onClick={() => motionPreferences.set(null)}>动态效果跟随系统</button>
+    <details className="beta-privacy"><summary>Beta 隐私与反馈</summary><p>错误与性能摘要仅保留在本页内存，不发送远程服务；不读取存档原文或个人身份。</p><label className="setting-toggle"><input type="checkbox" aria-label="本页匿名流程统计" checked={telemetry.analyticsEnabled} onChange={event => monitor.setAnalytics(event.target.checked)} />本页匿名流程统计</label><p>关闭后清除本页流程事件，游戏与进度不受影响。当前未配置远程服务。</p>{onFeedback && <button type="button" onClick={onFeedback}>提供 Beta 反馈</button>}</details>
     <button className="primary-button" type="button" onClick={close}>{returnLabel}</button>
     <small>{game.view.status === 'paused' ? '关闭设置后仍保持暂停，请点击继续。' : '设置即时生效并独立保存。'}</small>
   </dialog>;

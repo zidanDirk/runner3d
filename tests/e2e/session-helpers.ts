@@ -31,13 +31,21 @@ export async function showRouteSeed(page: Page): Promise<void> {
 }
 
 export async function openGameSettings(page: Page): Promise<void> {
-  await page.getByRole('button', { name: '游戏设置', exact: true }).click();
+  // Desktop running uses the sidebar, phones use the HUD, and pause has its
+  // own menu entry. Follow a visible formal control instead of bypassing UI.
+  const entry = page.getByRole('button', { name: /^(游戏设置|更多游戏设置|设置)$/ }).filter({ visible: true }).first();
+  await expect(entry).toBeVisible();
+  await entry.click();
   await expect(page.getByRole('dialog', { name: '游戏设置' })).toBeVisible();
 }
 
 export async function closeGameSettings(page: Page, resume = false): Promise<void> {
   await page.getByRole('button', { name: '关闭设置', exact: true }).click();
   await expect(page.getByRole('dialog', { name: '游戏设置' })).toHaveCount(0);
+  // App restores the opener in RAF. Finish that real focus handoff before a
+  // test deliberately blurs it and sends Escape; otherwise a late restore can
+  // put the key back on the settings button, where gameplay keys are ignored.
+  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
   const status = await page.evaluate(() => window.__RUNNER_TEST__?.read().status);
   if (resume) {
     expect(status).toBe('paused');

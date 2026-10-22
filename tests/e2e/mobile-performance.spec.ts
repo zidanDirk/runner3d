@@ -7,7 +7,7 @@ import { captureThemeAt, waitForThemeAssets } from './theme-helpers';
 import type { MobileMetrics } from '../../src/runtime/mobile-metrics';
 import type { QualityLevel } from '../../src/quality/profiles';
 
-const output = 'artifacts/mobile-iteration';
+const output = 'artifacts/ui-ux/regression/mobile-iteration';
 const baseURL = 'http://127.0.0.1:5174';
 
 async function prepare(page: Page): Promise<void> {

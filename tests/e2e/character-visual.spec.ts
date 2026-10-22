@@ -14,7 +14,7 @@ for (const [preset, label] of [['front', '正面'], ['back', '背面'], ['left',
     await page.waitForFunction((preset) => window.__ASSET_PREVIEW__?.preset === preset
       && window.__ASSET_PREVIEW__.light === 'neutral' && !!window.__ASSET_PREVIEW__.models['city-runner'], preset);
     await page.evaluate(async () => { await document.fonts.ready; await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))); });
-    await page.locator('.asset-viewport').screenshot({ path: `artifacts/visual-actual/character-${preset}.png` });
+    await page.locator('.asset-viewport').screenshot({ path: `artifacts/ui-ux/regression/visual-actual/character-${preset}.png` });
     await expect(page.locator('.asset-viewport')).toHaveScreenshot(`character-${preset}.png`, { animations: 'disabled', threshold: .22, maxDiffPixelRatio: .003 });
     expect(errors).toEqual([]);
   });

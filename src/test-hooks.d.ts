@@ -4,6 +4,8 @@ import type { CityMetrics } from './runtime/city-metrics';
 
 declare global {
   interface Window {
+    __PRODUCT_RESOURCES__?: () => { owners: number; bindings: number };
+    __PRODUCT_PREVIEW__?: () => { animation: import('./character/CharacterAnimationController').AnimationDiagnostics | null; rotation: number; active: boolean };
     __PRODUCT_LIFECYCLE__?: () => { mixers: { created: number; disposed: number; active: number } };
     __RUNNER_INSPECT__?: () => { camera: { position: number[]; world: number[]; inverse: number[]; projection: number[] }; fog: { near: number; far: number } | null; batches: { id: string; count: number; declared: number; uuid: string; version: number; matrix: number[]; items: number[][] }[] };
     __FEEDBACK__?: ReturnType<import('./runtime/feedback').FeedbackRuntime['diagnostics']>;
@@ -59,3 +61,5 @@ declare global {
     };
   }
 }
+
+declare global { interface Window { __BETA_MONITOR__?: () => import('./observability/Monitor').MonitorSnapshot } }

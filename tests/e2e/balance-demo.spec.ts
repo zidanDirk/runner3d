@@ -4,8 +4,8 @@ import { startProgression } from './progression-helpers';
 import { captureThemeAt } from './theme-helpers';
 
 test('records real unpaused play at three difficulty ranges with disclosed preview cuts', async ({ browser }) => {
-  test.setTimeout(80000); mkdirSync('artifacts/balance', { recursive: true });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, recordVideo: { dir: 'test-results/balance-video', size: { width: 960, height: 666 } } });
+  test.setTimeout(80000); mkdirSync('artifacts/ui-ux/regression/balance', { recursive: true });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, recordVideo: { dir: 'artifacts/ui-ux/regression/balance/video-raw', size: { width: 960, height: 666 } } });
   const page = await context.newPage(), errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -38,7 +38,7 @@ test('records real unpaused play at three difficulty ranges with disclosed previ
     expect(timeline.some(frame => frame.y > 0)).toBe(true); expect(timeline.some(frame => frame.slideRemaining > 0)).toBe(true);
     segments.push({ ...segment, durationMs: Date.now() - begin, method: 'Real unpaused RAF and trusted Playwright keyboard; no state/score/entity injection during segment', timeline });
   }
-  const video = page.video(); await context.close(); if (!video) throw new Error('Actual video not produced'); await video.saveAs('artifacts/balance/gameplay.webm');
-  writeFileSync('artifacts/balance/gameplay-timeline.json', JSON.stringify({ seed: 'RUNNER-01', method: 'Three sequential live segments with explicit preview seek cuts to0/900/2400m; NOT one continuous run or cross-tick deterministic video. Playwright video can have no audio track.', segments, errors }, null, 2));
+  const video = page.video(); await context.close(); if (!video) throw new Error('Actual video not produced'); await video.saveAs('artifacts/ui-ux/regression/balance/gameplay.webm');
+  writeFileSync('artifacts/ui-ux/regression/balance/gameplay-timeline.json', JSON.stringify({ seed: 'RUNNER-01', method: 'Three sequential live segments with explicit preview seek cuts to0/900/2400m; NOT one continuous run or cross-tick deterministic video. Playwright video can have no audio track.', segments, errors }, null, 2));
   expect(errors).toEqual([]);
 });

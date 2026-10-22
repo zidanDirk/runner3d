@@ -1,0 +1,5152 @@
+{
+  "generatedAt": "2026-10-22T03:42:59.221Z",
+  "engineering": "Engineering Ready / Real Device Acceptance Pending",
+  "release": {
+    "version": "0.14.0-beta",
+    "buildId": "0.14.0-beta-aa4a77ac729f-20261022T032822911Z",
+    "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+    "buildTime": "2026-10-22T03:28:22.911Z",
+    "environment": "production"
+  },
+  "manifestSha256": "51d72e33a30b4c7b3ba810bbe608f18c979955c55d4d778bcb2112908c6dfab4",
+  "tests": {
+    "unit": 505,
+    "coreGate": 22,
+    "betaGate": 9,
+    "webglInitIncludedInBeta": true,
+    "nestedStaticRelease": 4,
+    "originalFull": {
+      "total": 185,
+      "passed": 183,
+      "intentionalVisualFailures": 2,
+      "resolvedBy": "explicit6 approved baselines + all76 visual cases/91 images ordinary comparison"
+    },
+    "visualImages": 91,
+    "visualCases": 76,
+    "production": 8,
+    "loading": 2,
+    "assets": 15
+  },
+  "wallClock": {
+    "elapsedMs": 600092,
+    "allFrames": {
+      "samples": 36011,
+      "meanMs": 16.6659937241372,
+      "fps": 60.002422690926,
+      "p95UpperBoundMs": 21,
+      "over50Ms": 0,
+      "maxMs": 28.40000009536743,
+      "intervalSumMs": 600159.0999999046,
+      "histogram1Ms": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        7,
+        22,
+        126,
+        503,
+        1280,
+        1491,
+        2374,
+        6040,
+        9195,
+        6716,
+        3761,
+        2264,
+        1161,
+        783,
+        217,
+        52,
+        13,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "startTick": 0,
+    "endTick": 72013,
+    "simulatedSeconds": 600.1083333333333,
+    "cycles": 50,
+    "browser": "156.0.8078.4",
+    "gpuBytes": null,
+    "result": "passed"
+  },
+  "fiftyCycle": {
+    "initialAfterWarmup": {
+      "probe": {
+        "contexts": {
+          "created": 11,
+          "connected": 1,
+          "retiredUnlost": 0,
+          "lost": 1,
+          "collected": 9
+        },
+        "audio": {
+          "created": 1,
+          "live": 1,
+          "running": 0,
+          "suspended": 1,
+          "interrupted": 0,
+          "closed": 0,
+          "collected": 0
+        },
+        "timers": {
+          "timeouts": 0,
+          "intervals": 1,
+          "animationFrames": 1
+        },
+        "canvases": 1
+      },
+      "lifecycle": {
+        "mixers": {
+          "created": 11,
+          "disposed": 10,
+          "active": 1
+        }
+      },
+      "resourceOwnership": {
+        "owners": 1,
+        "bindings": 35
+      },
+      "screen": "home",
+      "state": {
+        "status": "ready",
+        "tick": 0,
+        "distance": 0
+      },
+      "render": {
+        "tick": 736,
+        "camera": {
+          "position": [
+            -0.33599999999999997,
+            7.8,
+            12
+          ],
+          "quaternion": [
+            -0.10621913930181677,
+            -0.005388457887110076,
+            -0.0005756223013497884,
+            0.9943279778958986
+          ],
+          "fov": 51.1984173812442
+        },
+        "calls": 181,
+        "triangles": 22780,
+        "geometries": 179,
+        "textures": 2,
+        "roadblock": {
+          "models": 3,
+          "fallbacks": 0,
+          "visible": 3,
+          "bounds": {
+            "size": [
+              2,
+              0.8500000238418579,
+              0.8999999761581421
+            ],
+            "minY": 0,
+            "materials": [
+              "roadblock_base",
+              "roadblock_orange",
+              "roadblock_white"
+            ]
+          }
+        },
+        "character": {
+          "appearance": {
+            "skinId": "original-orange",
+            "jacketColors": [
+              "#f47b45"
+            ]
+          },
+          "models": 1,
+          "fallbacks": 0,
+          "visible": 1,
+          "meshes": 31,
+          "triangles": 2268,
+          "materials": [
+            "city_runner_jacket",
+            "city_runner_pants",
+            "city_runner_shoe",
+            "city_runner_skin"
+          ],
+          "bounds": {
+            "size": [
+              0.7258622844326044,
+              1.6566939334391204,
+              1.075325645962058
+            ],
+            "minY": -0.0003727157301749951
+          },
+          "position": [
+            -2.8,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "jointMetadata": true,
+          "skinnedMeshes": 31,
+          "skinCount": 1,
+          "bones": {
+            "Root": [
+              -2.8,
+              0,
+              0
+            ],
+            "Hips": [
+              -2.8,
+              0.7141270393377045,
+              0
+            ],
+            "LeftUpperLeg": [
+              -2.925,
+              0.7141270393377045,
+              0
+            ],
+            "LeftLowerLeg": [
+              -2.904395103526068,
+              0.5631852430813715,
+              -0.26762774251799204
+            ],
+            "LeftFoot": [
+              -2.9399723867534555,
+              0.21924015959457982,
+              -0.30794078371756495
+            ],
+            "RightUpperLeg": [
+              -2.675,
+              0.7141270393377045,
+              0
+            ],
+            "RightLowerLeg": [
+              -2.6825992132734653,
+              0.4077401992834618,
+              0.030032697682076125
+            ],
+            "RightFoot": [
+              -2.659993199188733,
+              0.14963071323977117,
+              0.26253555467783546
+            ],
+            "Spine": [
+              -2.8,
+              0.8041270131116608,
+              0
+            ],
+            "Chest": [
+              -2.798908498534667,
+              0.9843510301051361,
+              -0.009918333746949042
+            ],
+            "LeftShoulder": [
+              -2.796399309391603,
+              1.1280380563043682,
+              -0.032677428188549906
+            ],
+            "LeftUpperArm": [
+              -3.0363635626198953,
+              1.132149113566395,
+              -0.033178803265641967
+            ],
+            "LeftLowerArm": [
+              -3.0852063042008404,
+              0.9265431393185328,
+              0.11693629127039074
+            ],
+            "LeftHand": [
+              -3.1028607856630157,
+              0.7539400321018792,
+              -0.028924919062088966
+            ],
+            "Neck": [
+              -2.795795722664738,
+              1.1626020436691185,
+              -0.038152139952866815
+            ],
+            "Head": [
+              -2.795018566476462,
+              1.2523211717150804,
+              -0.04521320517414939
+            ],
+            "RightShoulder": [
+              -2.796399309391603,
+              1.1280380563043682,
+              -0.032677428188549906
+            ],
+            "RightUpperArm": [
+              -2.5564350559887727,
+              1.1239270090371491,
+              -0.032176054694570695
+            ],
+            "RightLowerArm": [
+              -2.515241873612964,
+              0.8889610049792961,
+              -0.1336062041695544
+            ],
+            "RightHand": [
+              -2.49850395988849,
+              0.9642806482750018,
+              -0.3467395022231182
+            ]
+          },
+          "animation": {
+            "mixerId": 10,
+            "actionCount": 4,
+            "state": "run",
+            "time": 0.6433352245549608,
+            "duration": 0.7200000286102295,
+            "runScale": 1.0999447709859589,
+            "weights": {
+              "idle": 0,
+              "run": 1,
+              "jump": 0,
+              "slide": 0
+            },
+            "paused": true,
+            "cpu": {
+              "samples": 1,
+              "meanMs": 0.10000014305114746,
+              "maxMs": 0.10000014305114746
+            }
+          },
+          "lean": 0,
+          "bankLift": 0,
+          "bankSamples": 0,
+          "impact": {
+            "landing": 0,
+            "scaleY": 1
+          },
+          "soles": {
+            "left": 0.0616063305308042,
+            "right": -0.0003727157301749951
+          }
+        },
+        "powerups": {
+          "models": 0,
+          "visible": 0,
+          "triangles": 0,
+          "types": [],
+          "pickups": 0
+        }
+      },
+      "mobile": null,
+      "heap": {
+        "usedBytes": 12345584,
+        "totalBytes": 13533184,
+        "forcedGc": true,
+        "dom": {
+          "documents": 1,
+          "nodes": 376,
+          "eventListeners": 235
+        }
+      },
+      "listeners": {
+        "window": {
+          "total": 26,
+          "byType": {
+            "mousemove": 1,
+            "pointerdown": 2,
+            "pointerup": 1,
+            "touchstart": 1,
+            "touchend": 1,
+            "touchcancel": 1,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 1,
+            "auxclick": 1,
+            "dblclick": 1,
+            "contextmenu": 1,
+            "keydown": 1,
+            "scroll": 1,
+            "error": 1,
+            "unhandledrejection": 1,
+            "__playwright_global_listeners_check__": 1,
+            "pagehide": 3,
+            "blur": 2,
+            "pageshow": 1,
+            "storage": 1,
+            "resize": 1
+          }
+        },
+        "document": {
+          "total": 6,
+          "byType": {
+            "selectionchange": 1,
+            "visibilitychange": 5
+          }
+        },
+        "canvas": {
+          "total": 7,
+          "byType": {
+            "webglcontextlost": 3,
+            "webglcontextrestored": 3,
+            "webglcontextcreationerror": 1
+          }
+        }
+      }
+    },
+    "final": {
+      "probe": {
+        "contexts": {
+          "created": 101,
+          "connected": 1,
+          "retiredUnlost": 0,
+          "lost": 1,
+          "collected": 99
+        },
+        "audio": {
+          "created": 1,
+          "live": 1,
+          "running": 0,
+          "suspended": 1,
+          "interrupted": 0,
+          "closed": 0,
+          "collected": 0
+        },
+        "timers": {
+          "timeouts": 0,
+          "intervals": 1,
+          "animationFrames": 1
+        },
+        "canvases": 1
+      },
+      "lifecycle": {
+        "mixers": {
+          "created": 101,
+          "disposed": 100,
+          "active": 1
+        }
+      },
+      "resourceOwnership": {
+        "owners": 1,
+        "bindings": 35
+      },
+      "screen": "home",
+      "state": {
+        "status": "ready",
+        "tick": 0,
+        "distance": 0
+      },
+      "render": {
+        "tick": 736,
+        "camera": {
+          "position": [
+            -0.33599999999999997,
+            7.8,
+            12
+          ],
+          "quaternion": [
+            -0.10621913930181677,
+            -0.005388457887110076,
+            -0.0005756223013497884,
+            0.9943279778958986
+          ],
+          "fov": 51.1984173812442
+        },
+        "calls": 181,
+        "triangles": 22780,
+        "geometries": 179,
+        "textures": 2,
+        "roadblock": {
+          "models": 3,
+          "fallbacks": 0,
+          "visible": 3,
+          "bounds": {
+            "size": [
+              2,
+              0.8500000238418579,
+              0.8999999761581421
+            ],
+            "minY": 0,
+            "materials": [
+              "roadblock_base",
+              "roadblock_orange",
+              "roadblock_white"
+            ]
+          }
+        },
+        "character": {
+          "appearance": {
+            "skinId": "original-orange",
+            "jacketColors": [
+              "#f47b45"
+            ]
+          },
+          "models": 1,
+          "fallbacks": 0,
+          "visible": 1,
+          "meshes": 31,
+          "triangles": 2268,
+          "materials": [
+            "city_runner_jacket",
+            "city_runner_pants",
+            "city_runner_shoe",
+            "city_runner_skin"
+          ],
+          "bounds": {
+            "size": [
+              0.7258622844326044,
+              1.6566939334391204,
+              1.075325645962058
+            ],
+            "minY": -0.0003727157301749951
+          },
+          "position": [
+            -2.8,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "jointMetadata": true,
+          "skinnedMeshes": 31,
+          "skinCount": 1,
+          "bones": {
+            "Root": [
+              -2.8,
+              0,
+              0
+            ],
+            "Hips": [
+              -2.8,
+              0.7141270393377045,
+              0
+            ],
+            "LeftUpperLeg": [
+              -2.925,
+              0.7141270393377045,
+              0
+            ],
+            "LeftLowerLeg": [
+              -2.904395103526068,
+              0.5631852430813715,
+              -0.26762774251799204
+            ],
+            "LeftFoot": [
+              -2.9399723867534555,
+              0.21924015959457982,
+              -0.30794078371756495
+            ],
+            "RightUpperLeg": [
+              -2.675,
+              0.7141270393377045,
+              0
+            ],
+            "RightLowerLeg": [
+              -2.6825992132734653,
+              0.4077401992834618,
+              0.030032697682076125
+            ],
+            "RightFoot": [
+              -2.659993199188733,
+              0.14963071323977117,
+              0.26253555467783546
+            ],
+            "Spine": [
+              -2.8,
+              0.8041270131116608,
+              0
+            ],
+            "Chest": [
+              -2.798908498534667,
+              0.9843510301051361,
+              -0.009918333746949042
+            ],
+            "LeftShoulder": [
+              -2.796399309391603,
+              1.1280380563043682,
+              -0.032677428188549906
+            ],
+            "LeftUpperArm": [
+              -3.0363635626198953,
+              1.132149113566395,
+              -0.033178803265641967
+            ],
+            "LeftLowerArm": [
+              -3.0852063042008404,
+              0.9265431393185328,
+              0.11693629127039074
+            ],
+            "LeftHand": [
+              -3.1028607856630157,
+              0.7539400321018792,
+              -0.028924919062088966
+            ],
+            "Neck": [
+              -2.795795722664738,
+              1.1626020436691185,
+              -0.038152139952866815
+            ],
+            "Head": [
+              -2.795018566476462,
+              1.2523211717150804,
+              -0.04521320517414939
+            ],
+            "RightShoulder": [
+              -2.796399309391603,
+              1.1280380563043682,
+              -0.032677428188549906
+            ],
+            "RightUpperArm": [
+              -2.5564350559887727,
+              1.1239270090371491,
+              -0.032176054694570695
+            ],
+            "RightLowerArm": [
+              -2.515241873612964,
+              0.8889610049792961,
+              -0.1336062041695544
+            ],
+            "RightHand": [
+              -2.49850395988849,
+              0.9642806482750018,
+              -0.3467395022231182
+            ]
+          },
+          "animation": {
+            "mixerId": 100,
+            "actionCount": 4,
+            "state": "run",
+            "time": 0.6433352245549608,
+            "duration": 0.7200000286102295,
+            "runScale": 1.0999447709859589,
+            "weights": {
+              "idle": 0,
+              "run": 1,
+              "jump": 0,
+              "slide": 0
+            },
+            "paused": true,
+            "cpu": {
+              "samples": 1,
+              "meanMs": 0.09999990463256836,
+              "maxMs": 0.09999990463256836
+            }
+          },
+          "lean": 0,
+          "bankLift": 0,
+          "bankSamples": 0,
+          "impact": {
+            "landing": 0,
+            "scaleY": 1
+          },
+          "soles": {
+            "left": 0.0616063305308042,
+            "right": -0.0003727157301749951
+          }
+        },
+        "powerups": {
+          "models": 0,
+          "visible": 0,
+          "triangles": 0,
+          "types": [],
+          "pickups": 0
+        }
+      },
+      "mobile": null,
+      "heap": {
+        "usedBytes": 14274144,
+        "totalBytes": 16416768,
+        "forcedGc": true,
+        "dom": {
+          "documents": 1,
+          "nodes": 379,
+          "eventListeners": 235
+        }
+      },
+      "listeners": {
+        "window": {
+          "total": 26,
+          "byType": {
+            "mousemove": 1,
+            "pointerdown": 2,
+            "pointerup": 1,
+            "touchstart": 1,
+            "touchend": 1,
+            "touchcancel": 1,
+            "mousedown": 1,
+            "mouseup": 1,
+            "click": 1,
+            "auxclick": 1,
+            "dblclick": 1,
+            "contextmenu": 1,
+            "keydown": 1,
+            "scroll": 1,
+            "error": 1,
+            "unhandledrejection": 1,
+            "__playwright_global_listeners_check__": 1,
+            "pagehide": 3,
+            "blur": 2,
+            "pageshow": 1,
+            "storage": 1,
+            "resize": 1
+          }
+        },
+        "document": {
+          "total": 6,
+          "byType": {
+            "selectionchange": 1,
+            "visibilitychange": 5
+          }
+        },
+        "canvas": {
+          "total": 7,
+          "byType": {
+            "webglcontextlost": 3,
+            "webglcontextrestored": 3,
+            "webglcontextcreationerror": 1
+          }
+        }
+      }
+    }
+  },
+  "latestTelemetry": {
+    "events": [
+      {
+        "schemaVersion": 1,
+        "sequence": 277,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:21.560Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00360021544069,
+          "averageFrameMs": 16.66566666682561,
+          "p95FrameMs": 19.899999856948853,
+          "longFrames": 0,
+          "calls": 168,
+          "triangles": 30582,
+          "chunks": 9,
+          "particles": 4,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 278,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:26.575Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00840117673703,
+          "averageFrameMs": 16.664333333174387,
+          "p95FrameMs": 19.699999809265137,
+          "longFrames": 0,
+          "calls": 165,
+          "triangles": 30362,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 279,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:31.575Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00780101384566,
+          "averageFrameMs": 16.664500000079475,
+          "p95FrameMs": 19.90000009536743,
+          "longFrames": 0,
+          "calls": 198,
+          "triangles": 25800,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 280,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:36.576Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99040153489624,
+          "averageFrameMs": 16.669333333571753,
+          "p95FrameMs": 19.899999856948853,
+          "longFrames": 0,
+          "calls": 178,
+          "triangles": 21284,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 281,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:37.407Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "analytics",
+        "name": "MISSION_COMPLETED",
+        "data": {
+          "mission": "powerups-1"
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 282,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:41.577Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98860216644652,
+          "averageFrameMs": 16.669833333094914,
+          "p95FrameMs": 19.700000047683716,
+          "longFrames": 0,
+          "calls": 183,
+          "triangles": 22300,
+          "chunks": 9,
+          "particles": 21,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 283,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:46.591Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00360021687137,
+          "averageFrameMs": 16.665666666428248,
+          "p95FrameMs": 19.90000009536743,
+          "longFrames": 0,
+          "calls": 191,
+          "triangles": 22680,
+          "chunks": 9,
+          "particles": 12,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 284,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:51.607Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.022208217326614,
+          "averageFrameMs": 16.66049999992053,
+          "p95FrameMs": 20.5,
+          "longFrames": 0,
+          "calls": 171,
+          "triangles": 21618,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 285,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:34:56.608Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01260264598333,
+          "averageFrameMs": 16.663166666825614,
+          "p95FrameMs": 20.700000047683716,
+          "longFrames": 0,
+          "calls": 200,
+          "triangles": 27080,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 286,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:01.623Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00720086438986,
+          "averageFrameMs": 16.664666666587195,
+          "p95FrameMs": 20.5,
+          "longFrames": 0,
+          "calls": 184,
+          "triangles": 30700,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 287,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:06.639Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00900135020253,
+          "averageFrameMs": 16.664166666666667,
+          "p95FrameMs": 20.299999952316284,
+          "longFrames": 0,
+          "calls": 161,
+          "triangles": 30372,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 288,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:11.640Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.013803175875125,
+          "averageFrameMs": 16.662833333015442,
+          "p95FrameMs": 19.899999856948853,
+          "longFrames": 0,
+          "calls": 175,
+          "triangles": 31910,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 289,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:16.659Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.991001349797536,
+          "averageFrameMs": 16.669166666666666,
+          "p95FrameMs": 20.40000009536743,
+          "longFrames": 0,
+          "calls": 177,
+          "triangles": 31006,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 290,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:21.675Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.995800293693364,
+          "averageFrameMs": 16.667833333412805,
+          "p95FrameMs": 20.800000190734863,
+          "longFrames": 0,
+          "calls": 186,
+          "triangles": 26970,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 291,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:26.676Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01200240048009,
+          "averageFrameMs": 16.663333333333334,
+          "p95FrameMs": 20.799999952316284,
+          "longFrames": 0,
+          "calls": 173,
+          "triangles": 24610,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 292,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:31.692Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00600060006001,
+          "averageFrameMs": 16.665,
+          "p95FrameMs": 20.09999990463257,
+          "longFrames": 0,
+          "calls": 164,
+          "triangles": 22298,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 293,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:36.706Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99999999999999,
+          "averageFrameMs": 16.666666666666668,
+          "p95FrameMs": 20.09999990463257,
+          "longFrames": 0,
+          "calls": 170,
+          "triangles": 22434,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 294,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:41.706Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00900135020253,
+          "averageFrameMs": 16.664166666666667,
+          "p95FrameMs": 20.09999990463257,
+          "longFrames": 0,
+          "calls": 178,
+          "triangles": 22382,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 295,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:46.726Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.985003749062734,
+          "averageFrameMs": 16.670833333333334,
+          "p95FrameMs": 19.700000047683716,
+          "longFrames": 0,
+          "calls": 183,
+          "triangles": 27478,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 296,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:51.742Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.0018000537155,
+          "averageFrameMs": 16.66616666674614,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 172,
+          "triangles": 31414,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 297,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:35:56.759Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.983204702969196,
+          "averageFrameMs": 16.67133333325386,
+          "p95FrameMs": 19.5,
+          "longFrames": 0,
+          "calls": 174,
+          "triangles": 30404,
+          "chunks": 9,
+          "particles": 4,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 298,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:01.774Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.995800293693364,
+          "averageFrameMs": 16.667833333412805,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 171,
+          "triangles": 31066,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 299,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:06.790Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00240009514546,
+          "averageFrameMs": 16.66600000023842,
+          "p95FrameMs": 18.899999856948853,
+          "longFrames": 0,
+          "calls": 176,
+          "triangles": 30946,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 300,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:11.805Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01380317444396,
+          "averageFrameMs": 16.662833333412806,
+          "p95FrameMs": 18.899999856948853,
+          "longFrames": 0,
+          "calls": 187,
+          "triangles": 25384,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 301,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:16.824Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98260504396521,
+          "averageFrameMs": 16.671500000158947,
+          "p95FrameMs": 19.40000009536743,
+          "longFrames": 0,
+          "calls": 180,
+          "triangles": 21478,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 302,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:21.838Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00480038374457,
+          "averageFrameMs": 16.665333333412807,
+          "p95FrameMs": 19.5,
+          "longFrames": 0,
+          "calls": 184,
+          "triangles": 21782,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 303,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:26.839Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98920194250615,
+          "averageFrameMs": 16.669666666984558,
+          "p95FrameMs": 19.100000143051147,
+          "longFrames": 0,
+          "calls": 176,
+          "triangles": 23410,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 304,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:31.841Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98800239952009,
+          "averageFrameMs": 16.67,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 181,
+          "triangles": 23936,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 305,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:36.855Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01560405648234,
+          "averageFrameMs": 16.662333333492278,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 203,
+          "triangles": 26380,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 306,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:41.872Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00360021544069,
+          "averageFrameMs": 16.66566666682561,
+          "p95FrameMs": 19.699999809265137,
+          "longFrames": 0,
+          "calls": 173,
+          "triangles": 29530,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 307,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:46.887Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.0018000537155,
+          "averageFrameMs": 16.66616666674614,
+          "p95FrameMs": 19.90000009536743,
+          "longFrames": 0,
+          "calls": 168,
+          "triangles": 29252,
+          "chunks": 9,
+          "particles": 21,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 308,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:51.904Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.02761270127011,
+          "averageFrameMs": 16.659000000158947,
+          "p95FrameMs": 19.90000009536743,
+          "longFrames": 0,
+          "calls": 170,
+          "triangles": 30450,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 309,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:36:56.904Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.0018000537155,
+          "averageFrameMs": 16.66616666674614,
+          "p95FrameMs": 19.799999952316284,
+          "longFrames": 0,
+          "calls": 194,
+          "triangles": 29048,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 310,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:01.920Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.02040693893164,
+          "averageFrameMs": 16.660999999841053,
+          "p95FrameMs": 19.59999990463257,
+          "longFrames": 0,
+          "calls": 197,
+          "triangles": 25088,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 311,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:06.920Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.010801945494805,
+          "averageFrameMs": 16.663666666348774,
+          "p95FrameMs": 19.399999856948853,
+          "longFrames": 0,
+          "calls": 175,
+          "triangles": 24000,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 312,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:11.920Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.998200052854045,
+          "averageFrameMs": 16.667166666984556,
+          "p95FrameMs": 19.399999856948853,
+          "longFrames": 0,
+          "calls": 182,
+          "triangles": 23792,
+          "chunks": 9,
+          "particles": 31,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 313,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:16.924Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.97600959616154,
+          "averageFrameMs": 16.673333333333332,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 185,
+          "triangles": 20788,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 314,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:21.936Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01260264598333,
+          "averageFrameMs": 16.663166666825614,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 194,
+          "triangles": 22038,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 315,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:26.938Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98980173341926,
+          "averageFrameMs": 16.669500000079474,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 199,
+          "triangles": 27636,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 316,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:31.952Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00240009514546,
+          "averageFrameMs": 16.66600000023842,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 163,
+          "triangles": 30006,
+          "chunks": 9,
+          "particles": 13,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 317,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:36.972Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00900135020253,
+          "averageFrameMs": 16.664166666666667,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 162,
+          "triangles": 28332,
+          "chunks": 9,
+          "particles": 31,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 318,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:41.984Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00960153567341,
+          "averageFrameMs": 16.664000000158946,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 173,
+          "triangles": 29224,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 319,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:46.986Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.997600095424,
+          "averageFrameMs": 16.66733333349228,
+          "p95FrameMs": 18.90000009536743,
+          "longFrames": 0,
+          "calls": 172,
+          "triangles": 29784,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 320,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:51.987Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98440405551762,
+          "averageFrameMs": 16.670999999841055,
+          "p95FrameMs": 18.800000190734863,
+          "longFrames": 0,
+          "calls": 191,
+          "triangles": 23694,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 321,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:37:57.006Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98620317355612,
+          "averageFrameMs": 16.670499999920526,
+          "p95FrameMs": 19.300000190734863,
+          "longFrames": 0,
+          "calls": 180,
+          "triangles": 21266,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 322,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:02.019Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.018605767215455,
+          "averageFrameMs": 16.661500000158945,
+          "p95FrameMs": 19.40000009536743,
+          "longFrames": 0,
+          "calls": 190,
+          "triangles": 22338,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 323,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:07.034Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.995800293693364,
+          "averageFrameMs": 16.667833333412805,
+          "p95FrameMs": 18.700000047683716,
+          "longFrames": 0,
+          "calls": 186,
+          "triangles": 21234,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 324,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:12.038Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98200539838049,
+          "averageFrameMs": 16.671666666666667,
+          "p95FrameMs": 18.600000143051147,
+          "longFrames": 0,
+          "calls": 184,
+          "triangles": 21482,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 325,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:17.050Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.0012000242866,
+          "averageFrameMs": 16.66633333325386,
+          "p95FrameMs": 19.09999990463257,
+          "longFrames": 0,
+          "calls": 193,
+          "triangles": 27832,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 326,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:22.050Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00420029430672,
+          "averageFrameMs": 16.665499999920527,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 182,
+          "triangles": 31274,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 327,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:27.050Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99880002371343,
+          "averageFrameMs": 16.667000000079472,
+          "p95FrameMs": 18.700000047683716,
+          "longFrames": 0,
+          "calls": 166,
+          "triangles": 30958,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 328,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:32.070Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.981405764784945,
+          "averageFrameMs": 16.671833333174387,
+          "p95FrameMs": 18.700000047683716,
+          "longFrames": 0,
+          "calls": 178,
+          "triangles": 29840,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 329,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:37.072Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.97600959616154,
+          "averageFrameMs": 16.673333333333332,
+          "p95FrameMs": 18.899999856948853,
+          "longFrames": 0,
+          "calls": 193,
+          "triangles": 29456,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 330,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:42.084Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00660072550754,
+          "averageFrameMs": 16.66483333349228,
+          "p95FrameMs": 18.90000009536743,
+          "longFrames": 0,
+          "calls": 180,
+          "triangles": 24566,
+          "chunks": 9,
+          "particles": 21,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 331,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:47.103Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98320470153948,
+          "averageFrameMs": 16.671333333651226,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 174,
+          "triangles": 22026,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 332,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:52.118Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.9970001499925,
+          "averageFrameMs": 16.6675,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 167,
+          "triangles": 22790,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 333,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:38:57.131Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.006600726938366,
+          "averageFrameMs": 16.664833333094915,
+          "p95FrameMs": 19.199999809265137,
+          "longFrames": 0,
+          "calls": 177,
+          "triangles": 22728,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 334,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:02.132Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00240009514546,
+          "averageFrameMs": 16.66600000023842,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 194,
+          "triangles": 23716,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 335,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:07.149Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.0018000537155,
+          "averageFrameMs": 16.66616666674614,
+          "p95FrameMs": 18.800000190734863,
+          "longFrames": 0,
+          "calls": 179,
+          "triangles": 27202,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 336,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:12.150Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01560405791359,
+          "averageFrameMs": 16.662333333094914,
+          "p95FrameMs": 18.90000009536743,
+          "longFrames": 0,
+          "calls": 176,
+          "triangles": 29772,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 337,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:17.151Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.991001349797536,
+          "averageFrameMs": 16.669166666666666,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 178,
+          "triangles": 29952,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 338,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:22.169Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98440405551762,
+          "averageFrameMs": 16.670999999841055,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 172,
+          "triangles": 30056,
+          "chunks": 9,
+          "particles": 31,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 339,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:27.183Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99160117669345,
+          "averageFrameMs": 16.66899999976158,
+          "p95FrameMs": 19.199999809265137,
+          "longFrames": 0,
+          "calls": 192,
+          "triangles": 30966,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 340,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:32.198Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.0012000242866,
+          "averageFrameMs": 16.66633333325386,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 184,
+          "triangles": 25686,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 341,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:37.200Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00480038517531,
+          "averageFrameMs": 16.665333333015443,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 184,
+          "triangles": 21076,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 342,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:42.218Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98440405551762,
+          "averageFrameMs": 16.670999999841055,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 185,
+          "triangles": 22072,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 343,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:47.232Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.995200382825054,
+          "averageFrameMs": 16.668000000317893,
+          "p95FrameMs": 19.40000009536743,
+          "longFrames": 0,
+          "calls": 174,
+          "triangles": 22968,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 344,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:52.234Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98080614174864,
+          "averageFrameMs": 16.67200000007947,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 191,
+          "triangles": 24952,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 345,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:39:57.247Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.022808667007254,
+          "averageFrameMs": 16.660333333412805,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 189,
+          "triangles": 27910,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 346,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:02.248Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99940000657213,
+          "averageFrameMs": 16.666833333174388,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 164,
+          "triangles": 30224,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 347,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:07.264Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00300015000751,
+          "averageFrameMs": 16.66583333333333,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 175,
+          "triangles": 31178,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 348,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:12.267Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.991001349797536,
+          "averageFrameMs": 16.669166666666666,
+          "p95FrameMs": 19.799999952316284,
+          "longFrames": 0,
+          "calls": 178,
+          "triangles": 29666,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 349,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:17.280Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01200240048009,
+          "averageFrameMs": 16.663333333333334,
+          "p95FrameMs": 19.799999952316284,
+          "longFrames": 0,
+          "calls": 194,
+          "triangles": 29460,
+          "chunks": 9,
+          "particles": 21,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 350,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:22.280Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99999999999999,
+          "averageFrameMs": 16.666666666666668,
+          "p95FrameMs": 19.700000047683716,
+          "longFrames": 0,
+          "calls": 200,
+          "triangles": 25904,
+          "chunks": 9,
+          "particles": 12,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 351,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:27.298Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01260264598333,
+          "averageFrameMs": 16.663166666825614,
+          "p95FrameMs": 20,
+          "longFrames": 0,
+          "calls": 173,
+          "triangles": 22848,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 352,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:32.313Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99999999999999,
+          "averageFrameMs": 16.666666666666668,
+          "p95FrameMs": 20.09999990463257,
+          "longFrames": 0,
+          "calls": 180,
+          "triangles": 21516,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 353,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:37.315Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99880002371343,
+          "averageFrameMs": 16.667000000079472,
+          "p95FrameMs": 20,
+          "longFrames": 0,
+          "calls": 181,
+          "triangles": 20378,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 354,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:42.333Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.97960693307075,
+          "averageFrameMs": 16.67233333349228,
+          "p95FrameMs": 19.799999952316284,
+          "longFrames": 0,
+          "calls": 190,
+          "triangles": 23192,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 355,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:47.347Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99880002371343,
+          "averageFrameMs": 16.667000000079472,
+          "p95FrameMs": 19.299999952316284,
+          "longFrames": 0,
+          "calls": 196,
+          "triangles": 27776,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 356,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:52.347Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99340072649223,
+          "averageFrameMs": 16.668499999841053,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 165,
+          "triangles": 30434,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 357,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:40:57.363Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00360021544069,
+          "averageFrameMs": 16.66566666682561,
+          "p95FrameMs": 19.100000143051147,
+          "longFrames": 0,
+          "calls": 165,
+          "triangles": 29594,
+          "chunks": 9,
+          "particles": 31,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 358,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:02.364Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99160117526334,
+          "averageFrameMs": 16.669000000158945,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 171,
+          "triangles": 28706,
+          "chunks": 9,
+          "particles": 4,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 359,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:07.378Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99880002371343,
+          "averageFrameMs": 16.667000000079472,
+          "p95FrameMs": 19.100000143051147,
+          "longFrames": 0,
+          "calls": 168,
+          "triangles": 27860,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 360,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:12.379Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00060000542785,
+          "averageFrameMs": 16.666500000158944,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 188,
+          "triangles": 25630,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 361,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:17.394Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.02160777965929,
+          "averageFrameMs": 16.66066666642825,
+          "p95FrameMs": 18.90000009536743,
+          "longFrames": 0,
+          "calls": 176,
+          "triangles": 22658,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 362,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:22.396Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99460048681441,
+          "averageFrameMs": 16.66816666642825,
+          "p95FrameMs": 18.90000009536743,
+          "longFrames": 0,
+          "calls": 183,
+          "triangles": 22518,
+          "chunks": 9,
+          "particles": 21,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 363,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:27.398Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.97960693307075,
+          "averageFrameMs": 16.67233333349228,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 189,
+          "triangles": 22462,
+          "chunks": 9,
+          "particles": 22,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 364,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:32.410Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.024610090995964,
+          "averageFrameMs": 16.659833333094916,
+          "p95FrameMs": 19,
+          "longFrames": 0,
+          "calls": 187,
+          "triangles": 23902,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 365,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:37.414Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.985603454598824,
+          "averageFrameMs": 16.670666666825614,
+          "p95FrameMs": 19.399999856948853,
+          "longFrames": 0,
+          "calls": 187,
+          "triangles": 28318,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 366,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:42.429Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.992201014154226,
+          "averageFrameMs": 16.66883333325386,
+          "p95FrameMs": 19.699999809265137,
+          "longFrames": 0,
+          "calls": 176,
+          "triangles": 31436,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 367,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:47.429Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00300015000751,
+          "averageFrameMs": 16.66583333333333,
+          "p95FrameMs": 19.700000047683716,
+          "longFrames": 0,
+          "calls": 171,
+          "triangles": 30908,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 368,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:52.443Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.02641162025423,
+          "averageFrameMs": 16.65933333357175,
+          "p95FrameMs": 19.700000047683716,
+          "longFrames": 0,
+          "calls": 174,
+          "triangles": 30460,
+          "chunks": 9,
+          "particles": 21,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 369,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:41:57.463Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98680290307529,
+          "averageFrameMs": 16.670333333412806,
+          "p95FrameMs": 20,
+          "longFrames": 0,
+          "calls": 192,
+          "triangles": 30734,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 370,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:02.476Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00360021687137,
+          "averageFrameMs": 16.665666666428248,
+          "p95FrameMs": 19.899999856948853,
+          "longFrames": 0,
+          "calls": 194,
+          "triangles": 25658,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 371,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:07.492Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00960153567341,
+          "averageFrameMs": 16.664000000158946,
+          "p95FrameMs": 19.40000009536743,
+          "longFrames": 0,
+          "calls": 175,
+          "triangles": 21280,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 372,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:12.492Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01440345740212,
+          "averageFrameMs": 16.66266666650772,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 165,
+          "triangles": 21560,
+          "chunks": 9,
+          "particles": 11,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 373,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:17.493Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.99280086361029,
+          "averageFrameMs": 16.66866666674614,
+          "p95FrameMs": 19.399999856948853,
+          "longFrames": 0,
+          "calls": 172,
+          "triangles": 22862,
+          "chunks": 9,
+          "particles": 29,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 374,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:22.494Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 59.98800239952009,
+          "averageFrameMs": 16.67,
+          "p95FrameMs": 19.200000047683716,
+          "longFrames": 0,
+          "calls": 190,
+          "triangles": 22142,
+          "chunks": 9,
+          "particles": 2,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 375,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:27.508Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.00540048518528,
+          "averageFrameMs": 16.665166666905087,
+          "p95FrameMs": 19.600000143051147,
+          "longFrames": 0,
+          "calls": 186,
+          "triangles": 25570,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "sequence": 376,
+        "flowId": "0ca0c06b-e984-43f1-bb72-a1ad6a3e5c60",
+        "timestamp": "2026-10-22T03:42:32.508Z",
+        "release": {
+          "version": "0.14.0-beta",
+          "buildId": "0.14.0-beta-aa4a77ac729f-20261022T033157620Z",
+          "commit": "aa4a77ac729f5c9e576b20c4a413575d912d5b47",
+          "buildTime": "2026-10-22T03:31:57.620Z",
+          "environment": "preview"
+        },
+        "context": {
+          "browser": "chrome",
+          "device": "desktop",
+          "quality": "high",
+          "gameState": "running"
+        },
+        "kind": "performance",
+        "data": {
+          "samples": 600,
+          "fps": 60.01680470503123,
+          "averageFrameMs": 16.662000000079473,
+          "p95FrameMs": 19.40000009536743,
+          "longFrames": 0,
+          "calls": 178,
+          "triangles": 29788,
+          "chunks": 9,
+          "particles": 20,
+          "dpr": 1,
+          "gpuBytes": null
+        }
+      }
+    ],
+    "firstRunDistanceMeters": 99,
+    "queued": 0,
+    "dropped": 0,
+    "analyticsCounts": {
+      "APP_OPENED": 1,
+      "GAME_READY": 1,
+      "RUN_STARTED": 51,
+      "RUN_ENDED": 50,
+      "SHOP_OPENED": 50,
+      "RUN_RESTARTED": 50,
+      "MISSION_COMPLETED": 3
+    },
+    "analyticsEnabled": true,
+    "remoteConsent": false,
+    "connection": "local-only",
+    "performance": {
+      "samples": 600,
+      "fps": 60.01680470503123,
+      "averageFrameMs": 16.662000000079473,
+      "p95FrameMs": 19.40000009536743,
+      "longFrames": 0,
+      "calls": 178,
+      "triangles": 29788,
+      "chunks": 9,
+      "particles": 20,
+      "dpr": 1,
+      "gpuBytes": null
+    },
+    "timings": {
+      "pageInitializedMs": 45,
+      "pageLoadedMs": 46,
+      "glb:city-runner": 304,
+      "glb:roadblock": 374,
+      "glb:city-building-01": 374,
+      "glb:city-building-02": 374,
+      "glb:dusk-office-rooftop": 374,
+      "glb:dusk-residential-terrace": 374,
+      "glb:street-lamp": 374,
+      "coreReadyMs": 2140,
+      "timeToPlayMs": 2141,
+      "homeToPlayMs": 79,
+      "glb:powerup-double-score": 50,
+      "glb:powerup-magnet": 48,
+      "glb:neon-building-01": 17,
+      "glb:neon-building-02": 17,
+      "glb:neon-street-lamp": 17,
+      "glb:neon-billboard": 17,
+      "glb:powerup-shield": 66
+    }
+  },
+  "bundle": {
+    "initialBytes": 389569,
+    "initialGzip": 123092,
+    "allJsBytes": 1417118,
+    "allJsGzip": 411131,
+    "initialDelta": 14547,
+    "totalGlbs": 507052
+  },
+  "loads": [
+    {
+      "name": "desktop",
+      "browser": "156.0.8078.4",
+      "beforeBrowser": "156.0.8078.4",
+      "passes": [
+        {
+          "pass": "cold",
+          "readyButtonMs": 86.60000014305115,
+          "playableProbeMs": 1523.8000001907349,
+          "requests": 22,
+          "failures": 0,
+          "glbs": 7,
+          "encodedBodyBytes": 811081,
+          "transferBytes": 817161,
+          "before": {
+            "readyButtonMs": 136.90000009536743,
+            "playableProbeMs": 1595.9000000953674
+          }
+        },
+        {
+          "pass": "warm",
+          "readyButtonMs": 41,
+          "playableProbeMs": 1253.9000000953674,
+          "requests": 22,
+          "failures": 0,
+          "glbs": 7,
+          "encodedBodyBytes": 391580,
+          "transferBytes": 6300,
+          "before": {
+            "readyButtonMs": 41.10000014305115,
+            "playableProbeMs": 1001
+          }
+        }
+      ]
+    },
+    {
+      "name": "mobile-emulated",
+      "browser": "156.0.8078.4",
+      "beforeBrowser": "156.0.8078.4",
+      "passes": [
+        {
+          "pass": "cold",
+          "readyButtonMs": 83.09999990463257,
+          "playableProbeMs": 1371.3999998569489,
+          "requests": 22,
+          "failures": 0,
+          "glbs": 7,
+          "encodedBodyBytes": 810861,
+          "transferBytes": 816861,
+          "before": {
+            "readyButtonMs": 89.30000019073486,
+            "playableProbeMs": 1387.9000000953674
+          }
+        },
+        {
+          "pass": "warm",
+          "readyButtonMs": 41.700000047683716,
+          "playableProbeMs": 1233,
+          "requests": 22,
+          "failures": 0,
+          "glbs": 7,
+          "encodedBodyBytes": 391580,
+          "transferBytes": 6300,
+          "before": {
+            "readyButtonMs": 38.5,
+            "playableProbeMs": 1241
+          }
+        }
+      ]
+    }
+  ],
+  "publicDeployment": {
+    "preview": false,
+    "production": false,
+    "httpsVerified": false
+  },
+  "humanAcceptance": {
+    "ios": false,
+    "android": false,
+    "audio": false,
+    "realPlayers": 0
+  },
+  "limitations": [
+    "No remote CI/deploy/HTTPS or real player data",
+    "No iOS/Android physical hardware or human audio/balance acceptance",
+    "E2E optimized instrumentation is distinct from a normal production artifact",
+    "RAF cadence and JS Heap do not measure GPU bytes/headroom or prove indefinite leak freedom",
+    "Full185 was not re-run as a single all-green command; all failures were intentional visual diffs resolved and independently compared"
+  ],
+  "logs": {
+    "artifacts/beta/release-gate-final.log": {
+      "sha256": "4d06dd685a04bfd00080baccad9ae7bdd9266f614c4392e7241363ced77b8e32"
+    },
+    "artifacts/beta/e2e-full-first.log": {
+      "sha256": "772a8724a907938296738039fba25b2c0a4caf5321a201524e083bd585f859f7"
+    },
+    "artifacts/beta/visual-final.log": {
+      "sha256": "21a1be27741a2f79a103d8004b2cb38b08705e13b8ab7b26bf3ff9ba53c85155"
+    },
+    "artifacts/beta/production-final.log": {
+      "sha256": "555a5dbe62bab2ff9ec41fc1e3b89d1a2fef6685831b58ac32912e3051e03612"
+    },
+    "artifacts/beta/loading-final.log": {
+      "sha256": "1916ed7f883347b3a32bb09c4739f9aef56e53a078a4239b12cb2431b497f844"
+    },
+    "artifacts/beta/webgl-init-final.log": {
+      "sha256": "a7db2c48e0c3d15b635cafe2c7e5643fca827ac64a67137a6503f10c692d47ce"
+    },
+    "artifacts/beta/stability-final.log": {
+      "sha256": "c1bb8db190bc73676783916cfb12853264b528f95815b886709940ae1efe7531"
+    }
+  }
+}

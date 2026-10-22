@@ -27,12 +27,12 @@ for (const profile of [{ name: 'desktop', width: 1440, height: 900, dpr: 1, touc
         canvas: { width: document.querySelector('canvas')?.width, height: document.querySelector('canvas')?.height, css: document.querySelector('canvas')?.getBoundingClientRect().toJSON() },
         pageWidth: document.documentElement.scrollWidth, viewport: [innerWidth, innerHeight],
       }));
-      mkdirSync('artifacts/mobile-baseline', { recursive: true });
-      await page.screenshot({ path: `artifacts/mobile-baseline/${before ? 'before' : 'after'}-${profile.name}-${pass}.png`, fullPage: true });
+      mkdirSync('artifacts/ui-ux/regression/mobile-baseline', { recursive: true });
+      await page.screenshot({ path: `artifacts/ui-ux/regression/mobile-baseline/${before ? 'before' : 'after'}-${profile.name}-${pass}.png`, fullPage: true });
       passes.push({ pass, readyButtonMs, playableProbeMs, requests, requestEvents, responseEvents, failedRequests, ...resources, errors });
       page.off('pageerror', failed); page.off('response', receive); page.off('request',requested); page.off('requestfailed',requestFailed); expect(errors).toEqual([]); expect(failedRequests).toEqual([]);
     }
-    writeFileSync(`artifacts/mobile-baseline/${before ? 'before' : 'after'}-${profile.name}.json`, JSON.stringify({ browser: browser.version(), profile, scope: 'local production preview cold/warm context; readiness probe is real start followed by distance>2m; not internet TTI or phone hardware; old startup button had no resource gate', passes }, null, 2));
+    writeFileSync(`artifacts/ui-ux/regression/mobile-baseline/${before ? 'before' : 'after'}-${profile.name}.json`, JSON.stringify({ browser: browser.version(), profile, scope: 'local production preview cold/warm context; readiness probe is real start followed by distance>2m; not internet TTI or phone hardware; old startup button had no resource gate', passes }, null, 2));
     await context.close();
   });
 }

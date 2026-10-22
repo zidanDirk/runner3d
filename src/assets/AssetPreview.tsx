@@ -14,6 +14,7 @@ import { AnimatedCharacter } from '../character/AnimatedCharacter';
 import type { PreviewPlayback } from '../character/AnimatedCharacter';
 import { CharacterAnimationController } from '../character/CharacterAnimationController';
 import type { AnimationDiagnostics } from '../character/CharacterAnimationController';
+import { RendererResources } from './RendererResources';
 import { ANIMATION_STATES } from '../character/animationConfig';
 import type { AnimationState } from '../character/animationConfig';
 import { AnimationPreviewControls, clipDurations } from './AnimationPreviewControls';
@@ -92,6 +93,7 @@ function Viewer({ view, reset, ids, themeId, onStats, characterView, characterLi
   const distance = view === 'all' ? 34 : extent * 1.75;
   const neutral = characterLight === 'neutral';
   return <Canvas key={`${view}-${reset}-${characterView}-${characterLight}`} shadows dpr={[1, 1.5]} gl={{ antialias: true, toneMapping: ACESFilmicToneMapping }}>
+    <RendererResources />
     <PerspectiveCamera makeDefault fov={42} near={0.05} far={250} position={characterView ? characterCamera(characterView, distance, target[1]) : [distance * 0.8, target[1] + distance * 0.45, distance]} />
     <OrbitControls makeDefault target={target} minDistance={extent * 0.6} maxDistance={extent * 7} maxPolarAngle={Math.PI * 0.49} enablePan />
     {neutral ? <>

@@ -24,7 +24,7 @@ for (const [name, distance] of [['city-start', 0], ['city-near-player', 18], ['c
       await document.fonts.ready;
       await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
     });
-    await page.locator('.game-stage').screenshot({ path: `artifacts/visual-actual/${name}.png` });
+    await page.locator('.game-stage').screenshot({ path: `artifacts/ui-ux/regression/visual-actual/${name}.png` });
     await expect(page.locator('.game-stage')).toHaveScreenshot(`${name}.png`, {
       animations: 'disabled', maxDiffPixelRatio: 0.01, threshold: 0.22,
     });

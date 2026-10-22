@@ -46,7 +46,7 @@ test('city GLBs appear on both sides, update during real play and reset without 
   const after = await loadedCity(page, 1);
   expect(after.chunkIds).toEqual([-1, 0, 1, 2, 3, 4, 5, 6, 7]);
   expect(after.revision).toBeGreaterThan(initial.revision);
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/city-gameplay.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/city-gameplay.png' });
   // Deliberately hit the existing seeded roadblock through real keyboard input.
   await page.keyboard.press('ArrowLeft');
   await page.evaluate(() => window.__RUNNER_TEST__?.freeze(false));
@@ -81,10 +81,10 @@ test('debug city supports stable captures and bounded resources through a real 1
     samples.push(sample);
   }
   await expect(page.getByLabel('城市调试信息')).toContainText('Chunk 3');
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/city-debug.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/city-debug.png' });
   const final = await loadedCity(page, 3);
   expect(final.geometries).toBeLessThanOrEqual(initial.geometries + 50);
-  writeFileSync('artifacts/city-render-metrics.json', JSON.stringify({ viewport: { width: 1440, height: 1000 }, initial, samples, final }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/city-render-metrics.json', JSON.stringify({ viewport: { width: 1440, height: 1000 }, initial, samples, final }, null, 2));
   expect(errors).toEqual([]);
 });
 

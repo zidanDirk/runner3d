@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const asset = JSON.parse(readFileSync(new URL('../../src/assets/generated/manifest.json', import.meta.url), 'utf8')).assets['city-runner'];
 const round = process.env.ANIMATION_CAPTURE_ROUND ?? 'final';
-const out = round === 'final' ? 'artifacts/screenshots' : `artifacts/animation-iteration/${round}`;
+const out = round === 'final' ? 'artifacts/ui-ux/regression/screenshots' : `artifacts/ui-ux/regression/animation-iteration/${round}`;
 
 test('animation pose captures use actual skin and deterministic clip seconds', async ({ page }) => {
   test.setTimeout(60000);
@@ -56,7 +56,7 @@ test('animation pose captures use actual skin and deterministic clip seconds', a
 
 test('continuous real gameplay records Run Jump Slide recovery and pause through real input', async ({ browser }) => {
   const { copyFile, mkdir } = await import('node:fs/promises');
-  const dir = round === 'final' ? 'artifacts/animation-motion' : `${out}/motion`;
+  const dir = round === 'final' ? 'artifacts/ui-ux/regression/animation-motion' : `${out}/motion`;
   await mkdir(dir, { recursive: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, recordVideo: { dir, size: { width: 1440, height: 1000 } } });
   const page = await context.newPage(); const errors: string[] = [];
@@ -202,7 +202,7 @@ test('deterministic real inputs capture symmetric lane lean and both city themes
 
 test('preview supports real playback, pause, replay, speed and a continuous motion capture', async ({ browser }) => {
   const { copyFile, mkdir } = await import('node:fs/promises');
-  const dir = round === 'final' ? 'artifacts/animation-motion' : `${out}/motion`;
+  const dir = round === 'final' ? 'artifacts/ui-ux/regression/animation-motion' : `${out}/motion`;
   await mkdir(dir, { recursive: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, recordVideo: { dir, size: { width: 1440, height: 1000 } } });
   const page = await context.newPage(); const errors: string[] = []; const frames = [];

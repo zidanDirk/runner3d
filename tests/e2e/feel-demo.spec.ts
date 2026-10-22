@@ -5,7 +5,7 @@ import { FEEL_INPUTS, FEEL_SEED, prepareFeel, settleFeedback, stepFeelTo } from 
 import { waitForThemeAssets } from './theme-helpers';
 import type { FeedbackEvent } from '../../src/feedback/types';
 
-const output = 'artifacts/feel-iteration/final';
+const output = 'artifacts/ui-ux/regression/feel-iteration/final';
 test('captures twelve deterministic seconds of actual game facts and rendered feedback, including immediate death', async ({ page }) => {
   test.setTimeout(120000); mkdirSync(`${output}/frames`, { recursive: true });
   const errors: string[] = []; const timeline: FeedbackEvent[] = []; const frames = []; let deathTick = 0;

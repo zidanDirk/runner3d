@@ -1,3 +1,4 @@
+import { monitor } from '../observability/client';
 import { Component, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
@@ -13,6 +14,7 @@ import type { SkinId } from '../character/appearance';
 import { CharacterAnimationController } from '../character/CharacterAnimationController';
 import { useReducedMotion } from '../runtime/motion-preferences';
 import { useProductPreferences } from '../runtime/product-preferences';
+import { RendererResources } from '../assets/RendererResources';
 
 function PreviewFallback({ skinId }: { skinId: SkinId }) {
   const { colors } = getCharacterSkin(skinId);
@@ -31,6 +33,7 @@ function PreviewFallback({ skinId }: { skinId: SkinId }) {
 function PreviewAnimation({ instance, clips, active }: { instance: Object3D; clips: readonly AnimationClip[]; active: boolean }) {
   const controller = useRef<CharacterAnimationController | null>(null);
   const group = useRef<Group>(null);
+  const { scene } = useThree();
   useLayoutEffect(() => {
     const animation = new CharacterAnimationController(instance, clips);
     animation.samplePreview('idle', 0);
@@ -39,6 +42,16 @@ function PreviewAnimation({ instance, clips, active }: { instance: Object3D; cli
     if (object) object.userData.animationController = animation;
     return () => { animation.dispose(); controller.current = null; if (object) delete object.userData.animationController; };
   }, [instance, clips]);
+  useLayoutEffect(() => {
+    if (import.meta.env.MODE !== 'e2e') return;
+    const inspect = (): NonNullable<ReturnType<NonNullable<Window['__PRODUCT_PREVIEW__']>>> => ({
+      animation: controller.current?.diagnostics() ?? null,
+      rotation: scene.getObjectByName('character-preview-turntable')?.rotation.y ?? 0,
+      active,
+    });
+    window.__PRODUCT_PREVIEW__ = inspect;
+    return () => { if (window.__PRODUCT_PREVIEW__ === inspect) delete window.__PRODUCT_PREVIEW__; };
+  }, [scene, active]);
   useFrame((_, delta) => controller.current?.playPreview('idle', delta, 1, active));
   return <group name="character-preview-animation" ref={group} dispose={null}><primitive object={instance} /></group>;
 }
@@ -64,7 +77,7 @@ function PreviewContext({ onLost }: { onLost: (lost: boolean) => void }) {
 class PreviewBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
-  componentDidCatch(error: Error) { console.error('[preview] City Runner 预览无法启动。', error); }
+  componentDidCatch(error: Error) { monitor.error('WEBGL_INIT'); console.error('[preview] City Runner 预览无法启动。', error); }
   render() { return this.state.failed ? this.props.fallback : this.props.children; }
 }
 
@@ -101,7 +114,7 @@ export function CharacterPreview({ skinId: selectedSkin, interactive = true, cla
           onCreated={({ gl }) => { gl.domElement.setAttribute('aria-label', 'City Runner 角色预览画布'); }}
           fallback={unavailable}
         >
-          <PreviewCamera /><PreviewContext onLost={setLost} />
+          <RendererResources /><PreviewCamera /><PreviewContext onLost={setLost} />
           <ambientLight intensity={.85} /><hemisphereLight args={['#d2e8ff', '#293850', 1.3]} />
           <directionalLight position={[3, 5, -4]} color="#ffecd5" intensity={2.5} />
           <group rotation={[0, rotation, 0]} name="character-preview-turntable">

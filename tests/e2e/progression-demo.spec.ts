@@ -3,8 +3,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { startProgression } from './progression-helpers';
 
 test('records unpaused real gameplay with three natural pickups, shield break, coins and settlement', async ({ browser }) => {
-  test.setTimeout(70000); mkdirSync('artifacts/progression', { recursive: true });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, recordVideo: { dir: 'test-results/progression-video', size: { width: 960, height: 666 } } });
+  test.setTimeout(70000); mkdirSync('artifacts/ui-ux/regression/progression', { recursive: true });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, recordVideo: { dir: 'artifacts/ui-ux/regression/progression/video-raw', size: { width: 960, height: 666 } } });
   const page = await context.newPage(), timeline = [], events = new Map<string, unknown>();
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await startProgression(page, 'DEMO-11-4411'); await page.evaluate(() => window.__RUNNER_TEST__?.freeze(false));
@@ -28,10 +28,10 @@ test('records unpaused real gameplay with three natural pickups, shield break, c
   expect(final?.coins).toBeGreaterThan(10); expect(final?.scoreBonus).toBeGreaterThan(0);
   await expect(page.getByTestId('wallet')).toHaveText(String(final?.coins));
   expect([...events.values()].some(e => typeof e === 'object' && e !== null && 'type' in e && e.type === 'shield-broken')).toBe(true);
-  await page.screenshot({ path: 'artifacts/progression/video-settlement.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/progression/video-settlement.png' });
   await page.waitForTimeout(1200);
   const video = page.video(); await context.close(); if (!video) throw new Error('Actual video missing');
-  await video.saveAs('artifacts/progression/gameplay.webm');
-  writeFileSync('artifacts/progression/gameplay-timeline.json', JSON.stringify({ seed: 'DEMO-11-4411', capture: 'Actual unpaused RAF + trusted Playwright keyboard, no position/score/time injection during recorded play; operating-system scheduling is not deterministic; Playwright video may contain no audio track', events: [...events.values()], timeline, final, errors }, null, 2));
+  await video.saveAs('artifacts/ui-ux/regression/progression/gameplay.webm');
+  writeFileSync('artifacts/ui-ux/regression/progression/gameplay-timeline.json', JSON.stringify({ seed: 'DEMO-11-4411', capture: 'Actual unpaused RAF + trusted Playwright keyboard, no position/score/time injection during recorded play; operating-system scheduling is not deterministic; Playwright video may contain no audio track', events: [...events.values()], timeline, final, errors }, null, 2));
   expect(errors).toEqual([]);
 });

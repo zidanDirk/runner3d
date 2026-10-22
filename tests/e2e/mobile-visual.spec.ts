@@ -27,8 +27,8 @@ for (const name of cases) test(`mobile visual ${name}`, async ({ browser }) => {
     expect(batch.count).toBe(batch.declared);
     for (const matrix of batch.items) expect(Math.abs(matrix[12] ?? 0)).toBeGreaterThan(6);
   }
-  mkdirSync('artifacts/mobile-visual-actual',{recursive:true});
-  await page.screenshot({path:`artifacts/mobile-visual-actual/${name}.png`});
+  mkdirSync('artifacts/ui-ux/regression/mobile-visual-actual',{recursive:true});
+  await page.screenshot({path:`artifacts/ui-ux/regression/mobile-visual-actual/${name}.png`});
   await expect(page).toHaveScreenshot(`mobile-${name}.png`,{animations:'disabled',maxDiffPixelRatio:.003});
   expect(errors).toEqual([]); await context.close();
 });

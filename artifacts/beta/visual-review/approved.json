@@ -1,0 +1,103 @@
+{
+  "reviewedAt": "2026-10-22T02:51:20.338146+00:00",
+  "reviewer": "Codex root, actual view_image inspection; not human player acceptance",
+  "approved": [
+    {
+      "name": "mobile-settings",
+      "reason": "新增Beta隐私折叠区及居中高度变化",
+      "before": {
+        "path": "artifacts/beta/visual-review/mobile-settings-before.png",
+        "sha256": "85f89049d5dae109d6f9bb088028048f0c676fd3dd3bda6b050a6a759ff00d06"
+      },
+      "actual": {
+        "path": "artifacts/beta/visual-review/mobile-settings-actual.png",
+        "sha256": "42852ba72d2d6a397976819cf5be38c6a334bc33e51577c46d012f18c39a491a"
+      },
+      "diff": {
+        "path": "artifacts/beta/visual-review/mobile-settings-diff.png",
+        "sha256": "d0a6772f8929214eb16b14631a2a563cad3214711d0c302b6106be940e88f1a4"
+      }
+    },
+    {
+      "name": "product-desktop-hud",
+      "reason": "视口底部新增反馈按钮边缘；游戏画面未改变",
+      "before": {
+        "path": "artifacts/beta/visual-review/product-desktop-hud-before.png",
+        "sha256": "8a4d53bfec61c15fd61cec7b4c50fbe48e729e40229518d7cbd8f60428b7e4c9"
+      },
+      "actual": {
+        "path": "artifacts/beta/visual-review/product-desktop-hud-actual.png",
+        "sha256": "e6ee6b64d3dde8b347c72fcc81bf5b5dcd131fbdfb618e0748403cc457e93da6"
+      },
+      "diff": {
+        "path": "artifacts/beta/visual-review/product-desktop-hud-diff.png",
+        "sha256": "965d19bea014e3c2f3cd62b760eeacd4426e201100918e399bc2dae2cfba31e1"
+      }
+    },
+    {
+      "name": "product-desktop-paused",
+      "reason": "视口底部新增反馈按钮边缘；游戏画面未改变",
+      "before": {
+        "path": "artifacts/beta/visual-review/product-desktop-paused-before.png",
+        "sha256": "fa110926eca6bec04eef1a765e1053f88da8daf13e5eb3d7ee26d8151a5d1f74"
+      },
+      "actual": {
+        "path": "artifacts/beta/visual-review/product-desktop-paused-actual.png",
+        "sha256": "be32fe11d9c820774bc3fc9246449017830a0ad5f92ada959e1d12399356a5b1"
+      },
+      "diff": {
+        "path": "artifacts/beta/visual-review/product-desktop-paused-diff.png",
+        "sha256": "3eef84319c55f1e06e82560e0e9196f5551517ccb63a714a86c30e31c82f51be"
+      }
+    },
+    {
+      "name": "product-desktop-settings",
+      "reason": "新增Beta隐私折叠区及居中高度变化",
+      "before": {
+        "path": "artifacts/beta/visual-review/product-desktop-settings-before.png",
+        "sha256": "5e0d3c9699d7f0b0c71006ba1c502df7cadcbe746c7b224e8f34e092def7b0fb"
+      },
+      "actual": {
+        "path": "artifacts/beta/visual-review/product-desktop-settings-actual.png",
+        "sha256": "ad5c75b5e84e169d77dd1ca0e391643fc12a3e1b5e12e20fbab7d8a7e0bad166"
+      },
+      "diff": {
+        "path": "artifacts/beta/visual-review/product-desktop-settings-diff.png",
+        "sha256": "f8778642e7461ccab095af47ccb8ca83e9d6bb15f35f58f6af305f3f43569275"
+      }
+    },
+    {
+      "name": "product-desktop-record",
+      "reason": "视口底部新增反馈按钮边缘；游戏画面未改变",
+      "before": {
+        "path": "artifacts/beta/visual-review/product-desktop-record-before.png",
+        "sha256": "3b90de339fbdb36e6e213e78e8053b59f6859a20fa49687b4e8b5b2df531fdc9"
+      },
+      "actual": {
+        "path": "artifacts/beta/visual-review/product-desktop-record-actual.png",
+        "sha256": "7cc3b8c017a678688984506089a0c97be46cdfcae2b2d95e3f5f3b568c0b9fd2"
+      },
+      "diff": {
+        "path": "artifacts/beta/visual-review/product-desktop-record-diff.png",
+        "sha256": "17f634a80948d89e56e7b8832ddacd1a6b70fb242df61fbeb6f0bdf372762735"
+      }
+    },
+    {
+      "name": "product-desktop-results",
+      "reason": "视口底部新增反馈按钮边缘；游戏画面未改变",
+      "before": {
+        "path": "artifacts/beta/visual-review/product-desktop-results-before.png",
+        "sha256": "185cd1d946fc794bff170bab5e82033a054497563dfb8b17c6878189564810de"
+      },
+      "actual": {
+        "path": "artifacts/beta/visual-review/product-desktop-results-actual.png",
+        "sha256": "8c9023bce277f34070ef6f0841eb6f81079f57e1c59da4f143432fb2bbfef88b"
+      },
+      "diff": {
+        "path": "artifacts/beta/visual-review/product-desktop-results-diff.png",
+        "sha256": "bcc896a91aad7eca8fd8fe8b250ba4e399886240c6213c5d403990d429a51051"
+      }
+    }
+  ],
+  "policy": "Only these6 changed baseline bytes may publish; retain85 exact old hashes and all tolerances. No automatic CI update."
+}

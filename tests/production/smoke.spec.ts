@@ -32,7 +32,7 @@ test('production build loads without test hooks, renders and supports a complete
   expect(characterLoaded).toBe(true);
   expect(cityLoaded.size).toBe(3);
   expect(await page.evaluate(() => '__RUNNER_TEST__' in window || '__RUNNER_RENDER__' in window || '__CITY_RENDER__' in window)).toBe(false);
-  await page.screenshot({ path: 'artifacts/screenshots/production-running.png' });
+  await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/production-running.png' });
   await page.getByRole('button', { name: '暂停游戏' }).click();
   const distance = await page.getByTestId('distance').innerText();
   await page.waitForTimeout(150);
@@ -88,7 +88,7 @@ test('production mobile touch and settings operate without any developer hook', 
   const distance=await page.getByTestId('distance').innerText();await page.waitForTimeout(120);expect(await page.getByTestId('distance').innerText()).toBe(distance);
   expect(await page.evaluate(()=>{const canvas=document.querySelector('canvas');return canvas ? canvas.width/canvas.getBoundingClientRect().width : 0;})).toBeCloseTo(1,1);
   expect(await page.evaluate(()=> '__MOBILE_RENDER__' in window || '__RUNNER_TEST__' in window)).toBe(false);
-  await page.screenshot({path:'artifacts/mobile-iteration/production-mobile-low.png'});
+  await page.screenshot({path:'artifacts/ui-ux/regression/mobile-iteration/production-mobile-low.png'});
   await page.getByRole('button',{name:'继续奔跑',exact:true}).tap();
   await expect(page.getByRole('button',{name:'再跑一次',exact:true})).toBeVisible({timeout:15000});
   await page.getByRole('button',{name:'再跑一次',exact:true}).tap();

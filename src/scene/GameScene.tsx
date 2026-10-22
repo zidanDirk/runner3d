@@ -30,6 +30,9 @@ import { quality, useQuality } from '../runtime/quality';
 import { cameraLayout } from './cameraLayout';
 import { debugMobileEnabled } from '../runtime/mobile-metrics';
 import { graphics } from '../runtime/graphics';
+import { monitor } from '../observability/client';
+import { ReleaseTelemetry } from './ReleaseTelemetry';
+import { RendererResources } from '../assets/RendererResources';
 
 const MotionDebug = import.meta.env.DEV ? lazy(() => import('../ui/MotionDebug').then((module) => ({ default: module.MotionDebug }))) : () => null;
 const EffectsDebug = import.meta.env.DEV ? lazy(() => import('../ui/EffectsDebug').then((module) => ({ default: module.EffectsDebug }))) : () => null;
@@ -176,11 +179,12 @@ function Diagnostics() {
 function ContextWatcher({ onLost }: { onLost: (lost: boolean) => void }) {
   const { gl } = useThree();
   useEffect(() => {
-    const lost = (event: Event): void => { event.preventDefault(); graphics.setAvailable(false); input.setBlocked(true); game.pause(); feedback.audio.setPaused(true); quality.resetSampling(); onLost(true); };
-    const restored = (): void => { graphics.setAvailable(true); input.setBlocked(false); quality.resetSampling(); onLost(false); };
+    let watchdog: ReturnType<typeof setTimeout> | undefined;
+    const lost = (event: Event): void => { event.preventDefault(); monitor.error('WEBGL_LOST'); graphics.setAvailable(false); input.setBlocked(true); game.pause(); feedback.audio.setPaused(true); quality.resetSampling(); onLost(true); if (watchdog !== undefined) clearTimeout(watchdog); watchdog = setTimeout(() => { monitor.error('WEBGL_RESTORE'); }, 15000); };
+    const restored = (): void => { if (watchdog !== undefined) clearTimeout(watchdog); graphics.setAvailable(true); input.setBlocked(false); quality.resetSampling(); onLost(false); };
     gl.domElement.addEventListener('webglcontextlost', lost);
     gl.domElement.addEventListener('webglcontextrestored', restored);
-    return () => { gl.domElement.removeEventListener('webglcontextlost', lost); gl.domElement.removeEventListener('webglcontextrestored', restored); graphics.setAvailable(true); input.setBlocked(false); };
+    return () => { if (watchdog !== undefined) clearTimeout(watchdog); gl.domElement.removeEventListener('webglcontextlost', lost); gl.domElement.removeEventListener('webglcontextrestored', restored); graphics.setAvailable(true); input.setBlocked(false); };
   }, [gl, onLost]);
   return null;
 }
@@ -188,7 +192,7 @@ function ContextWatcher({ onLost }: { onLost: (lost: boolean) => void }) {
 class SceneBoundary extends Component<{ children: ReactNode }, { error: boolean }> {
   state = { error: false };
   static getDerivedStateFromError() { return { error: true }; }
-  componentDidCatch(): void { loading.setRendererFailed('请启用浏览器硬件加速和 WebGL，然后刷新页面。'); }
+  componentDidCatch(): void { monitor.error('WEBGL_INIT'); loading.setRendererFailed('请启用浏览器硬件加速和 WebGL，然后刷新页面。'); }
   render() {
     if (this.state.error) return <div className="scene-error" role="alert">3D 场景无法启动，请启用浏览器硬件加速后刷新。</div>;
     return this.props.children;
@@ -209,6 +213,7 @@ export function GameScene() {
       }}
       fallback={<div className="scene-error">此浏览器不支持 WebGL，请使用开启硬件加速的现代浏览器。</div>}
     >
+      <RendererResources /><ReleaseTelemetry />
       <PerspectiveCamera makeDefault fov={51} near={0.1} far={250} position={[0, 7.8, 12]} />
       <CameraRig />
       <ContextWatcher onLost={setLostContext} />

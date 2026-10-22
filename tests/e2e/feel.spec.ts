@@ -16,7 +16,7 @@ test('actual collected coins immediately update HUD, emit pooled feedback and pl
   expect(stats?.counts.coin).toBe(1); expect(stats?.particles).toBeGreaterThan(0); expect(stats?.particles).toBeLessThanOrEqual(192);
   expect(stats?.audio.contextCount).toBe(1); expect(stats?.audio.started).toBeGreaterThan(0); expect(stats?.audio.peakVoices).toBeLessThanOrEqual(12);
   await expect(page.getByTestId('coins')).toHaveText('1');
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/feel-coin.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-coin.png' });
   await openGameSettings(page);
   await page.getByLabel('设置游戏音效', { exact: true }).uncheck();
   await settleFeedback(page); expect(await page.evaluate(() => window.__FEEDBACK__?.audio.activeVoices)).toBe(0);
@@ -31,9 +31,9 @@ test('actual collected coins immediately update HUD, emit pooled feedback and pl
 test('real jump, landing, slide and lane facts are emitted once, pause freezes and reset clears pooled state', async ({ page }) => {
   await prepareFeel(page);
   let result = await stepFeelTo(page, 368); expect(result.effects?.counts.jump).toBe(1);
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/feel-jump.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-jump.png' });
   result = await stepFeelTo(page, 482); expect(result.effects?.counts.land).toBe(1); expect(result.effects?.particles).toBeGreaterThan(0);
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/feel-land.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-land.png' });
   await page.keyboard.press('Escape'); await settleFeedback(page);
   const frozen = await page.evaluate(() => ({ time: window.__FEEDBACK__?.time, count: window.__FEEDBACK__?.particles, tick: window.__RUNNER_TEST__?.read().tick }));
   await page.waitForTimeout(150); await settleFeedback(page);
@@ -47,7 +47,7 @@ test('real jump, landing, slide and lane facts are emitted once, pause freezes a
   await page.evaluate(() => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
   await page.keyboard.press('Escape'); await page.waitForFunction(() => window.__FEEDBACK__?.audio.status === 'ready');
   result = await stepFeelTo(page, 744); expect(result.effects?.counts.slide).toBe(1); expect(result.effects?.counts.lane).toBe(1);
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/feel-slide.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-slide.png' });
   result = await stepFeelTo(page, 1020); expect(result.effects?.particles).toBe(0); expect(result.effects?.activeEffects).toBe(0);
   await page.keyboard.press('Escape'); await page.getByRole('button', { name: '从头开始' }).click();
   await page.evaluate(() => window.__RUNNER_TEST__?.freeze(true)); await settleFeedback(page);
@@ -61,7 +61,7 @@ test('collision ends immediately and its finite visual tail renders once before 
   const tick = result.tick;
   expect(result.effects?.particles).toBeGreaterThan(0);
   await expect(page.getByRole('button', { name: '再跑一次' })).toBeVisible();
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/feel-collision.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-collision.png' });
   await page.evaluate(() => window.__RUNNER_TEST__?.stepFeedback(.2)); await settleFeedback(page);
   expect(await page.evaluate(() => window.__RUNNER_TEST__?.read().tick)).toBe(tick);
   await page.evaluate(() => window.__RUNNER_TEST__?.stepFeedback(1)); await settleFeedback(page);
@@ -75,7 +75,7 @@ test('both themes, high speed edges and OS reduced motion preserve actual gamepl
   await prepareFeel(page); await captureThemeAt(page, 10000);
   await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(24)); await settleFeedback(page);
   expect(await page.evaluate(() => window.__FEEDBACK__?.edgeParticles)).toBeGreaterThan(0);
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/feel-speed.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-speed.png' });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await captureThemeAt(page, 10000); await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(24)); await settleFeedback(page);
   expect(await page.evaluate(() => window.__FEEDBACK__?.edgeParticles)).toBe(0);
@@ -83,7 +83,7 @@ test('both themes, high speed edges and OS reduced motion preserve actual gamepl
   for (const [theme, distance] of [['dusk', 95], ['neon', 780]] as const) {
     await captureThemeAt(page, distance); await page.keyboard.press('Space'); await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(8)); await settleFeedback(page);
     expect(await page.evaluate(() => window.__FEEDBACK__?.counts.jump)).toBe(1);
-    await page.locator('.game-stage').screenshot({ path: `artifacts/screenshots/feel-${theme}.png` });
+    await page.locator('.game-stage').screenshot({ path: `artifacts/ui-ux/regression/screenshots/feel-${theme}.png` });
   }
 });
 
@@ -98,7 +98,7 @@ test('fixed-seed isolated preview supports real rendering, pause, step and reduc
   await page.getByRole('button', { name: '暂停特效', exact: true }).click(); await settleFeedback(page);
   const time = await page.evaluate(() => window.__EFFECT_PREVIEW__?.time); await page.waitForTimeout(100); expect(await page.evaluate(() => window.__EFFECT_PREVIEW__?.time)).toBe(time);
   await page.getByRole('button', { name: '重播特效' }).click(); await page.waitForFunction(() => window.__EFFECT_PREVIEW__?.time === 0);
-  await page.locator('.effect-preview-stage').screenshot({ path: 'artifacts/screenshots/feel-preview.png' });
+  await page.locator('.effect-preview-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/feel-preview.png' });
 });
 
 test('the explicitly synthetic pool probe still reaches its cap after real events and never changes the actual fact timeline', async ({ page }) => {
@@ -129,12 +129,12 @@ test('the exact procedural PCM renders through a real OfflineAudioContext; measu
     }
     return { rate: 44100, sounds };
   });
-  mkdirSync('artifacts/audio', { recursive: true });
+  mkdirSync('artifacts/ui-ux/regression/audio', { recursive: true });
   for (const sound of result.sounds) {
     expect(sound.peak).toBeGreaterThan(.05); expect(sound.peak).toBeLessThan(.3); expect(sound.rms).toBeGreaterThan(.005);
     const file = Buffer.alloc(44 + sound.samples.length * 2); file.write('RIFF'); file.writeUInt32LE(file.length - 8, 4); file.write('WAVEfmt ', 8); file.writeUInt32LE(16, 16); file.writeUInt16LE(1, 20); file.writeUInt16LE(1, 22); file.writeUInt32LE(result.rate, 24); file.writeUInt32LE(result.rate * 2, 28); file.writeUInt16LE(2, 32); file.writeUInt16LE(16, 34); file.write('data', 36); file.writeUInt32LE(file.length - 44, 40);
     sound.samples.forEach((value, index) => file.writeInt16LE(Math.round(Math.max(-1, Math.min(1, value)) * 32767), 44 + index * 2));
-    writeFileSync(`artifacts/audio/${sound.id}.wav`, file);
+    writeFileSync(`artifacts/ui-ux/regression/audio/${sound.id}.wav`, file);
   }
-  writeFileSync('artifacts/audio/offline-validation.json', JSON.stringify({ rate: result.rate, scope: 'real OfflineAudioContext output from runtime synthesis; does not assert speaker listening or video audio capture', sounds: result.sounds.map(({ samples, ...data }) => ({ ...data, samples: samples.length })) }, null, 2));
+  writeFileSync('artifacts/ui-ux/regression/audio/offline-validation.json', JSON.stringify({ rate: result.rate, scope: 'real OfflineAudioContext output from runtime synthesis; does not assert speaker listening or video audio capture', sounds: result.sounds.map(({ samples, ...data }) => ({ ...data, samples: samples.length })) }, null, 2));
 });

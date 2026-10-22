@@ -38,7 +38,7 @@ test('Blender roadblock loads with correct materials/bounds, appears, collides a
   await expect(page.getByRole('heading', { name: '稍作停留。' })).toBeVisible();
   // Freeze through the real pause control; hide only the pause card for an unobstructed asset capture.
   await page.locator('.pause-menu').evaluate((element) => { element.style.visibility = 'hidden'; });
-  await page.locator('.game-stage').screenshot({ path: 'artifacts/screenshots/roadblock-gameplay.png' });
+  await page.locator('.game-stage').screenshot({ path: 'artifacts/ui-ux/regression/screenshots/roadblock-gameplay.png' });
   await page.locator('.pause-menu').evaluate((element) => { element.style.visibility = ''; });
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: '再跑一次' })).toBeVisible({ timeout: 12000 });

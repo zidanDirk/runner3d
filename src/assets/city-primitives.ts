@@ -1,5 +1,6 @@
 import { Box3, BufferGeometry, InstancedMesh, Matrix4, Mesh, SkinnedMesh, Vector3 } from 'three';
 import type { Material, Object3D } from 'three';
+import { markSharedResource } from './renderer-resources';
 
 export interface CityPrimitive {
   readonly key: string;
@@ -122,6 +123,7 @@ export function getCityPrimitives(source: Object3D, dimensions: readonly number[
     if (!primitives.length) fail('no renderable mesh primitives');
     validateBounds(bounds, dimensions);
     const result = Object.freeze(primitives);
+    for (const primitive of result) { markSharedResource(primitive.geometry); markSharedResource(primitive.material); }
     cache.set(source, { primitives: result, bounds, ownedViews });
     return result;
   } catch (error) {

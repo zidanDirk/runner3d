@@ -13,7 +13,7 @@ test('production loads all three real power-up GLBs and completes a normal run, 
     const distance = Number((await page.getByTestId('distance').innerText()).replaceAll(',', ''));
     if (distance > 266 && !captured) {
       for (const type of ['magnet', 'shield', 'double-score']) await expect(page.getByTestId(`active-${type}`)).toBeVisible();
-      await page.screenshot({ path: 'artifacts/progression/production-active.png' }); captured = true;
+      await page.screenshot({ path: 'artifacts/ui-ux/regression/progression/production-active.png' }); captured = true;
     }
     const target = distance > 280 ? rows.flatMap(r => r.entities).find(e => e.kind !== 'coin' && e.distance > distance + 9)?.lane : rows.find(r => r.distance >= distance - 9)?.safeLane;
     if (target !== undefined && lane !== target) { await page.keyboard.press(target < lane ? 'ArrowLeft' : 'ArrowRight'); lane += target < lane ? -1 : 1; }

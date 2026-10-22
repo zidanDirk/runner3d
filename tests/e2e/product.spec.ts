@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { endRun, playTo } from './progression-helpers';
+import { ECONOMY_BALANCE, MISSION_CHAINS, PROFILE_KEY } from '../../src/progression/config';
+import { defaultProfile, parseProfile } from '../../src/progression/profile';
 import {
   PRODUCT_VIEWPORTS, chooseNeonAppearance, clearProductProgress, collectAtLeast,
   openTutorial, readProductFrame, readStoredProduct, runProductJourney,
@@ -30,6 +32,7 @@ test('paused settings block gameplay, preserve focus and settings, confirm aband
   await dialog.getByLabel('操作方式', { exact: true }).selectOption('buttons');
   await dialog.getByLabel('设置减少动态效果', { exact: true }).check();
   await dialog.getByLabel('设置游戏音效', { exact: true }).uncheck();
+  await dialog.evaluate((element) => { if (element instanceof HTMLDialogElement) element.focus(); });
   await page.keyboard.press('ArrowLeft'); await page.keyboard.press('Space');
   await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(120));
   const blocked = await readProductFrame(page);
@@ -79,9 +82,10 @@ test('backgrounding keeps a run paused until an explicit continue, then home reu
   await waitForProductHome(page);
   for (const entry of ['升级商店', '任务', '角色外观', '游戏设置'] as const) {
     await page.getByRole('button', { name: entry, exact: true }).click();
-    expect(await page.locator('canvas').count()).toBe(1);
+    if (entry === '角色外观') await expect(page.locator('[data-model-status="loaded"]').first()).toBeVisible();
+    expect(await page.locator('canvas').count()).toBe(entry === '角色外观' ? 1 : 0);
     await page.keyboard.press('Escape');
-    expect(await page.locator('canvas').count()).toBe(1);
+    await waitForProductHome(page);
   }
 });
 
@@ -95,7 +99,7 @@ test('malformed progress is recoverable while the UI keeps storage failure playa
   const page = await context.newPage();
   try {
     await page.goto('/'); await waitForProductHome(page);
-    await openTutorial(page); await page.getByRole('button', { name: '跳过引导', exact: true }).click();
+    await openTutorial(page); await page.getByRole('dialog', { name: '新手引导' }).getByRole('button', { name: '跳过引导', exact: true }).click();
     await chooseNeonAppearance(page);
     await startProductRun(page); await collectAtLeast(page, 100); await endRun(page);
     const actualCoins = (await readProductFrame(page)).view?.coins ?? 0;
@@ -177,4 +181,105 @@ test('phone button-input tutorial teaches actual touch buttons instead of keyboa
   await expect(steps).toContainText('低栏：点击跳跃');
   await expect(steps).toContainText('高架：点击滑铲');
   writeProductEvidence('button-tutorial', { viewport: page.viewportSize(), inputPreference: await page.evaluate(() => localStorage.getItem('runner3d-input-v1')), instructions: await steps.innerText() });
+});
+
+test('display-only completed-career fixture shows all-max upgrades and claimed-mission empty states without issuing money', async ({ page }) => {
+  // This injected, parser-validated fixture checks display endpoints only. The three
+  // new-player journeys above remain the evidence for actual earning and transactions.
+  const upgradeSpend = ECONOMY_BALANCE.upgradePrices.reduce((sum, value) => sum + value, 0) * 3;
+  const missionRewards = MISSION_CHAINS.reduce((sum, mission) => sum + mission.reward, 0);
+  const fixture = parseProfile({ ...defaultProfile(), bestScore: 20000, bestDistance: 10000,
+    upgrades: { magnet: 3, shield: 3, 'double-score': 3 },
+    missions: { claimed: MISSION_CHAINS.map((mission) => mission.id) },
+    statistics: { totalCoins: upgradeSpend - missionRewards, totalDistance: 20000, powerupsCollected: 40, runsCompleted: 12 },
+  });
+  if (fixture === null) throw new Error('The completed-career display fixture must pass the real production parser');
+  await page.addInitScript(({ key, value }) => {
+    if (sessionStorage.getItem('runner3d-completed-career-fixture')) return;
+    localStorage.setItem(key, JSON.stringify(value));
+    sessionStorage.setItem('runner3d-completed-career-fixture', 'yes');
+  }, { key: PROFILE_KEY, value: fixture });
+  await page.goto('/'); await waitForProductHome(page);
+  const before = await readStoredProduct(page);
+  expect(before.profile).toEqual(fixture);
+  await page.getByRole('button', { name: '升级商店', exact: true }).click();
+  await expect(page.getByText('当前升级已全部完成。带上这些积累，继续向前。', { exact: true })).toBeVisible();
+  for (const name of ['磁铁', '护盾', '双倍得分']) {
+    const upgrade = page.getByLabel(`${name}升级`, { exact: true });
+    await expect(upgrade).toContainText('Lv.3 / 3');
+    await expect(upgrade).toContainText('已达到最高等级');
+    await expect(page.getByRole('button', { name: `升级${name}`, exact: true })).toBeDisabled();
+  }
+  await page.getByRole('button', { name: '关闭成长面板', exact: true }).click();
+  await page.getByRole('button', { name: '任务', exact: true }).click();
+  await expect(page.getByText('当前任务已全部完成。已领取奖励保留在钱包中。', { exact: true })).toBeVisible();
+  for (const name of ['累计收集金币', '累计奔跑距离', '累计拾取道具']) {
+    const claim = page.getByRole('button', { name: `领取${name}奖励`, exact: true });
+    await expect(claim).toHaveText('全部完成');
+    await expect(claim).toBeDisabled();
+  }
+  await page.getByRole('button', { name: '关闭成长面板', exact: true }).click();
+  await page.reload(); await waitForProductHome(page);
+  const after = await readStoredProduct(page);
+  expect(after.profile).toEqual(before.profile);
+  await expect(page.getByTestId('wallet')).toHaveText('0');
+  writeProductEvidence('completed-career-display-only', {
+    scope: 'Parser-validated injected display-only fixture; not evidence of earning, purchasing or claiming',
+    fixtureFunding: { earnedCoins: upgradeSpend - missionRewards, claimedRewards: missionRewards, upgradeSpend, wallet: 0 },
+    before, after,
+  });
+});
+
+test('real home preview advances Idle, rotates its Three group and freezes with Reduced Motion without starting a run', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const modelRequests: string[] = [];
+  const errors: string[] = [];
+  page.on('request', (request) => { if (new URL(request.url()).pathname.endsWith('.glb')) modelRequests.push(new URL(request.url()).pathname); });
+  page.on('pageerror', (error) => errors.push(error.message));
+  await clearProductProgress(page); await waitForProductHome(page);
+  await page.waitForFunction(() => window.__PRODUCT_PREVIEW__?.().animation?.state === 'idle' && window.__PRODUCT_PREVIEW__?.().active);
+  const initial = await page.evaluate(() => window.__PRODUCT_PREVIEW__?.());
+  if (!initial?.animation) throw new Error('The actual preview controller must be mounted');
+  const initialTime = initial.animation.time;
+  await expect.poll(async () => Math.abs(((await page.evaluate(() => window.__PRODUCT_PREVIEW__?.().animation?.time)) ?? initialTime) - initialTime)).toBeGreaterThan(.001);
+  const playing = await page.evaluate(() => window.__PRODUCT_PREVIEW__?.());
+  expect(playing?.animation).toMatchObject({ state: 'idle', actionCount: 4, paused: false });
+  // The home hero is intentionally passive; the formal character panel owns rotation controls.
+  await page.getByRole('button', { name: '角色外观', exact: true }).click();
+  await expect(page.locator('[data-model-status="loaded"]').first()).toBeVisible();
+  await page.getByRole('button', { name: '向右旋转角色', exact: true }).click();
+  await expect.poll(async () => (await page.evaluate(() => window.__PRODUCT_PREVIEW__?.()))?.rotation).toBeCloseTo(Math.PI / 4, 8);
+  await page.getByRole('button', { name: '向左旋转角色', exact: true }).click();
+  await expect.poll(async () => (await page.evaluate(() => window.__PRODUCT_PREVIEW__?.()))?.rotation).toBe(0);
+  await page.getByRole('button', { name: '向左旋转角色', exact: true }).click();
+  await page.getByRole('button', { name: '复位', exact: true }).click();
+  await expect.poll(async () => (await page.evaluate(() => window.__PRODUCT_PREVIEW__?.()))?.rotation).toBe(0);
+  await page.getByRole('button', { name: '关闭角色', exact: true }).click();
+  await page.getByRole('button', { name: '游戏设置', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => window.__PRODUCT_PREVIEW__ === undefined)).toBe(true);
+  await expect.poll(() => page.evaluate(() => window.__PRODUCT_LIFECYCLE__?.().mixers.active)).toBe(0);
+  await page.getByLabel('设置减少动态效果', { exact: true }).check();
+  await page.getByRole('button', { name: '关闭设置', exact: true }).click();
+  await waitForProductHome(page);
+  await expect.poll(() => page.evaluate(() => window.__PRODUCT_PREVIEW__?.().active)).toBe(false);
+  const frozen = await page.evaluate(() => window.__PRODUCT_PREVIEW__?.());
+  if (!frozen?.animation) throw new Error('Reduced Motion must retain the actual loaded preview');
+  await page.waitForTimeout(350);
+  const stillFrozen = await page.evaluate(() => window.__PRODUCT_PREVIEW__?.());
+  expect(stillFrozen?.animation?.time).toBe(frozen.animation.time);
+  expect(stillFrozen?.animation?.paused).toBe(true);
+  await page.getByRole('button', { name: '角色外观', exact: true }).click();
+  await page.waitForFunction(() => window.__PRODUCT_PREVIEW__?.().animation?.paused === true);
+  const frozenWardrobe = await page.evaluate(() => window.__PRODUCT_PREVIEW__?.());
+  await page.getByRole('button', { name: '向右旋转角色', exact: true }).click();
+  await expect.poll(async () => (await page.evaluate(() => window.__PRODUCT_PREVIEW__?.()))?.rotation).toBeCloseTo(Math.PI / 4, 8);
+  expect((await page.evaluate(() => window.__PRODUCT_PREVIEW__?.()))?.animation?.time).toBe(frozenWardrobe?.animation?.time);
+  expect((await readProductFrame(page)).view).toMatchObject({ status: 'ready', tick: 0, distance: 0 });
+  expect(await page.locator('canvas').count()).toBe(1);
+  expect(modelRequests).toEqual(['/models/generated/city-runner.glb']);
+  expect(errors).toEqual([]);
+  writeProductEvidence('real-preview-idle-rotation-reduced-motion', {
+    scope: 'Read-only e2e observation of the actual AnimationMixer and Three turntable; normal browser RAF, not a mocked animation',
+    initial, playing, frozen, stillFrozen, frozenWardrobe, rotatedFrozen: await page.evaluate(() => window.__PRODUCT_PREVIEW__?.()), modelRequests, errors,
+  });
 });

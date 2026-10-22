@@ -18,12 +18,17 @@ Task13从[改造前审计](ui-ux-audit.md)出发，复用Task11商店/任务/设
 
 性能分别记录实际首页脚本字节/可观察可点时刻、GLB请求/Canvas、入局与商店耗时、多轮实际导航后WebGL/Mixer/Audio/监听/计时器/GC后heap，以及运行中平均/P95帧间隔。保留共享GLB缓存是预期行为，不等于泄漏；有限桌面样本不证明长期稳定或真实手机热机。
 
+`assets/renderer-resources.ts`记录当前渲染器向缓存几何/材质登记的dispose监听。Three原生回调会引用GL上下文；退休时仅移除属于该渲染器的回调，保留共享缓存与其他实例的监听。使用资源本身的公开事件方法，不修改Three全局prototype、不逐帧遍历模型。StrictMode效果重放复用登记，真正卸载后延后释放；节点、监听、原生上下文回收和固定登记数有实际浏览器检查。
+
+内存使用无热更新的优化E2E构建实测（`playwright.product-performance.config.ts`），测试接口为确定性合法流程保留，区别于正式生产包。开发React Refresh也会保留卸载的R3F root，因此其heap只能作单独诊断；性能报告明确区分。首个完整堆调查还发现共享材质持有旧渲染器回调，修复后优化构建的节点和监听不再逐轮增长。
+
 ```sh
 npm test
 npm run typecheck
 npm run test:e2e -- tests/e2e/product.spec.ts tests/e2e/product-visual.spec.ts tests/e2e/product-performance.spec.ts
 npm run test:e2e
 npm run test:visual
+npm run test:product-performance
 npm run assets:validate
 npm run build
 npm run test:production

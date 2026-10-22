@@ -9,6 +9,7 @@ import type { AssetId } from './catalog';
 import { getAssetTheme } from './theme';
 import { AssetValidationError, loading, useAssetRevision } from './loading';
 import type { AssetStatus } from './loading';
+import { markSharedAssetResources } from './renderer-resources';
 
 export type { AssetStatus } from './loading';
 export const useAssetStatus = (id: AssetId): AssetStatus => useSyncExternalStore(loading.subscribe, () => loading.status(id), () => 'idle');
@@ -30,6 +31,7 @@ export function validateAssetDimensions(source: Object3D, dimensions: readonly n
 }
 
 export function createAssetInstance(source: Object3D, dimensions: readonly number[]): Object3D {
+  markSharedAssetResources(source);
   validateAssetDimensions(source, dimensions);
   let skinned = false;
   source.traverse((object) => { if (object instanceof SkinnedMesh) skinned = true; });
@@ -89,6 +91,7 @@ function LoadedAsset({ id, prepare, castShadow = true, renderInstance }: AssetPr
   const { scene, animations } = useGLTF(assetUrl(id), false, false);
   const revision = useAssetRevision(id);
   const instance = useMemo(() => {
+    markSharedAssetResources(scene);
     const result = prepare ? prepare(scene) : createAssetInstance(scene, getAsset(id).dimensions);
     result.traverse((object) => { if (object instanceof Mesh) object.castShadow = castShadow; });
     return result;

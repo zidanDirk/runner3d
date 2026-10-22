@@ -22,7 +22,7 @@ for (const [width,height] of [[320,568],[375,667],[390,844],[430,932],[667,375],
   await page.keyboard.press('Space'); await page.evaluate(()=>window.__RUNNER_TEST__?.stepTicks(48));
   const render=await page.evaluate(()=>window.__RUNNER_RENDER__); expect(render?.character.visible).toBe(1);
   const root=await page.evaluate(()=>window.__RUNNER_TEST__?.read().player); expect(root?.y).toBeGreaterThan(2);
-  mkdirSync('artifacts/mobile-layout',{recursive:true}); await page.screenshot({path:`artifacts/mobile-layout/${width}x${height}-jump.png`});
+  mkdirSync('artifacts/ui-ux/regression/mobile-layout',{recursive:true}); await page.screenshot({path:`artifacts/ui-ux/regression/mobile-layout/${width}x${height}-jump.png`});
   if(width<1100) {
     await page.getByRole('button',{name:'游戏设置',exact:true}).tap();
     const dialog=page.getByRole('dialog',{name:'游戏设置'}); await expect(dialog).toBeVisible();
@@ -77,7 +77,7 @@ test('smallest HUD keeps earned five-digit distance and scores separate',async({
   if(!distance||!score||!coins)throw new Error('HUD missing');
   const overlaps=(a:typeof distance,b:typeof score)=>a.x<b.x+b.width && a.x+a.width>b.x && a.y<b.y+b.height && a.y+a.height>b.y;
   expect(overlaps(distance,score)).toBe(false);expect(overlaps(distance,coins)).toBe(false);expect(overlaps(score,coins)).toBe(false);
-  await page.screenshot({path:'artifacts/mobile-layout/320x568-long-run.png'});await context.close();
+  await page.screenshot({path:'artifacts/ui-ux/regression/mobile-layout/320x568-long-run.png'});await context.close();
 });
 
 test('development mobile panel reports completed frames without intercepting game controls',async({browser})=>{
@@ -91,6 +91,6 @@ test('development mobile panel reports completed frames without intercepting gam
   await expect.poll(async()=>await page.evaluate(()=>window.__RUNNER_TEST__?.read().distance??0)).toBeGreaterThan(1);
   await page.getByRole('button',{name:'向左换道',exact:true}).tap();
   await expect.poll(async()=>await page.evaluate(()=>window.__RUNNER_TEST__?.read().player.lane)).toBe(0);
-  await page.keyboard.press('Escape');await page.screenshot({path:'artifacts/mobile-iteration/debug-mobile.png'});
+  await page.keyboard.press('Escape');await page.screenshot({path:'artifacts/ui-ux/regression/mobile-iteration/debug-mobile.png'});
   await context.close();
 });

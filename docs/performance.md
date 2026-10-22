@@ -16,7 +16,7 @@ Auto初始采用画布尺寸与coarse pointer。实际运行4秒预热，4秒一
 
 ## 模型和脚本加载
 
-首屏使用2核心（city-runner/roadblock）+5个Dusk城市资源，Neon四个资源在600m边界前250m预热，下一主题进入前视窗口之前发起；重试/主题循环共用URL内容哈希缓存。城市只在首次有实例时挂载相应模型批次，空Neon批次不会提前触发下载。成功解析的资产页面生命周期缓存，最多11个游戏资产，不包含工厂预览用traffic-cone。
+Task13正式首页只请求City Runner，不挂载游戏循环或城市。点击开始进入游戏时使用2核心（city-runner/roadblock）+5个Dusk城市资源，Neon四个资源在600m边界前250m预热，下一主题进入前视窗口之前发起；重试/主题循环共用URL内容哈希缓存。城市只在首次有实例时挂载相应模型批次，空Neon批次不会提前触发下载。成功解析的资产页面生命周期缓存，最多11个游戏资产，不包含工厂预览用traffic-cone。三种道具按既有拾取模型加载路径复用缓存。
 
 加载面板进度来自实际GLTFLoader解析和尺寸检查完成的资产个数，不是下载字节百分比。15秒超时显示可操作错误；初始失败可显式基础模型继续。继续后、后续主题失败仍保留非阻挡重试；解析中的超时请求复用缓存，不并发再取同一个URL。Renderer本身不可用时显示WebGL错误而不是永远等待。
 
@@ -26,6 +26,7 @@ Three场景通过React.lazy动态加载，最先加载的界面壳不引用Three
 
 ```sh
 npm run test:performance
+npm run test:product-performance # Task13：无热更新的优化E2E六轮页面生命周期
 npm run build
 npm run test:production
 npm run test:loading
@@ -43,6 +44,8 @@ Task9不可变对照在 `artifacts/mobile-iteration/task9/`：dist、45张原图
 
 最终实测数值、失败修复和平台范围：`artifacts/mobile-web-evidence.md`；原始数据在`artifacts/mobile-iteration/performance.json`、`stability.json`、`artifacts/mobile-baseline/`。
 
+Task13在正式首页与游戏之间复用GLTF数据。退休Renderer曾被缓存材质上的Three dispose回调保留，现由`assets/renderer-resources.ts`只解除该Renderer的回调。完整保留缓存几何/材质，不以清空缓存或复制全部GLB来规避。优化E2E六轮的完整DOM与监听计数须有界，旧WebGL上下文通过WeakRef+强制GC观察回收；开发热更新root保留和追踪快照另作诊断，不冒充生产资源寿命。最终原始数据和限制见`artifacts/ui-ux/product-performance-optimized.json`及`product-performance-report.md`。
+
 ## 实例生命周期回归
 
 一次全量检查出现过建筑近距离遮挡截图，首次新增的Reduced Motion基线中也发现过同类异常。原始坏图、实际图、差异和矩阵记录保留在 `artifacts/mobile-investigation/`。未修改原45张基线或提高容差。
@@ -52,3 +55,19 @@ Task9不可变对照在 `artifacts/mobile-iteration/task9/`：dist、45张原图
 重复同页定位30次、新建场景30次，逐张与旧Dusk基线严格比较，同时记录真实相机和每个批次CPU矩阵。此证据比只等待模型加载更完整，但不能独立证明最初偶发画面的准确触发时序；最终全量与生产复测结果须一起查看，不把合成主动dispose探针冒充自然复现。
 
 Canvas的dpr/shadows入参必须直接来自当前Quality Profile；不能只在子组件effect中setDpr而把Canvas入参固定在1.5。后者会在resize或恢复触发configure时重新覆盖已选画质。`mobile-layout`旋转用例和`mobile-recovery`真实图形恢复用例固定Low并要求实际DPR仍为1；修复前后的实测日志为 `artifacts/mobile-investigation/dpr-before.log` / `dpr-after.log`。
+
+## Beta 性能监控与稳定性
+
+正式只读 `ReleaseTelemetry`复用600间隔有界窗口，5秒一次汇总，不启用旧DEV场景遍历面板。记录最近窗口平均/P95/FPS、>50ms长帧、主passcalls/triangles、Chunk/粒子/实际DPR/质量；GPU字节明确N/A。加载的TTP/GLB观测口径见[observability.md](observability.md)，首次TTP含用户等待，不能与纯网络TTI混比。
+
+```sh
+npm run test:beta
+npm run test:beta:stability
+npm run release:check
+```
+
+稳定性使用5184的优化E2E构建，不含React Refresh；50次真实固定步收币/死亡/结算→商店→首页→新局，再由既有只换道autopilot连续600秒真实墙钟RAF运行。前者是加速局，后者实际渲染，不合并描述。探针仅WeakRef，不人为dispose renderer；GC之后读原生context存活状态，CDP监听句柄及时释放。每30秒记录当前Canvas/Mixer/共享资源所有权/AudioContext/监听/GC后heap，GC和本机其他轻量开发工作可能影响帧间隔，不能代表独占机器或手机GPU性能。
+
+原始本轮结果在artifacts/beta/stability.json、wall-clock-summary.json，失败迭代单独保留；只以complete:true和实际Playwright通过作为完成证据。生产包另用Release Gate的嵌套路径静态服务器验证，无E2E钩子。短时或十分钟桌面测量均不证明长期GPU无泄漏、手机温度/耗电或iOS通过。Task13加载/体积是历史对照，新报告明确新增观测代码的字节成本，保留Three chunk警告。
+
+最终长跑另加固定1000桶、1ms宽的测试用直方图，在实际送达RAF回调中以performance.now记录全程间隔的样本数/平均/P95上界/长帧数；不是上传每帧。P95上界有≤1ms量化误差，≥999ms溢出桶无法给上界时显示N/A。原600帧滚动窗口仍独立保留，不能把20个间隔采样的均值当全程均值。

@@ -8,6 +8,7 @@ import type { ProductPanel } from '../product/navigation';
 import type { RunResults } from '../product/results';
 import { CHARACTER_SKINS, getCharacterSkin } from '../character/appearance';
 import { useInputMode } from '../runtime/input';
+import { monitor } from '../observability/client';
 import { Icon } from './icons';
 
 const CharacterPreview = lazy(() => import('./CharacterPreview').then(module => ({ default: module.CharacterPreview })));
@@ -32,7 +33,7 @@ export function HomeScreen({ onStart, onOpen, showPreview }: { onStart: () => vo
       <nav className="home-nav" aria-label="首页功能"><button type="button" aria-label="角色外观" onClick={() => onOpen('character')}><span>01</span><b>角色外观</b><small>3 款免费配色</small><span>↗</span></button><button type="button" aria-label="升级商店" onClick={() => onOpen('shop')}><span>02</span><b>升级商店</b><small>永久升级</small><span>↗</span></button><button type="button" aria-label="任务" onClick={() => onOpen('missions')}><span>03</span><b>任务</b><small>{missions ? missions + ' 项可领取' : '每一步都算数'}</small><span>↗</span></button><button type="button" aria-label="游戏设置" onClick={() => onOpen('settings')}><span>04</span><b>设置</b><small>声音 · 画质 · 操作</small><span>↗</span></button></nav>
     </div>
     <div className="home-showcase"><div className="showcase-lines" aria-hidden="true"><span>01</span><i /><span>03</span></div><span className="showcase-caption">MEET YOUR RUNNER</span>{showPreview ? <Suspense fallback={<div className="preview-loading" role="status">正在打开角色预览…</div>}><CharacterPreview interactive={false} /></Suspense> : <div className="preview-placeholder" aria-hidden="true" />}<div className="home-character-label"><span>City Runner</span><strong>{getCharacterSkin(prefs.skinId).label}</strong><button type="button" onClick={() => onOpen('character')}>更换外观 ↗</button></div></div>
-    <div className="home-bottom"><div className="home-wallet"><Icon name="coin" size={22} /><span>钱包</span><strong data-testid="wallet">{format(player.walletCoins)}</strong><small>金币</small></div><div className="onboarding-prompt">{prefs.tutorial === 'unseen' && <span className="first-visit">初次上路？</span>}<button type="button" onClick={() => onOpen('tutorial')}>查看引导</button>{prefs.tutorial === 'unseen' && <button className="quiet-link" type="button" onClick={() => productPreferences.setTutorial('skipped')}>跳过引导</button>}</div></div>
+    <div className="home-bottom"><div className="home-wallet"><Icon name="coin" size={22} /><span>钱包</span><strong data-testid="wallet">{format(player.walletCoins)}</strong><small>金币</small></div><div className="onboarding-prompt">{prefs.tutorial === 'unseen' && <span className="first-visit">初次上路？</span>}<button type="button" onClick={() => onOpen('tutorial')}>查看引导</button>{prefs.tutorial === 'unseen' && <button className="quiet-link" type="button" onClick={() => { monitor.track('TUTORIAL_SKIPPED', 'home'); productPreferences.setTutorial('skipped'); }}>跳过引导</button>}</div></div>
     <PersistenceNotice />
   </section>;
 }
@@ -55,7 +56,7 @@ export function Tutorial({ close }: { close: () => void }) {
   useEffect(() => { if (step > 0) heading.current?.focus(); }, [step]);
   const current = tutorial[step] ?? tutorial[0];
   const lines = !compact ? current.desktop : mode !== 'buttons' ? current.mobile : step === 0 ? ['点击左移 / 右移按钮换道', '点击跳跃按钮', '点击滑铲按钮'] : step === 1 ? ['低栏：点击跳跃', '高架：点击滑铲', '箱墙：点击左移 / 右移'] : current.mobile;
-  const finish = (skipped: boolean) => { productPreferences.setTutorial(skipped ? 'skipped' : 'done'); close(); };
+  const finish = (skipped: boolean) => { monitor.track(skipped ? 'TUTORIAL_SKIPPED' : 'TUTORIAL_COMPLETED', 'tutorial'); productPreferences.setTutorial(skipped ? 'skipped' : 'done'); close(); };
   return <><p className="panel-hint">新手引导 · {step + 1} / 3 <span className="tutorial-dots" aria-hidden="true">{tutorial.map((_, i) => <i key={i} data-active={i <= step} />)}</span></p><h3 className="tutorial-title" ref={heading} tabIndex={-1}>{current.title}</h3><p>{current.text}</p><ol className="tutorial-steps">{lines.map((line, index) => <li key={line}><span aria-hidden="true">{current.marks[index]}</span>{line}</li>)}</ol><div className="dialog-actions">{step > 0 && <button className="secondary-button" type="button" onClick={() => setStep(step - 1)}>上一步</button>}<button className="primary-button" type="button" onClick={() => step === 2 ? finish(false) : setStep(step + 1)}>{step === 2 ? '完成引导' : '下一步'}<Icon name="arrow-right" size={18} /></button></div><button className="quiet-link" type="button" onClick={() => finish(true)}>跳过引导</button></>;
 }
 
@@ -72,7 +73,7 @@ export function RunSummary({ result }: { result: RunResults | null }) {
     {(result.records.score || result.records.distance) && <p className="record-badge" data-testid="record-badge">↗ 新纪录 · {result.records.score ? '得分' : ''}{result.records.score && result.records.distance ? ' / ' : ''}{result.records.distance ? '最远距离' : ''}</p>}
     <div className="result-line"><div><span>本次得分</span><strong>{format(result.score)}</strong></div><div><span>奔跑距离</span><strong data-testid="run-distance">{format(result.distance)}<small> m</small></strong></div></div>
     <div className="result-reward"><span>收集金币 <b>{format(result.runCoins)}</b></span><span>钱包入账 <strong data-testid="run-wallet-added">+{format(result.walletAdded)}</strong></span></div>
-    <p className="summary-note">{result.claimableMissionCount ? '已有任务可领取奖励。' : progress.length ? '本局任务进度：' + progress.slice(0, 2).map(m => (m.kind === 'distance' ? '距离 +' : m.kind === 'coins' ? '金币 +' : '道具 +') + format(m.delta)).join(' · ') : '每一次出发，都在积累。'}{result.affordableUpgradeCount > 0 ? ' 钱包已可购买升级。' : result.allUpgradesMaxed ? ' 当前升级已全部完成。' : ''}</p>
+    <p className="summary-note">{result.claimableMissionCount ? '结算时有任务奖励可领取。' : progress.length ? '本局任务进度：' + progress.slice(0, 2).map(m => (m.kind === 'distance' ? '距离 +' : m.kind === 'coins' ? '金币 +' : '道具 +') + format(m.delta)).join(' · ') : '每一次出发，都在积累。'}{result.affordableUpgradeCount > 0 ? ' 结算时余额足够购买升级。' : result.allUpgradesMaxed ? ' 当前升级已全部完成。' : ''}</p>
   </div>;
 }
 

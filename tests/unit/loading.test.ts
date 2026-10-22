@@ -142,3 +142,11 @@ describe('load retry and timeout lifecycle', () => {
     detachAgain();
   });
 });
+
+it('keeps a failed asset recoverable when the cache adapter itself throws', () => {
+  const store = new AssetLoadingStore(() => { throw new Error('cache unavailable'); });
+  store.updateDistance(0); store.setRendererReady(); store.failed('city-runner', new Error('network'));
+  expect(() => store.retryFailed()).not.toThrow();
+  expect(store.status('city-runner')).toBe('error');
+  expect(store.getSnapshot().errors.some(error => error.id === 'city-runner')).toBe(true);
+});

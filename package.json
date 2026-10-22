@@ -1,7 +1,7 @@
 {
   "name": "runner3d",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.14.0-beta",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -14,8 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:visual": "playwright test tests/e2e/city-visual.spec.ts tests/e2e/themes-visual.spec.ts tests/e2e/character-visual.spec.ts tests/e2e/animation-visual.spec.ts tests/e2e/motion-visual.spec.ts tests/e2e/feel-visual.spec.ts tests/e2e/mobile-visual.spec.ts tests/e2e/progression-visual.spec.ts",
-    "test:visual:update": "playwright test tests/e2e/city-visual.spec.ts tests/e2e/themes-visual.spec.ts tests/e2e/character-visual.spec.ts tests/e2e/animation-visual.spec.ts tests/e2e/motion-visual.spec.ts tests/e2e/feel-visual.spec.ts tests/e2e/mobile-visual.spec.ts tests/e2e/progression-visual.spec.ts --update-snapshots=all",
+    "test:visual": "playwright test tests/e2e/city-visual.spec.ts tests/e2e/themes-visual.spec.ts tests/e2e/character-visual.spec.ts tests/e2e/animation-visual.spec.ts tests/e2e/motion-visual.spec.ts tests/e2e/feel-visual.spec.ts tests/e2e/mobile-visual.spec.ts tests/e2e/progression-visual.spec.ts tests/e2e/product-visual.spec.ts",
+    "test:visual:update": "playwright test tests/e2e/city-visual.spec.ts tests/e2e/themes-visual.spec.ts tests/e2e/character-visual.spec.ts tests/e2e/animation-visual.spec.ts tests/e2e/motion-visual.spec.ts tests/e2e/feel-visual.spec.ts tests/e2e/mobile-visual.spec.ts tests/e2e/progression-visual.spec.ts tests/e2e/product-visual.spec.ts --update-snapshots=all",
     "test:production": "playwright test --config playwright.production.config.ts",
     "assets:generate": "node scripts/assets/generate.mjs",
     "assets:config": "node scripts/assets/config.mjs",
@@ -29,7 +29,15 @@
     "balance:report": "node scripts/balance/cli.mjs report",
     "balance:fairness": "node scripts/fairness.mjs",
     "test:balance": "playwright test tests/e2e/balance.spec.ts tests/e2e/balance-demo.spec.ts tests/e2e/telegraph.spec.ts",
-    "test:progression": "playwright test tests/e2e/progression.spec.ts tests/e2e/progression-visual.spec.ts tests/e2e/progression-performance.spec.ts tests/e2e/progression-demo.spec.ts"
+    "test:progression": "playwright test tests/e2e/progression.spec.ts tests/e2e/progression-visual.spec.ts tests/e2e/progression-performance.spec.ts tests/e2e/progression-demo.spec.ts",
+    "test:product-performance": "playwright test --config playwright.product-performance.config.ts",
+    "build:preview": "npm run build -- --mode preview",
+    "release:check": "node scripts/release/check.mjs",
+    "release:verify": "node scripts/release/verify.mjs",
+    "release:package": "node scripts/release/package.mjs",
+    "test:release": "playwright test --config playwright.release.config.ts",
+    "test:beta": "playwright test --config playwright.beta.config.ts tests/beta/beta.spec.ts",
+    "test:beta:stability": "playwright test --config playwright.beta.config.ts tests/beta/stability.spec.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.0",
