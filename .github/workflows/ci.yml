@@ -29,9 +29,16 @@ jobs:
         with:
           name: local-release-gate
           path: artifacts/beta-release/gate/report.json
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: core-browser-failures
+          path: test-results/task14/gate-core/
+          retention-days: 14
   visual-comparison:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Leave time to upload actual/diff evidence even when software rendering is slow.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
         with:
@@ -44,8 +51,10 @@ jobs:
       - run: npx playwright install --with-deps chromium
       # Never --update-snapshots. A failure requires actual/diff review.
       - run: npm run test:visual
+        timeout-minutes: 38
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
           name: visual-failures
           path: test-results/
+          retention-days: 14

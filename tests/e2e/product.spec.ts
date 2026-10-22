@@ -20,6 +20,8 @@ for (const viewport of PRODUCT_VIEWPORTS) test(`complete new-player product jour
 });
 
 test('paused settings block gameplay, preserve focus and settings, confirm abandonment without settlement', async ({ page }) => {
+  // This full settings/storage journey takes longer with the CI software renderer.
+  test.setTimeout(90000);
   await clearProductProgress(page); await waitForProductHome(page);
   await startProductRun(page); await playTo(page, 100);
   await page.getByRole('button', { name: '暂停游戏', exact: true }).click();

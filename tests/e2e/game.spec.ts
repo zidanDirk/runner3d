@@ -1,4 +1,4 @@
-import { showRouteSeed, startLiveGame } from './session-helpers';
+import { requestGameScene, showRouteSeed, startLiveGame } from './session-helpers';
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
@@ -9,12 +9,25 @@ async function read(page: Page) {
   return state;
 }
 
-async function begin(page: Page): Promise<void> {
+async function begin(page: Page, fixedClock = false): Promise<void> {
   await page.goto('/');
   await expect(page.locator('canvas')).toBeVisible();
-  await startLiveGame(page);
+  if (fixedClock) await requestGameScene(page);
+  else await startLiveGame(page);
   await expect.poll(async () => (await read(page)).status).toBe('running');
 }
+
+test('restart initial state survives a delayed browser observation', async ({ page }) => {
+  await begin(page);
+  await page.getByRole('button', { name: '暂停游戏', exact: true }).click();
+  await page.evaluate(() => window.__RUNNER_TEST__?.freeze(true));
+  await page.getByRole('button', { name: '从头开始', exact: true }).click();
+  // Deliberate observation latency: a reset assertion must not race real RAF play.
+  await page.waitForTimeout(450);
+  expect((await read(page)).distance).toBe(0);
+  await page.evaluate(() => window.__RUNNER_TEST__?.freeze(false));
+  await expect.poll(async () => (await read(page)).distance).toBeGreaterThan(1);
+});
 
 test('renders a real 3D scene, advances, collects coins and pauses without drift', async ({ page }) => {
   const errors: string[] = [];
@@ -50,20 +63,26 @@ test('renders a real 3D scene, advances, collects coins and pauses without drift
 });
 
 test('real A/D and arrow keys change lanes; Space jumps; S and down arrow slide', async ({ page }) => {
-  await begin(page);
+  // Real input, sampled at real fixed ticks: software rendering must not hide short poses.
+  await begin(page, true);
   for (const [key, lane] of [['a', 0], ['d', 1], ['ArrowRight', 2], ['ArrowLeft', 1]] as const) {
     await page.keyboard.press(key);
+    await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(24));
     await expect.poll(async () => (await read(page)).player.lane).toBe(lane);
   }
   await page.keyboard.press('Space');
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(12));
   await expect.poll(async () => (await read(page)).player.y, { intervals: [20, 30] }).toBeGreaterThan(0.2);
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(120));
   await expect.poll(async () => (await read(page)).player.y, { intervals: [50] }).toBe(0);
   await page.keyboard.press('s');
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(1));
   await expect.poll(async () => (await read(page)).player.slideRemaining, { intervals: [20] }).toBeGreaterThan(0.1);
   // A fresh run keeps action checks independent of the first obstacle timing.
   await page.getByRole('button', { name: '暂停游戏' }).click();
   await page.getByRole('button', { name: '从头开始' }).click();
   await page.keyboard.press('ArrowDown');
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(1));
   await expect.poll(async () => (await read(page)).player.slideRemaining, { intervals: [20] }).toBeGreaterThan(0.1);
 });
 
@@ -80,11 +99,12 @@ test('collision ends the run and retry resets the same seed and world', async ({
   expect(ended.status).toBe('over');
   expect(ended.hit).toBe(first.kind);
   await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/desktop-over.png' });
+  await page.evaluate(() => window.__RUNNER_TEST__?.freeze(true));
   await page.getByRole('button', { name: '再跑一次' }).click();
   const retry = await read(page);
   expect(retry.status).toBe('running');
   expect(retry.seed).toBe(initial.seed);
-  expect(retry.distance).toBeLessThan(5);
+  expect(retry.distance).toBe(0);
   expect(retry.coins).toBe(0);
   expect(retry.player.lane).toBe(1);
   expect(retry.entities.filter((entity) => entity.kind !== 'coin')).toEqual(initial.entities.filter((entity) => entity.kind !== 'coin'));
@@ -98,7 +118,8 @@ test('supports seed editing and prevents gameplay from intercepting the input fi
   expect((await read(page)).seed).toBe('A D S seed 2026');
   expect((await read(page)).player.lane).toBe(1);
   const rows = (await read(page)).rows;
-  await startLiveGame(page);
+  await requestGameScene(page);
+  await page.waitForFunction(() => window.__RUNNER_TEST__?.read().status === 'running');
   await showRouteSeed(page);
   await expect(page.getByRole('textbox', { name: '路线 Seed' })).toBeDisabled();
   await page.keyboard.press('Escape');
@@ -119,12 +140,15 @@ test('pauses on lost window focus and never auto-resumes', async ({ page }) => {
 
 test('narrow layout fits and screen buttons control actual simulation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await begin(page);
+  await begin(page, true);
   await page.getByRole('button', { name: '向左换道' }).click();
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(24));
   await expect.poll(async () => (await read(page)).player.lane).toBe(0);
   await page.getByRole('button', { name: '向右换道' }).click();
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(24));
   await expect.poll(async () => (await read(page)).player.lane).toBe(1);
   await page.getByRole('button', { name: '跳跃', exact: true }).click();
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(12));
   await expect.poll(async () => (await read(page)).player.y, { intervals: [20] }).toBeGreaterThan(0.1);
   await page.screenshot({ path: 'artifacts/ui-ux/regression/screenshots/mobile-running.png' });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -133,7 +157,9 @@ test('narrow layout fits and screen buttons control actual simulation', async ({
     expect(box?.height).toBeGreaterThanOrEqual(44);
     expect(box?.width).toBeGreaterThanOrEqual(44);
   }
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(120));
   await expect.poll(async () => (await read(page)).player.y).toBe(0);
   await page.getByRole('button', { name: '滑铲', exact: true }).click();
+  await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(1));
   await expect.poll(async () => (await read(page)).player.slideRemaining, { intervals: [20] }).toBeGreaterThan(0.1);
 });
