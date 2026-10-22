@@ -1,6 +1,6 @@
 # 当前版本补充（Task 6）
 
-当前为六类生成器、12个资源，Node/Python generator2.1.0、Blender5.2.2。City Runner保留四种共享材质和18语义部件，新增20骨骼、真实Skin与Idle/Run/Jump/Slide，复用原CLI/事务/验证/加载链路，详见 [character-pipeline.md](character-pipeline.md)、[character-animation.md](character-animation.md)。`npm run assets:generate -- --only=city-runner`生成单个角色；`npm run assets:validate`同时验证12份资源、角色解剖与实际AnimationMixer采样。仅character允许Skin/动画，静态道具与城市仍严格拒绝；以下Task5/Task3数量与版本保留为历史说明。
+当前为七类生成器、15个资源，Node/Python generator2.1.0、Blender5.2.2。City Runner保留四种共享材质和18语义部件，新增20骨骼、真实Skin与Idle/Run/Jump/Slide，复用原CLI/事务/验证/加载链路，详见 [character-pipeline.md](character-pipeline.md)、[character-animation.md](character-animation.md)。`npm run assets:generate -- --only=city-runner`生成单个角色；`npm run assets:validate`同时验证15份资源、角色解剖与实际AnimationMixer采样。仅character允许Skin/动画，静态道具与城市仍严格拒绝；以下Task5/Task3数量与版本保留为历史说明。
 
 # 当前版本补充（Task 5）
 
