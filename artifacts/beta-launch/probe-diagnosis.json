@@ -1,0 +1,46 @@
+{
+  "sourceRun": "https://github.com/zidanDirk/runner3d/actions/runs/39886257811",
+  "sourceJobId": 120195015366,
+  "sourceImagesArtifact": 12473325100,
+  "sourceTraceArtifact": 12473255334,
+  "sourceSymptom": {
+    "expected": "loaded",
+    "received": "idle",
+    "timeoutMs": 7000,
+    "fullVisualStarted": false
+  },
+  "traceObservedModelRequest": {
+    "urlPath": "/models/generated/city-runner.glb",
+    "startedDateTime": "2026-10-23T01:51:29.720Z",
+    "durationMs": 22.93,
+    "status": 200
+  },
+  "localBefore": {
+    "scenario": "Real browser with first ResizeObserver notifications delayed8000ms",
+    "exitCode": 1,
+    "passed": 0,
+    "failed": 1,
+    "symptom": "Expected loaded, received idle after7000ms",
+    "logSha256": "852e76e8106f601676c9f2cd8d83cd94a29c3af8e3058d6954be03ad07952200"
+  },
+  "localAfter": {
+    "scenario": "Same delayed real Canvas plus original provenance probe, each repeated twice",
+    "exitCode": 0,
+    "passed": 4,
+    "failed": 0,
+    "readinessBudgetMs": 25000,
+    "requires": [
+      "real GLB200",
+      "status loaded",
+      "visible canvas",
+      "real 4 animation actions"
+    ],
+    "logSha256": "b755a7c80d8895f739e7a336cce1f31a39ba082480abe358dddad82f526aacf2"
+  },
+  "limitations": "Synthetic scheduling delay reproduces the readiness race; it does not establish the exact cause of the original hosted GPU/main-thread latency. No production source changes.",
+  "postFailureScreenshot": {
+    "path": "artifacts/beta-launch/visual-review/master-probe-after-timeout.png",
+    "sha256": "5cb1ae6a9597944532b7fa66f641d94e36c5efe8448f5936ab7e8d89d5266308",
+    "observation": "Actual screenshot taken after assertion failure already shows the loaded detailed character. It is not a capture of the exact idle instant; readiness occurred after the assertion budget."
+  }
+}

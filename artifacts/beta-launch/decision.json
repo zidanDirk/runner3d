@@ -1,12 +1,12 @@
 {
   "input": {
-    "candidateCommit": "40f0b8e2ac27e20ce03caae18db4b5fe543d90a9",
+    "candidateCommit": "9e52790b5ca8ac41e16bc85f9590d46ad9c20d00",
     "localGate": "PASS",
     "checks": {
       "ci": {
-        "status": "FAIL",
+        "status": "PASS",
         "kind": "external",
-        "source": "https://github.com/zidanDirk/runner3d/actions/runs/39813233654 — release-gate PASS; visual-comparison 59/77, 18 FAIL"
+        "source": "Same code9e52790: https://github.com/zidanDirk/runner3d/actions/runs/39893797591 and https://github.com/zidanDirk/runner3d/actions/runs/39895073583 — both jobs passed, visual77/77 each; metadata/provenance in platform-ci/results.json"
       },
       "preview": {
         "status": "BLOCKED",
@@ -90,13 +90,12 @@
     "technicalPreviewAuthorizationCommit": null
   },
   "result": {
-    "engineeringReady": false,
+    "engineeringReady": true,
     "previewDeployed": false,
     "realDeviceAccepted": false,
     "betaDecision": "NO-GO",
     "criticalOpenFindings": false,
     "pending": [
-      "ci",
       "preview",
       "https",
       "glb",
@@ -109,5 +108,5 @@
     ],
     "note": "A decision over recorded evidence, not proof that unperformed tests occurred. CONDITIONAL GO permits only the specifically authorized technical preview, never automatic public launch/promotion."
   },
-  "scope": "Recorded engineering evidence. Four known noncritical limitations; no real device/player/online evidence, and absence of reported P0/P1 is not proof no defects exist."
+  "scope": "Verified code9e52790 engineering evidence. Evidence-only delivery commit must use its own CI identity. Original91 preserved, new91 approved hashes match, two independent CI visual77/77. No deployment or human/device acceptance; Beta remains NO-GO."
 }

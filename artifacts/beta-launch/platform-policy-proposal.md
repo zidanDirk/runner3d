@@ -1,6 +1,6 @@
 # Task16 · Hosted macOS 视觉平台策略提案
 
-状态：**2026-10-23持有人有条件批准，工程实施与验证中**。提案绑定源码 `40f0b8e2ac27e20ce03caae18db4b5fe543d90a9`、[真实 CI run 39813233654](https://github.com/zidanDirk/runner3d/actions/runs/39813233654) 与 artifact `12441831891`。原失败18项/35份diff保留；批准不等于通过。下文是被批准的提案范围，最终结果见 [platform-policy-report.md](platform-policy-report.md)。绑定Hash清单JSON保持原始字节，不修改其中历史PROPOSED状态以伪造审批。
+状态：**2026-10-23持有人有条件批准，已按范围实施并完成两轮验证PASS**。提案绑定源码 `40f0b8e2ac27e20ce03caae18db4b5fe543d90a9`、[真实 CI run 39813233654](https://github.com/zidanDirk/runner3d/actions/runs/39813233654) 与 artifact `12441831891`。原失败18项/35份diff保留；批准不等于通过。下文是被批准的提案范围，最终结果见 [platform-policy-report.md](platform-policy-report.md)。绑定Hash清单JSON保持原始字节，不修改其中历史PROPOSED状态以伪造审批。
 
 ## 事实与审查
 

@@ -1,0 +1,40 @@
+{
+  "comparison": {
+    "id": "github-macos-26",
+    "snapshotPathTemplate": "{testDir}/{testFilePath}-snapshots/github-macos-26/{arg}{ext}"
+  },
+  "runner": {
+    "githubActions": "true",
+    "runnerEnvironment": "github-hosted",
+    "runnerOS": "macOS",
+    "runnerArch": "ARM64",
+    "imageOS": "macos26",
+    "imageVersion": "20261013.0424.1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "node": "v22.17.0",
+    "macosVersion": "26.6.2"
+  },
+  "host": {
+    "os": "darwin",
+    "release": "25.6.0",
+    "browser": "156.0.8078.4"
+  },
+  "language": "en-US",
+  "languages": [
+    "en-US"
+  ],
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+  "cssFontFamily": "Inter, \"Avenir Next\", \"PingFang SC\", \"Microsoft YaHei\", system-ui, sans-serif",
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple Paravirtual device, Unspecified Version)",
+  "actualFonts": [
+    {
+      "familyName": "蘋方-簡",
+      "postScriptName": "PingFangSC-Semibold",
+      "isCustomFont": false,
+      "glyphCount": 10
+    }
+  ],
+  "systemPingFangFiles": []
+}

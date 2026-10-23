@@ -1,0 +1,28 @@
+{
+  "approvedOn": "2026-10-23",
+  "source": "Direct human user message in this chat",
+  "proposalSha256": "7cbb10e363cce6a62f1f73bbb4252c478a6c76c3647d2e456867d79674958c21",
+  "sourceActualCommit": "40f0b8e2ac27e20ce03caae18db4b5fe543d90a9",
+  "codeCommit": "9e52790b5ca8ac41e16bc85f9590d46ad9c20d00",
+  "originalReferencesPreserved": 91,
+  "newPlatformReferences": 91,
+  "reviewedActuals": 35,
+  "originalCopies": 56,
+  "conditions": [
+    "exact SHA256 for every pair",
+    "explicit verified hosted macOS26 environment only; unknown selector/host fails",
+    "keep all 77 cases and original thresholds/uploads",
+    "no automatic update/skip/acceptance of future differences",
+    "investigate run39886257811 idle probe first",
+    "validate local originals and new platform references",
+    "two independent remote CI runs on identical controlled environment; PASS only after both actually pass"
+  ],
+  "notAuthorized": [
+    "PR merge",
+    "Preview deployment",
+    "stable entry change",
+    "production release",
+    "rollback"
+  ],
+  "note": "This approval record describes the direct human instruction; it does not replace the CI results."
+}

@@ -1,6 +1,6 @@
 # Hosted macOS 视觉参考提案（待批准）
 
-精确清单与 SHA256：[platform-reference-proposal.json](platform-reference-proposal.json)。这份清单仅记录提案，没有创建或启用任何新测试参考图。35份 expected 均逐字节匹配原91张基线中的对应文件。其余56份拟保留原图字节。
+精确清单与 SHA256：[platform-reference-proposal.json](platform-reference-proposal.json)。这是创建参考图之前的历史审查清单；当前已获有条件批准并完成两轮验证，结果见 [platform-policy-report.md](platform-policy-report.md)。35份 expected 均逐字节匹配原91张基线中的对应文件，其余56份也保留原图字节。原始JSON不改写，维持批准时绑定的Hash。
 
 以下 actual/diff 链接指向本机完整解压并经CRC核验的原始证据，不作为测试参考图或浏览器报告提交。远端同一批图可从 [GitHub visual-failures artifact 12441831891](https://github.com/zidanDirk/runner3d/actions/runs/39813233654/artifacts/12441831891) 获取；清单内每份文件均有SHA256，原测试基线已在Git中。
 

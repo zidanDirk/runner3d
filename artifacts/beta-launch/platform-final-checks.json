@@ -1,0 +1,120 @@
+{
+  "codeCommit": "9e52790b5ca8ac41e16bc85f9590d46ad9c20d00",
+  "visualPolicyState": "PASS",
+  "local": {
+    "strict": "PASS",
+    "unit": {
+      "passed": 646,
+      "files": 51
+    },
+    "originalVisual": {
+      "passed": 77,
+      "failed": 0,
+      "duration": "4.2m"
+    },
+    "fullBrowser": {
+      "passed": 189,
+      "failed": 0,
+      "duration": "16.6m"
+    },
+    "releaseGate": {
+      "status": "PASS",
+      "core": 23,
+      "beta": 9,
+      "smoke": 5,
+      "artifact": "platform-local-gate.json"
+    },
+    "production": {
+      "passed": 8,
+      "duration": "45.1s"
+    },
+    "loading": {
+      "passed": 2,
+      "duration": "8.2s",
+      "mobileScope": "Desktop Chromium mobile viewport emulation"
+    },
+    "build": "PASS",
+    "negativeSelectors": {
+      "knownPlatformOnActualLocalHost": "expected exit1",
+      "unknownPlatform": "expected exit1"
+    }
+  },
+  "preservation": {
+    "application": {
+      "count": 147,
+      "changed": []
+    },
+    "models": {
+      "count": 15,
+      "changed": []
+    },
+    "originalBaselines": {
+      "count": 91,
+      "changed": []
+    }
+  },
+  "platformReferences": {
+    "count": 91,
+    "reviewedActuals": 35,
+    "copies": 56,
+    "hashResult": "platform-reference-hashes.json",
+    "allMatched": true
+  },
+  "logs": {
+    "platform-typecheck.log": {
+      "sha256": "d840043e85528e85dcb30be4c5e289fc7d55a974a0b1698346ed3f7411409e5b",
+      "bytes": 109
+    },
+    "platform-unit.log": {
+      "sha256": "db7bcd430410c2f8f6060805430540aa12c2944ca0f2be94ec289467c838d924",
+      "bytes": 7198
+    },
+    "platform-local-original-visual.log": {
+      "sha256": "1a913cdb34e18047e3f45cd2e2a1c121e8f869fde9d40e854ce87e2aaefe83bb",
+      "bytes": 9703
+    },
+    "platform-full-e2e.log": {
+      "sha256": "5e4195ae4aa5181a09a755cbbf974c82caf73f316724500e700c9262325c192e",
+      "bytes": 26593
+    },
+    "platform-release-gate.log": {
+      "sha256": "ee69f23c934b6e63fdeaab4325653a26f466dbaa1f707f2f0292f59584723e2c",
+      "bytes": 24351
+    },
+    "platform-production.log": {
+      "sha256": "f8906f431603d67c13598e1f687154fb32ceee3f1765f63defe484bee53d8c1c",
+      "bytes": 2227
+    },
+    "platform-loading.log": {
+      "sha256": "4c7d286943abef4bbcb8db489ab9b3931a69d93a688f0e8827e41d9b9ef8e72a",
+      "bytes": 688
+    },
+    "platform-build.log": {
+      "sha256": "66f9837e1e61054d53059e5b62161de6731f9ea0d1d264a94ba17f6723d314ad",
+      "bytes": 1839
+    },
+    "probe-regression-before.log": {
+      "sha256": "852e76e8106f601676c9f2cd8d83cd94a29c3af8e3058d6954be03ad07952200",
+      "bytes": 4002
+    },
+    "probe-after.log": {
+      "sha256": "b755a7c80d8895f739e7a336cce1f31a39ba082480abe358dddad82f526aacf2",
+      "bytes": 2751
+    },
+    "platform-local-rejection.log": {
+      "sha256": "45fe7343ee2f436e9e53efc9bb509dc936282f77da06a26994b579bcb40c246f",
+      "bytes": 1247
+    },
+    "platform-unknown-rejection.log": {
+      "sha256": "6282c81281644aa71485f7c977e4206b93846ce9284aaca3d18d1e0b6ee9d428",
+      "bytes": 1221
+    }
+  },
+  "limitations": [
+    "Raw local logs/browser reports are not committed.",
+    "Real HTTPS/CDN/Preview/phones/human audio/players/rollback not performed.",
+    "Three704.75kB chunk warning retained; no game visuals reduced.",
+    "Local dirty source identified by exact build manifest, not HEAD alone."
+  ],
+  "remote": "platform-ci/results.json"
+}

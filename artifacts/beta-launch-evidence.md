@@ -1,10 +1,12 @@
 # Task16 · 真实 Beta 验收记录
 
-本轮工作日期：2026-10-22～23（Asia/Shanghai；GitHub时间为UTC）。工程验证进行中；**Preview 未部署、真实设备未验收、Beta NO-GO**。没有上传、生产晋升、稳定入口变更、付费资源或真实生产回滚。代码同步与公开发布是两件事。
+本轮工作日期：2026-10-22～23（Asia/Shanghai；GitHub时间为UTC）。有条件批准的平台策略已完成两轮独立真实CI，视觉阻塞已解除，已验证工程SHA为9e52790；**Preview 未部署、真实设备未验收、Beta NO-GO**。没有上传、生产晋升、稳定入口变更、付费资源或真实生产回滚。代码同步与公开发布是两件事。
 
-当前阻塞：远端视觉18项失败，独立平台参考策略待持有人审核。2026-10-23用户明确要求“提交到远端”，本次据此将当前代码、证据和未启用的审核提案同步到 `origin/master`；同步不代表CI通过或Task16验收完成。同步起点为 `da5f99a`，精确推送结果在交付消息中报告。文件清单见 [files.md](beta-launch/files.md)，实际计数与日志Hash见 [final-checks.json](beta-launch/final-checks.json)。
+当前视觉状态为PASS：原91图不变、新91图35actual/56copy全部Hash匹配，两轮同SHA均77/77且Release Gate成功。平台工程与证据按用户交付约定同步origin/master，精确推送SHA和新CI状态在交付消息报告；代码同步不授权任何部署。文件清单见 [files.md](beta-launch/files.md)，本次详细策略/计数与日志Hash见 [平台报告](beta-launch/platform-policy-report.md)、[platform-final-checks.json](beta-launch/platform-final-checks.json)。初期失败记录和final-checks.json保留历史，不冒充当前结果。
 
 ## A. GitHub CI
+
+正式平台验证代码 `9e52790b5ca8ac41e16bc85f9590d46ad9c20d00`：[独立Run1](https://github.com/zidanDirk/runner3d/actions/runs/39893797591) visual77/77（10.4m）与Release Gate PASS；[独立Run2](https://github.com/zidanDirk/runner3d/actions/runs/39895073583) visual77/77（10.3m）与Release Gate PASS。两轮均attempt1、不同VM/Worker ID、同一image/Node/Chromium/GPU/实际字体解析来源，六份来源样本一致，未增加容差或重拍/自动更新参考图。机器结果在 [platform-ci/results.json](beta-launch/platform-ci/results.json)。以下保留诊断过程与真实失败。
 
 起点 master `da5f99af234e60b4d54559cf93ecab03c2514443`：[原 master run](https://github.com/zidanDirk/runner3d/actions/runs/39758556894)，Release Gate FAIL，visual cancelled。原 [PR #2 run](https://github.com/zidanDirk/runner3d/actions/runs/39758356603) 核心17/22，visual25分钟超时且旧流程未上传截图。PR #2 head `06a772c42cb37105a60d0ab46be48498b36095ab`，Draft/open/unmerged，未合并或移植其限定文档任务。
 
@@ -22,15 +24,15 @@
 
 新增只读CDP探针实测本机CJK为PingFangSC-Semibold、系统TTC SHA256 `9ff3ce9439fe285cdabb46f9ceb46b1ac58f1ca07e6f4a764e8286db621a0af9`，GPU为Apple M2 Max Metal。Core Text接口按[Apple官方说明](https://developer.apple.com/documentation/technologyoverviews/fonts)和本机SDK编译核对，不手工注册/复制/分发系统字体。Swift默认只读，下载仅显式flag+一次性macOS GitHub runner；120秒超时/真实PostScript验证。本机CommandLineTools编译检查通过，未修改既有损坏的全局Xcode shim。
 
-当前精确提交 `40f0b8e2ac27e20ce03caae18db4b5fe543d90a9` 的 [真实 CI](https://github.com/zidanDirk/runner3d/actions/runs/39813233654) 已完成：Linux [Release Gate PASS](https://github.com/zidanDirk/runner3d/actions/runs/39813233654/job/119944822985)，macOS [Visual Comparison FAIL](https://github.com/zidanDirk/runner3d/actions/runs/39813233654/job/119944823629)，59/77通过、18失败。新增一项是环境记录，原截图用例均保留。Core Text实测目标PostScript字体已经可用，本轮**没有下载**；前后CDP报告相同，不能把字体检查成功算作视觉修复。
+历史阶段提交 `40f0b8e2ac27e20ce03caae18db4b5fe543d90a9` 的 [真实 CI](https://github.com/zidanDirk/runner3d/actions/runs/39813233654) 已完成：Linux [Release Gate PASS](https://github.com/zidanDirk/runner3d/actions/runs/39813233654/job/119944822985)，macOS [Visual Comparison FAIL](https://github.com/zidanDirk/runner3d/actions/runs/39813233654/job/119944823629)，59/77通过、18失败。新增一项是环境记录，原截图用例均保留。Core Text实测目标PostScript字体已经可用，本轮**没有下载**；前后CDP报告相同，不能把字体检查成功算作视觉修复。
 
-当前35份diff全部查看，主要是CJK文字/宽度及相应控件边缘；高速另有护盾线框光栅化差异。CI为Apple Paravirtual device，CDP同名PostScript的family记录为“蘋方-簡”，本机为“PingFang SC”；尚未取得CI实际字体文件版本/Hash，不能认定确切版本原因。CI扫描仅覆盖AssetsV2，空文件列表不能推断字体缺失。14,969,104B图片归档已完整取得并做ZIP CRC验证；78,134,515B trace独立保留在GitHub。实际提案与35份图/Hash在 [平台策略提案](beta-launch/platform-policy-proposal.md)，当前**等待批准、未启用新参考图**。
+当前35份diff全部查看，主要是CJK文字/宽度及相应控件边缘；高速另有护盾线框光栅化差异。CI为Apple Paravirtual device，CDP同名PostScript的family记录为“蘋方-簡”，本机为“PingFang SC”；尚未取得CI实际字体文件版本/Hash，不能认定确切版本原因。CI扫描仅覆盖AssetsV2，空文件列表不能推断字体缺失。14,969,104B图片归档已完整取得并做ZIP CRC验证；78,134,515B trace独立保留在GitHub。实际提案与35份图/Hash在 [平台策略提案](beta-launch/platform-policy-proposal.md)，当时等待批准；后续持有人有条件批准、先修复master冷Canvas探针，再完成本文顶部两轮验证。
 
 ## B. Preview 部署
 
 App版本0.14.0-beta。只读GitHub审计：Environments=0，Variables=0；仅存在Secret名称QINIU_AK/QINIU_BUCKET/QINIU_SK，**未读取值**。现有工作流需要公开 `vars.QINIU_BUCKET`，同名Secret不能代替。缺HTTPS部署根地址、环境审批及本次具体候选上传授权，故上传Blocked。实际URL、线上Build ID、TLS/CDN缓存结果均N/A。
 
-最终本地门禁构建为 `0.14.0-beta-db5029aa3d2a-20261022T160359253Z`，dirty源码按实际Manifest归档，不能用HEAD单独重建此包；32文件/1,980,090字节/15GLB，Manifest SHA256 `c8dccb3221a6aeac260fb233d7d6ab2eb141c35e2ce70188ef7e73542880429f`，见 [local-gate-final.json](beta-launch/local-gate-final.json)。这是localhost工程证据，不是线上候选。较早aef20e6本地结果另保存在local-gate.json；干净CI产物以原run的local-release-gate归档为准，不覆盖旧目录。
+本次本地门禁构建为 `0.14.0-beta-9e52790b5ca8-20261023T033034255Z`，dirty源码按实际Manifest归档，不能用HEAD单独重建此包；32文件/1,980,090字节/15GLB，Manifest SHA256 `3a9e364ccd0c587c244d0afed4bd668e569cac000f5cc0d1dee5a804d5473fc3`，见 [platform-local-gate.json](beta-launch/platform-local-gate.json)。这是localhost工程证据，不是线上候选。较早aef20e6本地结果另保存在local-gate.json；干净CI产物以原run的local-release-gate归档为准，不覆盖旧目录。
 
 新增只读 `release:preflight`、精确SHA完整CI门、promotion源工作流/事件/仓库/源SHA核对；复用原候选及晋升工作流。静态远端检查扩展为TLS、HTTP精确跳转、逐文件Hash、MIME/缓存、缺失GLB404、前后Manifest一致，有限读取/超时且拒绝关闭证书验证。21项注入Response测试是synthetic contract，**真实HTTPS/CDN未测**。配置与实际可执行命令见 [beta-deployment-audit.md](../docs/beta-deployment-audit.md)。
 
@@ -61,7 +63,7 @@ PENDING，实际试听设备0。八种音效在手机扬声器/普通耳机的�
 
 | 门禁 | 当前状态 | 来源/限制 |
 |---|---|---|
-| A 远端CI | FAIL | 40f0b8e：Release Gate PASS；Visual 59/77、18 FAIL |
+| A 远端CI | PASS | 已验证9e52790：两次独立完整CI成功，每轮visual77/77 |
 | B Preview | BLOCKED | 无配置/具体候选授权 |
 | C HTTPS | BLOCKED | 无实际URL |
 | D GLB | PENDING | 本地15实物通过，线上未测 |
@@ -77,23 +79,23 @@ PENDING，实际试听设备0。八种音效在手机扬声器/普通耳机的�
 
 P0/P1：目前没有收到真实玩家或真机缺陷报告，不能据此证明不存在。已知线上配置/证据缺口直接阻止GO，不能为了日期改分级。P2：既有残余脚滑、部分升级边际弱/满级金币用途少，未在本任务修改玩法。P3：Three 704.75kB大chunk警告仍保留，未靠降低城市画质或删除效果隐藏。真实手机热机/网络/听感未知。
 
-四项独立状态：Engineering Ready **否（远端视觉阻塞）**；Preview Deployed **否**；Real Device Accepted **否**；Beta **NO-GO**。只有工程绿不能改成全面GO；有限技术预览也必须已有HTTPS/核心证据并获精确候选授权。生产晋升保留人工审批。回滚方案见 [rollback.md](../docs/rollback.md)，未执行稳定入口变更。
+四项独立状态：Engineering Ready **是（已验证代码9e52790）**；Preview Deployed **否**；Real Device Accepted **否**；Beta **NO-GO**。证据归档提交的当前SHA需以它自己的新CI结果作构建身份，不能套用9e52790的run。只有工程绿不能改成全面GO；有限技术预览也必须已有HTTPS/核心证据并获精确候选授权。生产晋升保留人工审批。回滚方案见 [rollback.md](../docs/rollback.md)，未执行稳定入口变更。
 
 ## G. 自动化验证
 
 | 验证 | 实际结果 |
 |---|---|
 | strict | PASS |
-| unit | 最新620/620，50文件；首轮Release Gate619（之后补真实CLI拒绝发布负例） |
+| unit | 最新646/646，51文件；初期619/620结果保留历史 |
 | assets:config / assets:validate | 15/15，静态+结构+真实Three；未重生成 |
 | build --mode preview / 完整性 | PASS；保留大chunk警告 |
-| release:check | 最终620版PASS：strict、unit620、15资产、构建/完整性、core23、Beta9、release5；本地元数据见local-gate-final.json |
-| 全量test:e2e | 187/187，16.3分钟，含全部原视觉用例 |
-| 普通test:visual | 最新77/77，4.2分钟；91基线不变 |
+| release:check | PASS：strict、unit646、15资产、构建/完整性、core23、Beta9、release5；见platform-local-gate.json |
+| 全量test:e2e | 最新完整189/189，16.6分钟 |
+| 普通test:visual | 本地77/77，4.2分钟；原91基线不变；另新增91图按提案校验 |
 | test:production / test:loading | 8/8 与2/2 |
 | 真实远端Smoke/CDN/回滚 | BLOCKED / 未执行 |
 
-新增字体/GPU来源诊断1/1通过，随后完整普通视觉77/77；全量e2e的187是加入诊断前的真实批次，不能把分别执行的诊断加上说成单次188/188。一轮额外独立Smoke因外层沙盒listen EPERM未启动，未执行用例；按同一批准流程在最终Release Gate中实际5/5通过，没有为此修改业务代码或禁用沙盒。
+加入来源探针和冷Canvas回归后，已真实执行完整189/189，不把早期187和单项简单相加冒充全量。两次远端77/77与本地原图77/77分别记录，均不更新截图。一轮额外独立Smoke因外层沙盒listen EPERM未启动，未执行用例；按同一批准流程在最终Release Gate中实际5/5通过，没有为此修改业务代码或禁用沙盒。
 
 新发布Smoke共用原生产路线机器人，实际Arrow左右/Space/下键、真实收集三道具与金币、碰撞/钱包；原用例继续验证暂停/设置/结算/商店/任务/首页/重试/刷新存档和无生产钩子。精确动作姿势由原固定tick e2e断言；生产真实输入检查不冒充逐姿态测试。没有修改src游戏/运行时/渲染/经济、资产工厂、GLB或存档schema。
 
@@ -103,6 +105,6 @@ P0/P1：目前没有收到真实玩家或真机缺陷报告，不能据此证明
 
 ## H. AI AUTOMATION REPORT
 
-Codex实际完成：读真实GitHub Job日志，复现/修复测试采样竞态，保留CI失败证据，审计配置名称，扩展原静态/浏览器发布检查，建立只读预检查/独立决策表与安全反馈导入，补测试/文档。两项委派未开始，主Agent接手完成，不把空委派计入成果。
+Codex实际完成：读真实GitHub Job日志，复现/修复测试采样竞态，保留CI失败证据，审计配置名称，扩展原静态/浏览器发布检查，建立只读预检查/独立决策表与安全反馈导入，补测试/文档。初期两项委派未开始，主Agent接手完成；平台阶段另有一次实际完成的只读独立复核，发现的符号链接检查缺口已修复。不把空委派计入成果。
 
-自动化仍止于已授权工程与未审核草稿。账号持有人配置托管/HTTPS/真实Environment审批、审核具体候选上传、人类设备/试听/试玩、真实回滚及生产晋升均依赖人工。下一步先完成本轮工程/CI，再配置现有环境并审核具体SHA；获得实际候选后跑静态HTTPS+真实浏览器及冷暖缓存/旧候选隔离，最后实机/真人记录后重新做Go/No-Go。不新增服务、调度、付费AI或发布权限。
+自动化仍止于已授权工程与未审核草稿。账号持有人配置托管/HTTPS/真实Environment审批、审核具体候选上传、人类设备/试听/试玩、真实回滚及生产晋升均依赖人工。下一步由持有人配置现有环境并审核具体候选SHA；获得实际候选后跑静态HTTPS+真实浏览器及冷暖缓存/旧候选隔离，最后实机/真人记录后重新做Go/No-Go。不新增服务、调度、付费AI或发布权限。

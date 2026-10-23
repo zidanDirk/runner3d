@@ -1,0 +1,46 @@
+{
+  "runId": 39893797591,
+  "attempt": 1,
+  "url": "https://github.com/zidanDirk/runner3d/actions/runs/39893797591",
+  "event": "push",
+  "headCommit": "9e52790b5ca8ac41e16bc85f9590d46ad9c20d00",
+  "status": "completed",
+  "conclusion": "success",
+  "createdAt": "2026-10-23T03:12:52Z",
+  "updatedAt": "2026-10-23T03:26:04Z",
+  "jobs": {
+    "visual": {
+      "id": 120219413790,
+      "status": "PASS",
+      "passed": 77,
+      "failed": 0,
+      "duration": "10.4m"
+    },
+    "releaseGate": {
+      "id": 120219413457,
+      "status": "PASS",
+      "unit": 646,
+      "core": 23,
+      "beta": 9,
+      "releaseSmoke": 5
+    }
+  },
+  "runnerImage": "macos-26-arm64",
+  "workerId": "{56a42c5c-9dd4-4cf0-8bbe-cebcf4c1364a}",
+  "provenanceFile": "visual-provenance.json",
+  "provenanceSha256": "cc147fa33ecfbdf60bdcfe47ca9e8bf761fd9f604269b39162c6a0879d49db01",
+  "provenanceSamplesMatching": 3,
+  "artifacts": {
+    "environmentBefore": 12475389562,
+    "environmentAfter": 12476320500,
+    "visualEvidence": 12476461657,
+    "releaseGate": 12476187955,
+    "traces": null
+  },
+  "failureEvidence": "No test failures in this run; retained-on-failure traces were not created. Existing image/error/trace upload steps remain unchanged.",
+  "rawLogHashes": {
+    "visual": "0c6477531dd3f1200ccd1dbc49b81bba90a28db7f2067ee8cbac054b135c8742",
+    "release": "6c35737c395ec0a2e6c057ad2870e7bd1924671c7dedd707ff837d9b8600fa61"
+  },
+  "note": "Counts parsed from actual completed job logs; raw logs remain local and GitHub job evidence, not committed."
+}

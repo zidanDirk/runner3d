@@ -38,3 +38,12 @@ remote-smoke已扩展只读证据：严格reviewedmanifest、源SHA、有限传�
 2026-10-23用户明确要求“提交到远端”，授权将当前代码、证据与未启用提案先同步master；不把该指令解释为平台基线或发布批准。正常整合后推送，精确提交号/结果以交付消息为准；不强制推送、不合并PR2、不提交无关历史日志。
 
 待办：获得平台策略答复后处理视觉阻塞；保持原图/全部用例/容差。Preview配置/具体候选授权缺失仍Blocked，真机/人耳/真人均Pending、0实际参与者；Beta NO-GO。详见artifacts/beta-launch-evidence.md及beta-launch/platform-policy-proposal.md。
+
+
+## Task16 平台策略有条件批准 · 已验证
+
+2026-10-23持有人明确批准原91图不变、独立github-macos-26新91图（35绑定actual/56原图copy）、未知环境fail-closed及至少两次真实独立CI。先用原master39886257811日志/trace定位7秒探针预算不足，真实Canvas布局延迟8秒回归得到旧idle失败、新25秒就绪通过；不改生产场景。原提案JSON SHA7cbb10e3…58c21未变。
+
+实现提交9e52790；本地strict/646unit/15资产/77原图visual/完整189e2e/ReleaseGate(core23/Beta9/smoke5)/生产8/加载2/正式build全通过。原147应用源码/15GLB/91PNG Hash不变，新91图逐一匹配提案，Agent跟踪182图。两轮独立CI39893797591与39895073583同SHA，visual各77/77（10.4m/10.3m）、ReleaseGate均成功；不同VM Worker ID、六来源样本一致，来源JSON SHA cc147fa3…49db01。视觉阻塞实际解除PASS，不覆盖任何图片或提高容差。
+
+策略报告artifacts/beta-launch/platform-policy-report.md，逐图Hash在platform-reference-hashes.json，两轮Job/Artifact ID及来源在platform-ci/。本次后续提交只归档证据/文档，正常同步master并在交付消息报告精确SHA/推送/新CI状态。PR2仍draft/open/unmerged；无部署、稳定入口/生产/回滚操作。Engineering Ready只指已验证代码9e52790；Preview未部署，真机/人耳/真人仍Pending0人，Beta NO-GO。
