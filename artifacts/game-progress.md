@@ -33,4 +33,8 @@ remote-smoke已扩展只读证据：严格reviewedmanifest、源SHA、有限传�
 
 注意：有一次master Job只读请求自动审批因usage limit未执行；用户要求继续后通过同一审批流程重试成功，未绕过审批。后续审批目前可用。外部部署仍需具体候选审核与明确本次上传授权。
 
-待办：核对新CI；读取实际Linux visual actual/diff再决定经人工审核的平台策略；集成反馈CLI/发布预检查；扩展生产真实输入Smoke；更新AGENTS/发布文档；全部相关测试/构建/ReleaseGate/普通visual；实机/人耳/真人无条件则Pending；最终真实报告和commit/pushmaster（PR2不合并）。
+2026-10-23续做：反馈CLI/发布预检查/源工作流身份检查/真实输入Smoke及文档完成。620unit、15资产、strict/build、最终ReleaseGate(core23/Beta9/release5)、187全量e2e、最新77普通visual、生产8、加载2均有真实本地通过证据，未改147应用源码/15GLB/原91图。当前40f0b8e真实远端Release Gate PASS，Visual59/77、18FAIL。全部35张当前diff已看，主要CJK与少量线框边缘；Core Text目标字体已存在，本轮无下载且未修复差异。已准备精确Hash绑定的独立CI平台91图提案，异步请求人工批准，未创建/启用新参考目录。master仍da5f99a，PR2仍draft/open/unmerged。
+
+2026-10-23用户明确要求“提交到远端”，授权将当前代码、证据与未启用提案先同步master；不把该指令解释为平台基线或发布批准。正常整合后推送，精确提交号/结果以交付消息为准；不强制推送、不合并PR2、不提交无关历史日志。
+
+待办：获得平台策略答复后处理视觉阻塞；保持原图/全部用例/容差。Preview配置/具体候选授权缺失仍Blocked，真机/人耳/真人均Pending、0实际参与者；Beta NO-GO。详见artifacts/beta-launch-evidence.md及beta-launch/platform-policy-proposal.md。

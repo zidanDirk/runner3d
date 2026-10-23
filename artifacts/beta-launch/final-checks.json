@@ -1,0 +1,137 @@
+{
+  "status": "BLOCKED_ON_REVIEWED_VISUAL_PLATFORM_POLICY",
+  "codeCommit": "40f0b8e2ac27e20ce03caae18db4b5fe543d90a9",
+  "local": {
+    "strict": "PASS",
+    "unit": {
+      "passed": 620,
+      "files": 50
+    },
+    "assets": {
+      "passed": 15,
+      "checks": [
+        "static",
+        "GLB structure",
+        "real Three.js load"
+      ]
+    },
+    "build": "PASS",
+    "releaseGate": {
+      "status": "PASS",
+      "core": 23,
+      "beta": 9,
+      "releaseSmoke": 5,
+      "localArtifact": "local-gate-final.json"
+    },
+    "allBrowser": {
+      "passed": 187,
+      "note": "Completed full batch before the one new provenance test; no claim of 188/188"
+    },
+    "normalVisual": {
+      "passed": 77,
+      "originalReferences": 91,
+      "updatedOriginalReferences": 0
+    },
+    "production": {
+      "passed": 8
+    },
+    "loading": {
+      "passed": 2
+    }
+  },
+  "remote": {
+    "url": "https://github.com/zidanDirk/runner3d/actions/runs/39813233654",
+    "commit": "40f0b8e2ac27e20ce03caae18db4b5fe543d90a9",
+    "releaseGate": {
+      "status": "PASS",
+      "unit": 620,
+      "core": 23,
+      "beta": 9,
+      "releaseSmoke": 5,
+      "jobId": 119944822985
+    },
+    "visualComparison": {
+      "status": "FAIL",
+      "passed": 59,
+      "failed": 18,
+      "total": 77,
+      "reviewedDiffImages": 35,
+      "jobId": 119944823629,
+      "imagesArtifact": 12441831891,
+      "tracesArtifact": 12442800481
+    }
+  },
+  "preservation": {
+    "gameApplication": {
+      "count": 147,
+      "changed": []
+    },
+    "generatedModels": {
+      "count": 15,
+      "changed": []
+    },
+    "visualBaselines": {
+      "count": 91,
+      "changed": []
+    }
+  },
+  "realDeviceReports": 0,
+  "realParticipants": 0,
+  "publicDeployments": 0,
+  "logs": {
+    "strict": {
+      "path": "artifacts/beta-launch/typecheck-final.log",
+      "bytes": 109,
+      "sha256": "d840043e85528e85dcb30be4c5e289fc7d55a974a0b1698346ed3f7411409e5b"
+    },
+    "unit": {
+      "path": "artifacts/beta-launch/unit-final.log",
+      "bytes": 7100,
+      "sha256": "23056619d9953af9f127138fde0e6d99a9ceedaf6ff325509fe614289806f9cf"
+    },
+    "assetsBuildAndRelease": {
+      "path": "artifacts/beta-launch/release-final.log",
+      "bytes": 24138,
+      "sha256": "aba67f4f62c23a3f521f36b78a083dc48aafe79240d14db2df6e58beba6387a2"
+    },
+    "allBrowserBeforeProvenance": {
+      "path": "artifacts/beta-launch/e2e-final.log",
+      "bytes": 25284,
+      "sha256": "179b9d1623cd9da0df9bb8feba8e1ef65a97392b63b363f7e7fe78e6d9f40a9f"
+    },
+    "normalVisual": {
+      "path": "artifacts/beta-launch/visual-final-with-provenance.log",
+      "bytes": 9488,
+      "sha256": "a9fdb06b1568800c9c13aed25b1e38fe4a00a5e1c0a1a7e551e901abd18df042"
+    },
+    "production": {
+      "path": "artifacts/beta-launch/production-final.log",
+      "bytes": 2227,
+      "sha256": "18071001aef0498589cf686162b1ecf50e9df302de6e9e9bc42859cf3b642fe5"
+    },
+    "loading": {
+      "path": "artifacts/beta-launch/loading-final.log",
+      "bytes": 688,
+      "sha256": "4ea8b747c898220f75ba797e8dfa2c1f260673047dd6174e0e68028b364ede48"
+    },
+    "remoteRelease": {
+      "path": "artifacts/beta-launch/font-alignment-release.log",
+      "bytes": 80908,
+      "sha256": "73e323aa967144083f5caa3e2d2842485916671f39febb7d03afb76ceff44f0a"
+    },
+    "remoteVisual": {
+      "path": "artifacts/beta-launch/font-alignment-visual.log",
+      "bytes": 206896,
+      "sha256": "47e6f68e56662c3d8efb6ce2f76f909f32921ce48d91f51b1a869e8b94713b51"
+    }
+  },
+  "note": "Raw logs, test reports, archives and traces remain local/CI artifacts and are not committed. Log hashes are provenance, not a substitute for live HTTPS/device evidence.",
+  "masterCommitAtEvidenceCapture": "da5f99af234e60b4d54559cf93ecab03c2514443",
+  "delivery": {
+    "requestedByUser": "2026-10-23: 提交到远端",
+    "target": "origin/master",
+    "scope": "Current state, including unresolved visual failures and inactive review proposal; not approval of references or deployment",
+    "sourceBaseCommit": "da5f99af234e60b4d54559cf93ecab03c2514443",
+    "note": "Exact pushed commit and result are reported after the Git operation, not inferred here."
+  }
+}

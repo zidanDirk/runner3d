@@ -1,12 +1,12 @@
 {
   "input": {
-    "candidateCommit": "db5029aa3d2abea2b2182da6f6190050fc33beec",
+    "candidateCommit": "40f0b8e2ac27e20ce03caae18db4b5fe543d90a9",
     "localGate": "PASS",
     "checks": {
       "ci": {
-        "status": "PENDING",
+        "status": "FAIL",
         "kind": "external",
-        "source": "https://github.com/zidanDirk/runner3d/actions/runs/39808797788"
+        "source": "https://github.com/zidanDirk/runner3d/actions/runs/39813233654 — release-gate PASS; visual-comparison 59/77, 18 FAIL"
       },
       "preview": {
         "status": "BLOCKED",

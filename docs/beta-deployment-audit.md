@@ -13,6 +13,8 @@
 
 CI视觉环境：Linux继续Release Gate；macOS26/arm64比较原91张macOS基线。`00-visual-provenance.spec.ts`记录浏览器实际解析的CJK字体、系统TTC Hash与GPU，而不是用CSS字体名或`document.fonts.check`猜测。若缺PingFang，原工作流以 `swift scripts/release/ensure-ci-font.swift --download-system-font` 请求Apple管理的系统字体，120秒超时、精确PostScript复验，随后再记录并完整比较。脚本仅在明确的GitHub macOS runner允许下载；开发机默认只读检查，不复制或提交字体。Node构建/游戏不依赖Swift。真实远端结果仍以Task16报告为准，配置存在不等于已通过。
 
+实际 `40f0b8e` 的CI目标字体已存在，未下载，字体检查前后报告相同，视觉仍59/77、18失败。CDP同名PostScript不足以证明字体文件字节相同；AssetsV2扫描的空列表也不证明字体缺失。原91张未修改；独立托管平台参考策略见 [待审核提案](../artifacts/beta-launch/platform-policy-proposal.md)，未获批准前不启用。完整结果见 [Task16报告](../artifacts/beta-launch-evidence.md)。
+
 版本目录、缓存、MIME、原产物归档与回滚细则继续使用 [release.md](release.md)、[rollback.md](rollback.md)，没有建立另一套上传工具或稳定入口。
 
 ## 持有人配置清单
