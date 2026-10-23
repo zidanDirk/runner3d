@@ -1,0 +1,923 @@
+{
+  "schemaVersion": 1,
+  "proposalSha256": "7cbb10e363cce6a62f1f73bbb4252c478a6c76c3647d2e456867d79674958c21",
+  "sourceCommit": "40f0b8e2ac27e20ce03caae18db4b5fe543d90a9",
+  "sourceRun": "https://github.com/zidanDirk/runner3d/actions/runs/39813233654",
+  "originalCount": 91,
+  "platformCount": 91,
+  "reviewedActualCount": 35,
+  "unchangedCopyCount": 56,
+  "allMatched": true,
+  "entries": [
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-idle-front.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-idle-front.png",
+      "originalSha256": "cad6929c73998f6c71d136546ac287246cbf5f76b9f4be605dbdde3bea97adca",
+      "platformSha256": "cad6929c73998f6c71d136546ac287246cbf5f76b9f4be605dbdde3bea97adca",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-jump-air.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-jump-air.png",
+      "originalSha256": "76fbcecbf6711e089166654b5e0fff69606dfd178ff8f30647cb347857b6e8e3",
+      "platformSha256": "76fbcecbf6711e089166654b5e0fff69606dfd178ff8f30647cb347857b6e8e3",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-jump-takeoff.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-jump-takeoff.png",
+      "originalSha256": "360cb388259a1b01437df82871fe990e593cedf6e2b56db2868728a835c9c4be",
+      "platformSha256": "360cb388259a1b01437df82871fe990e593cedf6e2b56db2868728a835c9c4be",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-lean-left.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-lean-left.png",
+      "originalSha256": "099699898d89234a01ea843abbd69d3878e3666bd59af5246bbc7c9b55e2d109",
+      "platformSha256": "099699898d89234a01ea843abbd69d3878e3666bd59af5246bbc7c9b55e2d109",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-lean-right.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-lean-right.png",
+      "originalSha256": "fe0b2f4fe253e649f17199f84a4d1813feac0f79aa3a645cd39721be6939b7af",
+      "platformSha256": "fe0b2f4fe253e649f17199f84a4d1813feac0f79aa3a645cd39721be6939b7af",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-run-back.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-run-back.png",
+      "originalSha256": "01620e116d593a2b513f15bbae5eae66cd87bf70fa3c94cd68ed127cd6d92972",
+      "platformSha256": "01620e116d593a2b513f15bbae5eae66cd87bf70fa3c94cd68ed127cd6d92972",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-run-front.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-run-front.png",
+      "originalSha256": "a036b702702c0e7c5ea58403a0cae4b6c7a5cfaeb2f10de0f92e0502cdc8056d",
+      "platformSha256": "a036b702702c0e7c5ea58403a0cae4b6c7a5cfaeb2f10de0f92e0502cdc8056d",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-run-left-contact.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-run-left-contact.png",
+      "originalSha256": "ec3117fb1d217655173e2bfe081c121b0dfc193ede30659d868407d9ec99b9b9",
+      "platformSha256": "ec3117fb1d217655173e2bfe081c121b0dfc193ede30659d868407d9ec99b9b9",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-run-passing.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-run-passing.png",
+      "originalSha256": "2ead689f68416144397da604e52bc37ae54b69878c5cea6ee499751cad7f0cdc",
+      "platformSha256": "2ead689f68416144397da604e52bc37ae54b69878c5cea6ee499751cad7f0cdc",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-run-right-contact.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-run-right-contact.png",
+      "originalSha256": "794876a23f1eabc9f02e28548b360aa5a63c16817af6b17258076af230d1ed30",
+      "platformSha256": "794876a23f1eabc9f02e28548b360aa5a63c16817af6b17258076af230d1ed30",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-skeleton.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-skeleton.png",
+      "originalSha256": "d7413eb1b5dc0b85786849da7cf5066eaca922fd670a063f6e97cf3e7a30eaf3",
+      "platformSha256": "d7413eb1b5dc0b85786849da7cf5066eaca922fd670a063f6e97cf3e7a30eaf3",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/animation-visual.spec.ts-snapshots/animation-slide.png",
+      "platform": "tests/e2e/animation-visual.spec.ts-snapshots/github-macos-26/animation-slide.png",
+      "originalSha256": "4ded4ddf1efd1f846b59ea127019c6d480e9f4707a583bd0641e70a5e1e7547e",
+      "platformSha256": "4ded4ddf1efd1f846b59ea127019c6d480e9f4707a583bd0641e70a5e1e7547e",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/character-visual.spec.ts-snapshots/character-back.png",
+      "platform": "tests/e2e/character-visual.spec.ts-snapshots/github-macos-26/character-back.png",
+      "originalSha256": "3485837fcf05e102d8fa80ab27e52c92bfc53a16676ecf58217b91deed630abe",
+      "platformSha256": "3485837fcf05e102d8fa80ab27e52c92bfc53a16676ecf58217b91deed630abe",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/character-visual.spec.ts-snapshots/character-front.png",
+      "platform": "tests/e2e/character-visual.spec.ts-snapshots/github-macos-26/character-front.png",
+      "originalSha256": "cad6929c73998f6c71d136546ac287246cbf5f76b9f4be605dbdde3bea97adca",
+      "platformSha256": "cad6929c73998f6c71d136546ac287246cbf5f76b9f4be605dbdde3bea97adca",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/character-visual.spec.ts-snapshots/character-left.png",
+      "platform": "tests/e2e/character-visual.spec.ts-snapshots/github-macos-26/character-left.png",
+      "originalSha256": "eaf0f70ad6ff23130056bdfc040d8991d9357d6aeff1f54dee3988d78c47bf29",
+      "platformSha256": "eaf0f70ad6ff23130056bdfc040d8991d9357d6aeff1f54dee3988d78c47bf29",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/character-visual.spec.ts-snapshots/character-right.png",
+      "platform": "tests/e2e/character-visual.spec.ts-snapshots/github-macos-26/character-right.png",
+      "originalSha256": "6f88287ff2ea295a3b303045514b4b5a90f250b683fd0027a5c230546cc08634",
+      "platformSha256": "6f88287ff2ea295a3b303045514b4b5a90f250b683fd0027a5c230546cc08634",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/character-visual.spec.ts-snapshots/character-three-quarter.png",
+      "platform": "tests/e2e/character-visual.spec.ts-snapshots/github-macos-26/character-three-quarter.png",
+      "originalSha256": "5a9482caa68fddb9ff5bddaa5700fbe2999f47af9f31266dd10b8c00e1965fe2",
+      "platformSha256": "5a9482caa68fddb9ff5bddaa5700fbe2999f47af9f31266dd10b8c00e1965fe2",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 520,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/city-visual.spec.ts-snapshots/city-near-player.png",
+      "platform": "tests/e2e/city-visual.spec.ts-snapshots/github-macos-26/city-near-player.png",
+      "originalSha256": "90899acc36f67bd15056503a83e08f1c8cde004a6a3407e58975b53ff186d1b2",
+      "platformSha256": "90899acc36f67bd15056503a83e08f1c8cde004a6a3407e58975b53ff186d1b2",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/city-visual.spec.ts-snapshots/city-next-chunk.png",
+      "platform": "tests/e2e/city-visual.spec.ts-snapshots/github-macos-26/city-next-chunk.png",
+      "originalSha256": "e84e4d8e403a235c51d6cb43304ef833270268328dc32ae6bf7a74109c566e71",
+      "platformSha256": "e84e4d8e403a235c51d6cb43304ef833270268328dc32ae6bf7a74109c566e71",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/city-visual.spec.ts-snapshots/city-start.png",
+      "platform": "tests/e2e/city-visual.spec.ts-snapshots/github-macos-26/city-start.png",
+      "originalSha256": "6e705a62c46f45849c21c784a3936372efd757d78f7d42b5b5da053d9f51bf16",
+      "platformSha256": "6e705a62c46f45849c21c784a3936372efd757d78f7d42b5b5da053d9f51bf16",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-coin.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-coin.png",
+      "originalSha256": "850a6ed36231fe0bf3a03eaef066ea9b912b178d5aa0c7e6829a3cb3422239e4",
+      "platformSha256": "850a6ed36231fe0bf3a03eaef066ea9b912b178d5aa0c7e6829a3cb3422239e4",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-collision.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-collision.png",
+      "originalSha256": "bc29728bfe2aa7f019828799a20456b763166325abb809fb06ce3889fb04338e",
+      "platformSha256": "64ad5d96980c226f6fe5c42f301c01cc48d212b63bbc28fa5dc51506bff5d62a",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-dusk.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-dusk.png",
+      "originalSha256": "c23d6813043adab67bff94e6d03abecd98310039583b47e9b6d7d4434c75c2aa",
+      "platformSha256": "c23d6813043adab67bff94e6d03abecd98310039583b47e9b6d7d4434c75c2aa",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-jump.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-jump.png",
+      "originalSha256": "5871e3fbffa5404d3e830ef5cc13596001472a05eb917ff8510e7165c9a5764a",
+      "platformSha256": "5871e3fbffa5404d3e830ef5cc13596001472a05eb917ff8510e7165c9a5764a",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-land.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-land.png",
+      "originalSha256": "315e6750866e1b0ff2802533704368d8eed9df9a0b5e53ce8d9a9668eba26d07",
+      "platformSha256": "315e6750866e1b0ff2802533704368d8eed9df9a0b5e53ce8d9a9668eba26d07",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-neon.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-neon.png",
+      "originalSha256": "d4570887d980ef3b330a727a3dd3a515cff1ed2d9ad3a4c8fbf67e0ec7078215",
+      "platformSha256": "d4570887d980ef3b330a727a3dd3a515cff1ed2d9ad3a4c8fbf67e0ec7078215",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-reduced.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-reduced.png",
+      "originalSha256": "6f545a3811fc8f2bf0518d8604575ee8b30461c64955958d5afe90c04183b6b1",
+      "platformSha256": "6f545a3811fc8f2bf0518d8604575ee8b30461c64955958d5afe90c04183b6b1",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-slide.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-slide.png",
+      "originalSha256": "bee24d1a058482c7a9ad44986ed7b777d148d2404fdafc48a944a4ac338e7072",
+      "platformSha256": "bee24d1a058482c7a9ad44986ed7b777d148d2404fdafc48a944a4ac338e7072",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/feel-visual.spec.ts-snapshots/feel-speed.png",
+      "platform": "tests/e2e/feel-visual.spec.ts-snapshots/github-macos-26/feel-speed.png",
+      "originalSha256": "8694f4737f0023b32ce18dbaf7f2769b342b6379edeaade40ff67442b0c2f94f",
+      "platformSha256": "8694f4737f0023b32ce18dbaf7f2769b342b6379edeaade40ff67442b0c2f94f",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-jump.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-jump.png",
+      "originalSha256": "5038eb58a16bce24e4bc775562055db9816c420bcab9d2d177c66e2f8eca9715",
+      "platformSha256": "9cd463b55bfde6c048963b4140c5450ec12657e931482a817663a56c4dcd086c",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-landscape-dusk.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-landscape-dusk.png",
+      "originalSha256": "2f2407daada06849002d7c32921835c3c4584cba5dc88f8597342f44806d8368",
+      "platformSha256": "2f2407daada06849002d7c32921835c3c4584cba5dc88f8597342f44806d8368",
+      "sourceKind": "unchanged-original-copy",
+      "width": 844,
+      "height": 390,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-landscape-neon.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-landscape-neon.png",
+      "originalSha256": "53063e090f5988cd38284e9dae5068a89aab198cb690a8092305ae524e6c7c04",
+      "platformSha256": "53063e090f5988cd38284e9dae5068a89aab198cb690a8092305ae524e6c7c04",
+      "sourceKind": "unchanged-original-copy",
+      "width": 844,
+      "height": 390,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-low.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-low.png",
+      "originalSha256": "ec751438548a31ce06abdb583e3545fa1bcb353a344a48d876bb80a148c4df45",
+      "platformSha256": "a142feaff27324ca433f21ccfc0fd06e13014d8c5d1d8bd920b908e413f45259",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-obstacle.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-obstacle.png",
+      "originalSha256": "0c4b6f29b86b1ff0f87163ade3448df9b0c40d3813f5c5719faaaf84b6c90279",
+      "platformSha256": "33235cd23b2931f2b7231f65a47d273aaed065de221cac8ae6bcd059fb0c65d5",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-over.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-over.png",
+      "originalSha256": "52520f3a64ca7acdd3266bef21945126837481bba909368055be8be71e892273",
+      "platformSha256": "7ab31b735acab685149afa537c28b209dadc02eb1b393c999a025a27bb464888",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-pause.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-pause.png",
+      "originalSha256": "201a5789314db10d627a5a74adc9f078b471e4260e30da8fd25c00f79da5d90b",
+      "platformSha256": "1facc38874ba5df630bec14924bc20278e4925a498300246100dce364ec89e23",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-portrait-dusk-high.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-portrait-dusk-high.png",
+      "originalSha256": "0b81bc9cc82987169ac1aaa94017f38c9df443e0108d5f34fbe810eeece13c43",
+      "platformSha256": "abe78f2303cccb149f41ae931b523e8a313ebad7004ce2b524cf5eb4f9e37835",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-portrait-neon.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-portrait-neon.png",
+      "originalSha256": "d6e0b56d62af18fda33e6851953935f58cc8026c067bedb54f3c8ed0c911b403",
+      "platformSha256": "98ce68614e583a69ba918933fabf8e4f1af13e73a603c36b07187074817c0f01",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-reduced.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-reduced.png",
+      "originalSha256": "c4d618ba2bd28b1364256b09605c51635eb3d6d2ea9caf8fb83c426c5795867b",
+      "platformSha256": "3c3b208d2d7effcd4e2292d1974a3298a5ec4f8f48ddb60af874119af9174a94",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-settings.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-settings.png",
+      "originalSha256": "42852ba72d2d6a397976819cf5be38c6a334bc33e51577c46d012f18c39a491a",
+      "platformSha256": "1903a8ae5b3ab9df0d3f5375f8c0214b310d5a5abafaf42f7a5f041e04ce9151",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/mobile-visual.spec.ts-snapshots/mobile-slide.png",
+      "platform": "tests/e2e/mobile-visual.spec.ts-snapshots/github-macos-26/mobile-slide.png",
+      "originalSha256": "93ad355f18bdcf1629f8583ec16d99e22e425fd9a2d996c2c49f80294c3d3c76",
+      "platformSha256": "a4593514fee33d82b0acb9715474059b94b9236d8d0a7371732f6ed7f0787688",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-air.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-air.png",
+      "originalSha256": "fc33d2c4043d151aadce5508d2674cdba7d3dd4deba10c7f944dca2d3330ded4",
+      "platformSha256": "fc33d2c4043d151aadce5508d2674cdba7d3dd4deba10c7f944dca2d3330ded4",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-dusk.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-dusk.png",
+      "originalSha256": "e84e4d8e403a235c51d6cb43304ef833270268328dc32ae6bf7a74109c566e71",
+      "platformSha256": "e84e4d8e403a235c51d6cb43304ef833270268328dc32ae6bf7a74109c566e71",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-fast-run.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-fast-run.png",
+      "originalSha256": "eb56ed5dc364ab01de36a384f8b79880edb14d7357476e98d5737c7cd7aed2e8",
+      "platformSha256": "23bbd0a06caf690eb14a3d37bdf92cd5eb41d4e3607b574b34540c261e9b2bc1",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-landing.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-landing.png",
+      "originalSha256": "80020e9e7dfb3a8b8476a11863de8468925ed25b1439504639ab1aa0a630aa00",
+      "platformSha256": "80020e9e7dfb3a8b8476a11863de8468925ed25b1439504639ab1aa0a630aa00",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-lean-left.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-lean-left.png",
+      "originalSha256": "5836aa5f81e8e5ca752f50a9d0e78289e4e007493a635e0037d9e8c9c4f675a4",
+      "platformSha256": "5836aa5f81e8e5ca752f50a9d0e78289e4e007493a635e0037d9e8c9c4f675a4",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-lean-right.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-lean-right.png",
+      "originalSha256": "49d8c7cb2a36736db0a88f01ffe5b45fa13d5a42026e6c0dde9751f0e83f3c07",
+      "platformSha256": "49d8c7cb2a36736db0a88f01ffe5b45fa13d5a42026e6c0dde9751f0e83f3c07",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-neon.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-neon.png",
+      "originalSha256": "1ab69cac79265f6f72f11ebf1c04377df72324df0b621d2a7d2bdc9d9a3365f4",
+      "platformSha256": "1ab69cac79265f6f72f11ebf1c04377df72324df0b621d2a7d2bdc9d9a3365f4",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-normal-run.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-normal-run.png",
+      "originalSha256": "862c4ef4495dc0161d7b0519d4c0d11a0140a8aa21b8fb021e135ad845ebba67",
+      "platformSha256": "862c4ef4495dc0161d7b0519d4c0d11a0140a8aa21b8fb021e135ad845ebba67",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-slide.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-slide.png",
+      "originalSha256": "8c6f846376322d38c7346212fc7a0acd175cd6eac540bda6acfab353c9ffaeb1",
+      "platformSha256": "8c6f846376322d38c7346212fc7a0acd175cd6eac540bda6acfab353c9ffaeb1",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/motion-visual.spec.ts-snapshots/motion-takeoff.png",
+      "platform": "tests/e2e/motion-visual.spec.ts-snapshots/github-macos-26/motion-takeoff.png",
+      "originalSha256": "4b53f1b95097165ccd54602656a60bd42c20b2fb94a81e970692a63f585c51f2",
+      "platformSha256": "4b53f1b95097165ccd54602656a60bd42c20b2fb94a81e970692a63f585c51f2",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-character.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-character.png",
+      "originalSha256": "9d340d3fc8df5f3a2e59c822249d80f941b813cbad2bd860ead305e27046b347",
+      "platformSha256": "a0c1856b6d3e856824ae90beb717da084507b9b26d1d4b8b939ae900ea869887",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-home.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-home.png",
+      "originalSha256": "35c25fa77a5199ec75edc3f8ce1e940f70280255be197e7099c809f1539baf2d",
+      "platformSha256": "ea866d98c89d5a769b5b61be1a5fa61b490ed4f8ed4d579d7fac3ad678ee7997",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-hud.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-hud.png",
+      "originalSha256": "e6ee6b64d3dde8b347c72fcc81bf5b5dcd131fbdfb618e0748403cc457e93da6",
+      "platformSha256": "5ca7f6aad8f3676d4a3de8c5ee8325413b7f38b8ff6482e8c6b3b7822c1e8028",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-missions.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-missions.png",
+      "originalSha256": "23f99c919649d163e9b1d0edb3489a4e5507d86b3f31ce449872cc81f6b040cb",
+      "platformSha256": "1b0f6525711fe4ee282ec18841c3804279f261d5a5e69d2053bf07228d5e56b7",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-paused.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-paused.png",
+      "originalSha256": "be32fe11d9c820774bc3fc9246449017830a0ad5f92ada959e1d12399356a5b1",
+      "platformSha256": "b1ed2e29742bcde4e175af55932205e8033e28707c1daf4f6cf63fe3374a0fec",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-record.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-record.png",
+      "originalSha256": "7cc3b8c017a678688984506089a0c97be46cdfcae2b2d95e3f5f3b568c0b9fd2",
+      "platformSha256": "f1e220ed231235caf9c96048ec20e2898dee199e95b1077d58d4c0124af4efc8",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-results.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-results.png",
+      "originalSha256": "8c9023bce277f34070ef6f0841eb6f81079f57e1c59da4f143432fb2bbfef88b",
+      "platformSha256": "3347aa761253151d8b33e73db8a16f48b4804b1e0d71c5aba0088b9ff1f8e081",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-settings.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-settings.png",
+      "originalSha256": "ad5c75b5e84e169d77dd1ca0e391643fc12a3e1b5e12e20fbab7d8a7e0bad166",
+      "platformSha256": "0dc7a2bc116dd601ee31c0f4cb14ab29dd295c8bd9399ef354bd1de2a291ca8d",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-shop.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-shop.png",
+      "originalSha256": "87563fd8c605aab942540d6011d2bc77f93f55800633a6b6e55fc22dfe7ab4a2",
+      "platformSha256": "2e77de4a9a0b25b914e807090a4879170f81d440a8101f38909e70f81824a353",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-desktop-tutorial.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-desktop-tutorial.png",
+      "originalSha256": "76d9c3a8049a52b2282e22f50e08a371369e9046c391ad37bf21580f4311152e",
+      "platformSha256": "d61e9ffd149156520a3fda78b565797b96f2f483f78654f7891a2e46b076dbed",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 900,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-landscape-home.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-landscape-home.png",
+      "originalSha256": "bb3dbaeba104ac3ce1da07b8912720e98c2ad52211cd44ac63a709c36d25f0b3",
+      "platformSha256": "5d8bd5e4cb54c6d26aa5dddddfcf1ec6f8495ad3193e64322ca158dabdd28456",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 844,
+      "height": 390,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-landscape-hud.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-landscape-hud.png",
+      "originalSha256": "d92bdb115b0ebddf0ef949698e7466b4fed362ea03793d074fa940995c09370b",
+      "platformSha256": "dce129361a4c3c7dfa0dbd8c943afeed1af4d863589b9653e65512e3d60a6be8",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 844,
+      "height": 390,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-landscape-results.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-landscape-results.png",
+      "originalSha256": "167611b6f6ac567d8bcc87cb363b522c5cabd4f95ce94a806d0cf35c415e09c5",
+      "platformSha256": "503162aa13905ca7c8c1bd8b3e9a11867aab818e304e825d338a18124095b90b",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 844,
+      "height": 390,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-character.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-character.png",
+      "originalSha256": "f5d67c7ee4812d7699cfa99a640e6c95a3b18df24462327b825ed99aff892eb4",
+      "platformSha256": "0188c7eb7f4e44d61eeedc7e0ffdb8b00055f987669ceb1c102718acc7aa8b88",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-home.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-home.png",
+      "originalSha256": "ce3d4496bc9f8d68a6c20d860bf422dc58028bf3eb818c042dde8b4194442f5d",
+      "platformSha256": "33bbbe58c218115a943aa666d07aa506d516fcf435c4cb92274481738667abaf",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-hud.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-hud.png",
+      "originalSha256": "71e063e115e43e491c876dcdbc853e113a009b413892e7c98042d7e0b1a5433f",
+      "platformSha256": "707e96d66633aa061c6e03ea579bfba38ffe33fdc446bfa9b33c7563d752a392",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-missions.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-missions.png",
+      "originalSha256": "bd48182c8cf074dfdacfe982be1cf45015d6fb8d391723b432595f5a47f6b8ed",
+      "platformSha256": "a6e8fa674eab920761f70797d5d257bf3c7594e56ab483e90689b1b50e903f77",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-paused.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-paused.png",
+      "originalSha256": "d2cf88e260847cd8c9c55fcfd28d8866dc676e4b846b1a4085455cf120425f72",
+      "platformSha256": "5ef793adf0e7db8502126c5100a689cbf326166c7530b2a38452fe0dd07d5c00",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-results.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-results.png",
+      "originalSha256": "30fe657f05d7e7d8c7167484944383fc86fb028b8df3d7309bf51f5350f5b90f",
+      "platformSha256": "2f81d5f766fa28faead39197689d21b98f791adf017d67851fe922a504085c90",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/product-visual.spec.ts-snapshots/product-portrait-shop.png",
+      "platform": "tests/e2e/product-visual.spec.ts-snapshots/github-macos-26/product-portrait-shop.png",
+      "originalSha256": "a4dd463f0e086dfd16bbd868b12b40cc63fa71b1e06311d59777e851ab2f9270",
+      "platformSha256": "bf275606db65c8f41f56bc5496d4e826220c07aa72ae5d2680b094add9e4351f",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-double-hud.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-double-hud.png",
+      "originalSha256": "f56d0e18c309d77f54d7d278f76121a14c37146ccf2c7e58f1c0a815f2306131",
+      "platformSha256": "f56d0e18c309d77f54d7d278f76121a14c37146ccf2c7e58f1c0a815f2306131",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-double-pickup.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-double-pickup.png",
+      "originalSha256": "5986d32ce1c7d03182928a27d8ed36a198bf0862894810ae79931dbf6cf3a662",
+      "platformSha256": "5986d32ce1c7d03182928a27d8ed36a198bf0862894810ae79931dbf6cf3a662",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-magnet-active.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-magnet-active.png",
+      "originalSha256": "d7ffbbac2600f0739ff18282dafbe49590e29ff485903a1992236f3a8de5f194",
+      "platformSha256": "d7ffbbac2600f0739ff18282dafbe49590e29ff485903a1992236f3a8de5f194",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-magnet-pickup.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-magnet-pickup.png",
+      "originalSha256": "a1b4581f7c44b0ecfa39b41966fce6f988f0e6b4c777f76305b2d2b3878db50d",
+      "platformSha256": "a1b4581f7c44b0ecfa39b41966fce6f988f0e6b4c777f76305b2d2b3878db50d",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-mission-completed.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-mission-completed.png",
+      "originalSha256": "0f621c3bdd4a67ad6c47265924ae107c8cf8b3905a0330cc9ee3ac844224d4c0",
+      "platformSha256": "0f621c3bdd4a67ad6c47265924ae107c8cf8b3905a0330cc9ee3ac844224d4c0",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-missions.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-missions.png",
+      "originalSha256": "5389de772df8e350686e7bca9e23d538aa892086ce7ce46ac96eef8bca4e582b",
+      "platformSha256": "5389de772df8e350686e7bca9e23d538aa892086ce7ce46ac96eef8bca4e582b",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-mobile-missions.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-mobile-missions.png",
+      "originalSha256": "012e944e2ec1ea66e9ee5f015cf50e598b2146dd6cc825ceaf6d5b0c6a62f957",
+      "platformSha256": "e03ae67026db1812c238d3258877fa3a4145530a8a4ad8bd7d01ca53162deb13",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-mobile-shop.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-mobile-shop.png",
+      "originalSha256": "425c92c83a9663ec06c2cfd35455474bb05bb09e0536bff3942712110dbbeeb7",
+      "platformSha256": "988a8592b0af605cabcd1f1bccd59ccf4aa849972453202aec411f870caa1630",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 390,
+      "height": 844,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-settlement.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-settlement.png",
+      "originalSha256": "0f328bb5fbe93cbcd65373218bbe691481ad5cca9a22f588e720d0b12840cb8c",
+      "platformSha256": "b0b422e0a16643f049b01f03766726d9fa87adecc503586e56974179430cc68d",
+      "sourceKind": "reviewed-ci-actual",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-shield-active.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-shield-active.png",
+      "originalSha256": "f6bb2b119504a903fd24cb28194e27c70cac9ab205bb2701090cbdfdf977b941",
+      "platformSha256": "f6bb2b119504a903fd24cb28194e27c70cac9ab205bb2701090cbdfdf977b941",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-shield-broken.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-shield-broken.png",
+      "originalSha256": "9398bd037bdaa8a7ca14f0414c62916840c1782d1c70ac42ee56635b39ec0646",
+      "platformSha256": "9398bd037bdaa8a7ca14f0414c62916840c1782d1c70ac42ee56635b39ec0646",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-shield-pickup.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-shield-pickup.png",
+      "originalSha256": "29d37baf19f5db8038e1dfc50c4a46461dff2a23c006cf7fe01af096c1680433",
+      "platformSha256": "29d37baf19f5db8038e1dfc50c4a46461dff2a23c006cf7fe01af096c1680433",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-shop.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-shop.png",
+      "originalSha256": "f70a606824579d11f778e31a5617922f63580fc7accd0053ed8584a5c7b1d159",
+      "platformSha256": "f70a606824579d11f778e31a5617922f63580fc7accd0053ed8584a5c7b1d159",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/progression-visual.spec.ts-snapshots/progression-upgrade-success.png",
+      "platform": "tests/e2e/progression-visual.spec.ts-snapshots/github-macos-26/progression-upgrade-success.png",
+      "originalSha256": "f0fe2fb0b4f698b85b6b28cca65d970316082c04e2f981f55adcb360461010b0",
+      "platformSha256": "f0fe2fb0b4f698b85b6b28cca65d970316082c04e2f981f55adcb360461010b0",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1440,
+      "height": 1000,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/themes-visual.spec.ts-snapshots/neon-theme-preview.png",
+      "platform": "tests/e2e/themes-visual.spec.ts-snapshots/github-macos-26/neon-theme-preview.png",
+      "originalSha256": "487cdfdffd644f7a79f56a47b2631295eabe9df2c25e7f2103b2df4826f1ee04",
+      "platformSha256": "487cdfdffd644f7a79f56a47b2631295eabe9df2c25e7f2103b2df4826f1ee04",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1046,
+      "height": 662,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/themes-visual.spec.ts-snapshots/theme-dusk.png",
+      "platform": "tests/e2e/themes-visual.spec.ts-snapshots/github-macos-26/theme-dusk.png",
+      "originalSha256": "e84e4d8e403a235c51d6cb43304ef833270268328dc32ae6bf7a74109c566e71",
+      "platformSha256": "e84e4d8e403a235c51d6cb43304ef833270268328dc32ae6bf7a74109c566e71",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/themes-visual.spec.ts-snapshots/theme-neon.png",
+      "platform": "tests/e2e/themes-visual.spec.ts-snapshots/github-macos-26/theme-neon.png",
+      "originalSha256": "1ab69cac79265f6f72f11ebf1c04377df72324df0b621d2a7d2bdc9d9a3365f4",
+      "platformSha256": "1ab69cac79265f6f72f11ebf1c04377df72324df0b621d2a7d2bdc9d9a3365f4",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/themes-visual.spec.ts-snapshots/theme-transition-end.png",
+      "platform": "tests/e2e/themes-visual.spec.ts-snapshots/github-macos-26/theme-transition-end.png",
+      "originalSha256": "da7ae9a311dee502a022fb035e2fd255276af9729b11b9ff5bd0619fcc9c572f",
+      "platformSha256": "da7ae9a311dee502a022fb035e2fd255276af9729b11b9ff5bd0619fcc9c572f",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/themes-visual.spec.ts-snapshots/theme-transition-middle.png",
+      "platform": "tests/e2e/themes-visual.spec.ts-snapshots/github-macos-26/theme-transition-middle.png",
+      "originalSha256": "c1f33162acd98bc5f567fbaf8e833de0ccdeff69d2f0616eb46234ebfb533aa7",
+      "platformSha256": "c1f33162acd98bc5f567fbaf8e833de0ccdeff69d2f0616eb46234ebfb533aa7",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    },
+    {
+      "original": "tests/e2e/themes-visual.spec.ts-snapshots/theme-transition-start.png",
+      "platform": "tests/e2e/themes-visual.spec.ts-snapshots/github-macos-26/theme-transition-start.png",
+      "originalSha256": "54717ae90ae958253c8c3bd682b406d9c8ef81052f66dbe5e33fbca498cb58dc",
+      "platformSha256": "54717ae90ae958253c8c3bd682b406d9c8ef81052f66dbe5e33fbca498cb58dc",
+      "sourceKind": "unchanged-original-copy",
+      "width": 1004,
+      "height": 600,
+      "matched": true
+    }
+  ]
+}

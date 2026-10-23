@@ -40,7 +40,7 @@ describe('Agent fixed policy, parsing and approval boundaries', () => {
     expect(() => parseConfig({ ...rawConfig, commands: ['rm'] })).toThrow();
   });
   it.each(['../escape.ts', '/tmp/x', 'src/../../x', 'src//x', '.github/workflows/x.yml', 'src/.env', 'src/a;echo', 'src/a\\b', 'node_modules/x'])('rejects unsafe path %s', path => { expect(() => safePath(path)).toThrow(); });
-  it.each(['AGENTS.md', 'package.json', 'scripts/agent/state.ts', 'scripts/release/qiniu.mjs', 'tests/e2e/game.spec.ts-snapshots/x.png', 'vite.config.ts'])('protects policy/release/baseline %s', path => { expect(() => editablePath(path)).toThrow(); });
+  it.each(['AGENTS.md', 'package.json', 'scripts/agent/state.ts', 'scripts/release/qiniu.mjs', 'tests/e2e/game.spec.ts-snapshots/x.png', 'tests/e2e/game.spec.ts-snapshots/github-macos-26/x.png', 'vite.config.ts'])('protects policy/release/baseline %s', path => { expect(() => editablePath(path)).toThrow(); });
   it('rejects symlinked directories before reading or writing through them', async () => {
     const { root } = await fixture(); const outside = await mkdtemp(resolve(tmpdir(), 'runner-agent-outside-')); roots.push(outside);
     await symlink(outside, resolve(root, 'alias')); await expect(contained(root, 'alias/x.ts')).rejects.toThrow(/Symlink/);

@@ -1,11 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
+import { currentVisualPlatform } from './scripts/visual/platform.mjs';
+
+const visualPlatform = currentVisualPlatform();
 
 export default defineConfig({
   testDir: './tests/e2e',
   outputDir: './test-results/e2e',
   fullyParallel: false,
   updateSnapshots: 'none',
-  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}{ext}',
+  snapshotPathTemplate: visualPlatform.snapshotPathTemplate,
   workers: 1,
   timeout: 35000,
   expect: { timeout: 7000 },
