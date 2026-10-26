@@ -1,8 +1,10 @@
 # Task16 · Beta 部署审计与候选操作
 
+2026-10-25 后续配置说明：持有人报告 `supergames` / `games.zhangzidan.com`，稳定 `/runner/index.html`、Preview `/runner/releases/<BuildID>/`；Preview Environment、CDN HTTPS/强制 HTTPS 与缓存规则已配置，DNS 尚未切换。其 CDN 实测 HTML/JS/GLB 缓存头仍为 `public, max-age=31536000`。这是持有人提供的后续信息，本轮未读凭据或重新做云端审计；下文 10-22 快照只保留历史事实。新候选的首次上传元信息和原 artifact 恢复流程见 [qiniu-cache-control.md](qiniu-cache-control.md)。当前仅实现/本地测试，不执行上传、DNS 或 production promotion。
+
 2026-10-22 只读核验：公开仓库 `zidanDirk/runner3d`，默认 master。GitHub Environments **0**、仓库 Variables **0**；仓库 Secrets 仅核对名称，存在 `QINIU_AK`、`QINIU_SK`、`QINIU_BUCKET`。没有读取、复制或记录密钥值。旧 Bucket Secret 不等于现有工作流读取的 `vars.QINIU_BUCKET`。
 
-目前没有可验证的 RELEASE_BASE_URL、Bucket 变量、preview/production 审核环境、HTTPS 候选 URL 或本次上传授权，因此 **Preview 上传 BLOCKED，Production 晋升 BLOCKED**。代码、预检查或 localhost 通过均不等于上线。实际观察在 `artifacts/beta-launch/deployment-audit.json`；最终 CI 与 Go/No-Go 以本轮证据报告为准。
+在该 10-22 审计时没有可验证的 RELEASE_BASE_URL、Bucket 变量、preview/production 审核环境、HTTPS 候选 URL 或本次上传授权，故当时 **Preview 上传 BLOCKED，Production 晋升 BLOCKED**。代码、预检查或 localhost 通过均不等于上线。历史观察在 `artifacts/beta-launch/deployment-audit.json`；最终 CI 与 Go/No-Go 以实际证据报告为准。
 
 ## 复用的流程
 
@@ -32,7 +34,7 @@ npm run test:visual
 2. 在合适的受保护 Environment 配置 `QINIU_AK` / `QINIU_SK`。已有仓库 Secret 的“名称存在”不证明凭据有效、桶权限足够或已按环境隔离。请在 GitHub/Qiniu 安全界面处理，不粘贴密钥到聊天、文档或 Vite 变量。
 3. 配置公开 Variables：`QINIU_BUCKET` 与 `RELEASE_BASE_URL`。后者是已配置证书的 HTTPS 部署根目录，尾 `/`，不含账号、查询参数或片段。不要仅补一个同名 Secret；现有工作流读取 `vars`。
 4. 在现有 Kodo/CDN 中确认真实桶、域名、证书、目录 index.html、HTTP→相同路径 HTTPS 跳转、MIME、404、缓存规则。此任务未创建收费资源，也没有凭 Secret 名称推断桶或域名。
-5. HTML / release.json / release-manifest.json 必须不缓存或重新验证；不可变版本目录的 JS/CSS/GLB 使用 `public,max-age=31536000,immutable`。CDN TTL 不等于浏览器 Cache-Control，必须检查真实响应头。缺失 GLB 返回真实 404，不能用首页 200 回退。
+5. 新候选 HTML/JSON 必须 `no-store`；不可变版本目录的 JS/CSS/GLB 使用 `public,max-age=31536000,immutable`。首次上传写入源站元信息，再核对真实 CDN 响应；CDN TTL 不等于浏览器 Cache-Control。缺失 GLB 返回真实 404，不能用首页 200 回退。
 6. 保留至少当前与上一稳定完整目录及原始构建归档。没有稳定生产版本时，只能报告候选/回滚预案验证，不能报告真实生产回滚成功。
 
 ## 只读预检查
@@ -41,7 +43,7 @@ npm run test:visual
 npm run release:preflight -- artifacts/beta-launch/deployment-audit.json
 ```
 
-此JSON保留最初master da5f99a审计快照；实际上传前必须重新绑定当前候选精确SHA与完整CI，不把历史快照当作当前批准。当前配置缺失，预检查应非零退出，列出真实阻塞。文件只保存名称、公开变量及证据状态；不放任何 AK/SK。`uploadAuthorizationCommit` 只能在持有人明确批准具体候选后记录，不能因为任务开始或代码 push 自动填入。预检查不发上传、promotion、环境配置或账号操作。
+此JSON保留最初master da5f99a审计快照；实际上传前必须重新绑定当前候选精确SHA与完整CI，不把历史快照当作当前批准。该历史快照的配置缺失会使预检查非零退出；后续配置应有新的实际证据再更新，不能仅据代码推断成功。文件只保存名称、公开变量及证据状态；不放任何 AK/SK。`uploadAuthorizationCommit` 只能在持有人明确批准具体候选后记录，不能因为任务开始或代码 push 自动填入。预检查不发上传、promotion、环境配置或账号操作。
 
 ## 候选获得配置和授权之后
 

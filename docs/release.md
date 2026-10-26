@@ -1,5 +1,7 @@
 # Runner3D Beta 发布
 
+2026-10-25 配置补充（持有人提供，本轮未重新云端核验）：Bucket `supergames`、部署根 `https://games.zhangzidan.com/runner/`，Preview Environment/HTTPS/强制 HTTPS 已配置，DNS 尚未切换 CDN。现有对象缓存头不符合要求；今后新候选通过官方签名 API 在首次上传时写入缓存元信息，操作和失败恢复见 [qiniu-cache-control.md](qiniu-cache-control.md)。本轮仅实现与本地验证，没有上传、DNS 修改或正式晋升授权。
+
 当前版本为 `0.14.0-beta`。这是静态 Vite 应用，沿用仓库已有 GitHub Actions + 七牛 Kodo/CDN 的部署方向，没有创建账号、获取密钥、购买服务或公开发布。工程检查结果见 `artifacts/beta-release/` 的本次报告；配置文件存在不代表远端 CI、HTTPS 或部署已经通过。实机/真人验收前的状态应为 **Engineering Ready / Real Device Acceptance Pending**，以最终门禁实际结果为准。
 
 ## 审计与部署边界
@@ -64,6 +66,7 @@ npm run test:production                # 既有正式生产回归
 <部署根>/releases/<buildId>/assets/...
 <部署根>/releases/<buildId>/models/generated/...
 <部署根>/promotions/<time>-<buildId>.json  # 之前/现在的版本与manifest哈希
+<部署根>/upload-intents/<buildId>.json    # 新协议 insert-only 保留记录，不进入版本目录
 ```
 
 旧页面留在自己的版本目录继续访问原 GLB。新的稳定入口只转向完整候选目录，不删除旧 JS/GLB。GLB 的 `?v=sha256` 只是缓存键；真正保证旧文件可访问的是保留旧版本目录。至少保留当前和上一个稳定版本，并按实际缓存期/试玩持续时间延长保留，不在此任务自动清理。回滚见 [rollback.md](rollback.md)。没有引入 Service Worker。
@@ -71,7 +74,7 @@ npm run test:production                # 既有正式生产回归
 托管方应设置以下响应策略并实际用浏览器 Network 验证：
 
 - 稳定入口 HTML：`Cache-Control: no-store`；如果平台只支持 CDN TTL，设置 HTML 为 0，另检查浏览器响应头。
-- release.json/release-manifest.json：不缓存或必须重新验证，便于识别版本。
+- 所有候选 HTML/JSON（包括 release.json/release-manifest.json）：精确 `no-store`。
 - 不可变目录内带哈希 JS/CSS、GLB：`public,max-age=31536000,immutable`，仅在目录永不覆盖且完整保留时使用。
 - JS/CSS/GLB MIME 正确；GLB 可为 model/gltf-binary 或 application/octet-stream。不要把不存在文件回退成 text/html。启用 gzip/Brotli 的 JS/CSS 传输需在真实 CDN 验证；本地 gzip 大小不是线上传输实测。
 
@@ -83,11 +86,11 @@ npm run test:production                # 既有正式生产回归
 2. 在相应 environment 配置 secrets `QINIU_AK`、`QINIU_SK`，vars `QINIU_BUCKET`、`RELEASE_BASE_URL`（自己的 HTTPS 根目录，尾 `/`）。preview 与 production 指向同一候选存储的部署根；不要将秘密设为 VITE_*。若希望不同域名/桶，需各自上传和验收，再设计独立 promotion，不能直接套用当前同根流程。
 3. 配置目录默认文档、证书、HTTPS 重定向、缓存/压缩和正确 MIME。核实付费/域名及目标地区发布要求由项目持有人完成。
 4. 审核完成后在 production environment 设置 `RELEASE_APPROVAL_CONFIGURED=true`。这个变量是人工核对声明，不能替代真实 reviewers 配置。若套餐不支持审批，保持变量为空，使用组织批准的人工发布流程，不降级自动发布。
-5. Actions 手工运行 `Reviewed Qiniu Beta candidate`，选择 preview 或 production，输入 `UPLOAD REVIEWED CANDIDATE`。仅这次明确操作授权候选上传。全部门禁通过后上传不可变目录，不使用覆盖选项；再验证 HTTPS 所有静态字节和真实浏览器 Smoke。重复 build ID 不会复用旧文件宣称新发布成功。
+5. Actions 手工运行 `Reviewed Qiniu Beta candidate`，当前只允许 preview，输入 `UPLOAD REVIEWED CANDIDATE`，resume 字段留空。选择值绑定构建环境和上传 Job 的 protected Environment；真实 Preview 部署验证前，production 新建/恢复由工作流和 CLI 明确拒绝，审批声明变量也不能放行。未来开放须另行审核，不能把生产构建通过当作上传证据。全部门禁通过后上传不可变目录，再验证 HTTPS 所有静态字节和真实浏览器 Smoke。重复 BuildID 拒绝；需要恢复时按 [原 run/原字节恢复流程](qiniu-cache-control.md) 创建同 SHA 的新验证 run，不重新构建或放宽 promotion 成功状态。
 6. 候选流程到此结束，报告实际候选 URL。Production 还需另行手工执行 `Approve Qiniu production or rollback`，填写成功候选的 source_run_id、精确 build_id、当前稳定 previous_build，以及 `PROMOTE <build_id>`；该流程核对候选工作流成功状态，取相同 commit 和原 artifact，等待 production environment 审核，并重跑 HTTPS/浏览器 Smoke。审核者检查门禁/视觉/实机/隐私/已知问题与前稳定版本后，才能批准稳定入口 promotion。推送代码或仅上传候选本身不改变稳定入口。
 7. promotion 会记录 previous/current build，再更新一个入口文件和发起 CDN 刷新。检查稳定入口实际指向、HTTPS、资源、商店/任务/反馈/本地档，保留工作流 artifact 和部署记录。失败不删除候选或旧稳定目录。
 
-现有工具固定 qshell v2.19.12，下载档案 SHA256 已按官方 GitHub release asset digest 核对。使用参数按该版本官方 [qupload2](https://github.com/qiniu/qshell/blob/v2.19.12/docs/qupload2.md)、[fput](https://github.com/qiniu/qshell/blob/v2.19.12/docs/fput.md)、[cdnrefresh](https://github.com/qiniu/qshell/blob/v2.19.12/docs/cdnrefresh.md) 核对；未在当前环境执行带凭据的上传。CI 仍需真实远端运行验证。
+原 promotion 工具继续固定 qshell v2.19.12，档案 SHA256 与原 fput/cdnrefresh 流程保持。固定版本候选上传接口未暴露 cacheControl，现改为官方普通上传 API：验证签名、单对象 scope、insertOnly、首次 multipart 元信息、区域发现和签名只读回查，不拼接猜测的 Qshell/SDK 参数。每次 PUT 后核对内容和元信息；已保存的错误元信息直接阻断，不就地覆盖/chgm 修复。未知扩展名在网络前拒绝。版本源码、完整文件策略与失败恢复见 [缓存协议说明](qiniu-cache-control.md)。没有执行带真实凭据的上传；真实 Actions/Qiniu/CDN 验证仍待另行授权。
 
 ## 已有候选的人工 HTTPS 验证
 
@@ -105,6 +108,6 @@ RELEASE_TEST_URL="$RELEASE_TEST_URL" npm run test:release
 
 Task15 已提交至 master `da5f99a`。首次真实远端 CI 已运行并失败，不能沿用“尚未运行”或把本地通过当作远端通过。Task16 修复记录、精确SHA与最终两个Job结果见 [beta-launch-evidence.md](../artifacts/beta-launch-evidence.md)。保留91张基线与原差异阈值，平台策略须依据真实actual/diff审核，不自动重建。
 
-2026-10-22只读审计发现 Environments/Variables 均为空，仅核对了三个仓库Secret名称；没有已知可验证的候选URL或本次上传授权。部署目前Blocked。准确配置、只读预检查与获得授权后的命令见 [beta-deployment-audit.md](beta-deployment-audit.md)。代码同步不代表公开部署。
+2026-10-22只读审计曾发现 Environments/Variables 均为空，仅核对了三个仓库Secret名称；该历史快照不能代表 2026-10-25 持有人补充的当前配置。本轮仍没有具体候选上传授权，也没有真实新候选缓存验收。准确配置、只读预检查与获得授权后的命令见 [beta-deployment-audit.md](beta-deployment-audit.md)。代码同步不代表公开部署。
 
 `remote-smoke.mjs URL buildId expected40SHA` 核对真实TLS、跳转、原Manifest、文件Hash、MIME/缓存及缺失GLB404；`test:release`另跑真实生产UI/角色/键盘/道具/碰撞/结算/持久化。合成HTTP单元测试、localhost与浏览器机器人均不能替代真实CDN、iPhone/Android、真人听感或玩家数据。验收表见 [beta-device-acceptance.md](beta-device-acceptance.md)。生产晋升保留实际 Environment 审核，不能仅靠一个变量声明审批已配置。
