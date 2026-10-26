@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -11,7 +11,7 @@ import { verifyRelease } from '../../scripts/release/verify.mjs';
 import assets from '../../src/assets/generated/manifest.json';
 import { PROFILE_KEY, ProfileController, defaultProfile } from '../../src/progression';
 
-const input = { version: '0.14.0-beta', environment: 'preview', commit: 'abcdef1234567890', buildTime: '2026-10-22T01:02:03.000Z' };
+import { fixture, releaseInput as input } from './release-fixture';
 describe('public release identity and environment', () => {
   it('uses explicit validated public fields and a unique time/SHA build ID', () => {
     const info = createReleaseInfo(input);
@@ -29,23 +29,6 @@ describe('public release identity and environment', () => {
     for (const base of ['https://example.com/', '//other/', '/../', '/runner/?token=x', 'runner/', '/runner']) expect(() => validateBase(base)).toThrow();
   });
 });
-
-async function fixture(run: (root: string, files: Record<string, { bytes: number; sha256: string }>) => Promise<void>, environment: 'preview' | 'production' = 'preview'): Promise<void> {
-  const root = await mkdtemp(join(tmpdir(), 'runner-release-'));
-  try {
-    await cp('public/models', join(root, 'models'), { recursive: true });
-    await mkdir(join(root, 'assets'));
-    const files: Record<string, { bytes: number; sha256: string }> = {};
-    for (const asset of Object.values(assets.assets)) files[asset.path] = { bytes: (await readFile(join(root, asset.path))).length, sha256: asset.sha256 };
-    const release = createReleaseInfo({ ...input, environment });
-    for (const [path, contents] of Object.entries({ 'index.html': '<script type="module" src="./assets/app.js"></script>', 'assets/app.js': 'console.log("Runner3D")', 'release.json': JSON.stringify(release, null, 2) + '\n' })) {
-      await writeFile(join(root, path), contents);
-      files[path] = { bytes: Buffer.byteLength(contents), sha256: createHash('sha256').update(contents).digest('hex') };
-    }
-    await writeFile(join(root, 'release-manifest.json'), JSON.stringify({ schemaVersion: 1, release, files }));
-    await run(root, files);
-  } finally { await rm(root, { recursive: true, force: true }); }
-}
 
 describe('release artifact/cache consistency', () => {
   it('verifies every actual static byte and all committed GLB identities', async () => fixture(async root => {
@@ -93,17 +76,24 @@ it('actual operator CLI blocks unconfirmed uploads/promotions before network or 
     await writeFile(join(operator, 'artifacts/beta-release/gate/report.json'), JSON.stringify({ status: 'passed', artifact }));
     const script = pathToFileURL(resolve('scripts/release/qiniu.mjs')).href;
     for (const item of [
-      { args: ['promote'], confirm: '', approval: 'true', error: 'Explicit upload/promote --execute required' },
-      { args: ['upload', '--execute'], confirm: 'UPLOAD wrong', approval: 'true', error: 'RELEASE_CONFIRM must name' },
-      { args: ['promote', '--execute'], confirm: 'PROMOTE wrong', approval: 'true', error: 'RELEASE_CONFIRM must name' },
-      { args: ['promote', '--execute'], confirm: `PROMOTE ${artifact.release.buildId}`, approval: 'false', error: 'production required-reviewer approval' },
+      { args: ['promote'], confirm: '', approval: 'true', environment: 'production', error: 'Explicit upload/promote --execute required' },
+      { args: ['upload', '--execute'], confirm: 'UPLOAD wrong', approval: 'true', environment: 'production', error: 'RELEASE_CONFIRM must name' },
+      { args: ['promote', '--execute'], confirm: 'PROMOTE wrong', approval: 'true', environment: 'production', error: 'RELEASE_CONFIRM must name' },
+      { args: ['promote', '--execute'], confirm: `PROMOTE ${artifact.release.buildId}`, approval: 'false', environment: 'production', error: 'production required-reviewer approval' },
+      { args: ['upload', '--execute'], confirm: `UPLOAD ${artifact.release.buildId}`, approval: 'true', environment: 'preview', error: 'RELEASE_ENV must match' },
+      { args: ['upload', '--execute'], confirm: `UPLOAD ${artifact.release.buildId}`, approval: 'false', environment: 'production', error: 'Production candidate uploads remain blocked' },
+      { args: ['upload', '--execute'], confirm: `UPLOAD ${artifact.release.buildId}`, approval: 'true', environment: 'production', error: 'Production candidate uploads remain blocked' },
+      { args: ['upload', '--execute', '--resume'], confirm: `RESUME ${artifact.release.buildId} ${artifact.manifestSha256}`, approval: 'true', environment: 'production', error: 'Production candidate uploads remain blocked' },
+      { args: ['upload', '--execute', '--resume'], confirm: `UPLOAD ${artifact.release.buildId}`, approval: 'true', environment: 'production', error: 'RELEASE_CONFIRM must name' },
+      { args: ['upload', '--execute', '--resume'], confirm: `RESUME ${artifact.release.buildId} wronghash`, approval: 'true', environment: 'production', error: 'RELEASE_CONFIRM must name' },
+      { args: ['promote', '--execute', '--resume'], confirm: `PROMOTE ${artifact.release.buildId}`, approval: 'true', environment: 'production', error: 'Only upload' },
     ]) {
       // Invoke the real module in a fresh process. A tripwire prevents accidental
       // network access if a guard regresses; PATH cannot find any real qshell.
-      const driver = `process.argv=['node','qiniu.mjs',...${JSON.stringify(item.args)}];globalThis.fetch=()=>{throw Error('UNEXPECTED_NETWORK')};await import(${JSON.stringify(script)});`;
+      const driver = `process.argv=['node','qiniu.mjs',...${JSON.stringify(item.args)}];let calls=0;globalThis.fetch=()=>{calls++;throw Error('UNEXPECTED_NETWORK')};await import(${JSON.stringify(script)});if(calls)console.error('UNEXPECTED_NETWORK');`;
       const result = spawnSync(process.execPath, ['--input-type=module', '-e', driver], {
         cwd: operator, encoding: 'utf8', timeout: 5000,
-        env: { PATH: '', QINIU_AK: 'synthetic-test-value', QINIU_SK: 'synthetic-test-value', QINIU_BUCKET: 'synthetic-bucket', RELEASE_BASE_URL: 'https://example.invalid/', RELEASE_CONFIRM: item.confirm, RELEASE_APPROVAL_CONFIGURED: item.approval },
+        env: { PATH: '', QINIU_AK: 'synthetic-test-value', QINIU_SK: 'synthetic-test-value', QINIU_BUCKET: 'synthetic-bucket', RELEASE_BASE_URL: 'https://example.invalid/', RELEASE_CONFIRM: item.confirm, RELEASE_APPROVAL_CONFIGURED: item.approval, RELEASE_ENV: item.environment },
       });
       expect(result.status).toBe(1);
       expect(result.stderr).toContain(item.error);

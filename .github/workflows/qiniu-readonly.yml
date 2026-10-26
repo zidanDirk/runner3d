@@ -1,0 +1,90 @@
+name: Reviewed Qiniu read-only API verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_sha:
+        description: Full 40-character commit SHA already reviewed by a human; must match this selected workflow ref
+        required: true
+        type: string
+      confirm_readonly:
+        description: After human review, type READONLY followed by a space and the exact reviewed SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qiniu-readonly-verification
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require explicit human review of this exact source SHA before secrets are available
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          SOURCE_SHA: ${{ github.sha }}
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+          CONFIRMATION: ${{ inputs.confirm_readonly }}
+          NODE_DEBUG: ''
+          NODE_OPTIONS: ''
+        run: |
+          node --input-type=module <<'JS'
+          const { EVENT_NAME, SENDER_TYPE, SOURCE_SHA, REVIEWED_SHA, CONFIRMATION } = process.env;
+          if (EVENT_NAME !== 'workflow_dispatch' || SENDER_TYPE !== 'User' || !/^[a-f0-9]{40}$/.test(REVIEWED_SHA ?? '') || REVIEWED_SHA !== SOURCE_SHA || CONFIRMATION !== `READONLY ${REVIEWED_SHA}`) {
+            throw new Error('Manual human review and exact source SHA confirmation are required');
+          }
+          console.log('Exact source review confirmation accepted; no credentials accessed');
+          JS
+  readonly:
+    needs: authorize
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Required-reviewer protection is configured on the existing Preview
+    # Environment by its owner; this declaration does not create that protection.
+    environment: preview
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+      - name: Verify existing Kodo objects using GET only
+        timeout-minutes: 3
+        env:
+          QINIU_AK: ${{ secrets.QINIU_AK }}
+          QINIU_SK: ${{ secrets.QINIU_SK }}
+          NODE_DEBUG: ''
+          NODE_OPTIONS: ''
+        run: node scripts/release/qiniu-readonly.mjs
+      - name: Preserve only the sanitized read-only report, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qiniu-readonly-report
+          path: artifacts/qiniu-readonly/report.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Record a minimal safe result in the run summary
+        if: always()
+        env:
+          NODE_DEBUG: ''
+          NODE_OPTIONS: ''
+        run: |
+          node --input-type=module <<'JS'
+          import { appendFile, readFile } from 'node:fs/promises';
+          let status = 'FAIL', requestCount = 0;
+          try {
+            const report = JSON.parse(await readFile('artifacts/qiniu-readonly/report.json', 'utf8'));
+            if (report.status === 'PASS' && report.scope === 'real-api' && report.writesExecuted === false && report.requestCount === 3) status = 'PASS';
+            if (Number.isSafeInteger(report.requestCount) && report.requestCount >= 0 && report.requestCount <= 3) requestCount = report.requestCount;
+          } catch { /* Never print a malformed report or raw error body. */ }
+          await appendFile(process.env.GITHUB_STEP_SUMMARY, `Qiniu read-only API: ${status}; requests: ${requestCount}\n`);
+          JS
