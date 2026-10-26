@@ -9,7 +9,7 @@ import type { UploadCheckpoint, UploadPlan } from '../../scripts/release/qiniu-u
 import { verifyRelease } from '../../scripts/release/verify.mjs';
 import { fixture } from './release-fixture';
 import { kodoServer, SYNTHETIC_AK, SYNTHETIC_SK } from './kodo-server';
-import vectors from '../../artifacts/qiniu-cache-control/signature-vectors.json';
+import vectors from '../fixtures/qiniu/signature-vectors.json';
 
 describe('official Kodo authentication and content identity', () => {
   it('matches the published upload-token HMAC/base64 vector, retaining padding', () => {

@@ -1,0 +1,18 @@
+{
+  "source": "qiniu/nodejs-sdk v7.15.5 qiniu/util.js; offline, Node builtins only",
+  "credentials": "Published synthetic example MY_ACCESS_KEY/MY_SECRET_KEY; never real credentials",
+  "management": {
+    "uri": "https://rs.qiniuapi.com/stat/c3ludGhldGljOmZpbGUuanM=",
+    "method": "GET",
+    "contentType": "application/x-www-form-urlencoded",
+    "body": "",
+    "headers": {
+      "X-Qiniu-Date": "20261025T010203Z"
+    },
+    "authorization": "Qiniu MY_ACCESS_KEY:cGsApo0rTsY8FYW3RAqUG1GHcnQ="
+  },
+  "upload": {
+    "policyBase64": "eyJzY29wZSI6Im15LWJ1Y2tldDpzdW5mbG93ZXIuanBnIiwiZGVhZGxpbmUiOjE0NTE0OTEyMDAsInJldHVybkJvZHkiOiJ7XCJuYW1lXCI6JChmbmFtZSksXCJzaXplXCI6JChmc2l6ZSksXCJ3XCI6JChpbWFnZUluZm8ud2lkdGgpLFwiaFwiOiQoaW1hZ2VJbmZvLmhlaWdodCksXCJoYXNoXCI6JChldGFnKX0ifQ==",
+    "signature": "wQ4ofysef1R7IKnrziqtomqyDvI="
+  }
+}
