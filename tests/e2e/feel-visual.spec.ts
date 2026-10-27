@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { prepareFeel, settleFeedback, stepFeelTo } from './feel-helpers';
+import { captureFeelTo, prepareFeel, settleFeedback } from './feel-helpers';
 import { captureThemeAt } from './theme-helpers';
 
 const cases = ['coin', 'jump', 'land', 'slide', 'collision', 'speed', 'dusk', 'neon', 'reduced'] as const;
@@ -12,8 +12,7 @@ for (const name of cases) test(`visual feedback ${name}`, async ({ page }) => {
     await captureThemeAt(page, name === 'neon' ? 780 : 95); await page.keyboard.press('Space'); await page.evaluate(() => window.__RUNNER_TEST__?.stepTicks(8));
   } else {
     const target = { coin: 82, jump: 368, land: 482, slide: 744, collision: 1350 }[name];
-    for (let tick = 8; tick < target; tick += 8) await stepFeelTo(page, tick);
-    await stepFeelTo(page, target);
+    await captureFeelTo(page, target);
     if (name === 'collision') await page.evaluate(() => window.__RUNNER_TEST__?.stepFeedback(.08));
   }
   await settleFeedback(page);

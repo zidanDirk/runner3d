@@ -28,3 +28,40 @@ export async function stepFeelTo(page: Page, target: number) {
   const state = await page.evaluate(() => ({ tick: window.__RUNNER_TEST__?.read().tick, status: window.__RUNNER_TEST__?.read().status, effects: window.__FEEDBACK__ }));
   expect(state.effects).toBeTruthy(); return state;
 }
+
+/** Preserve every 8-tick/two-frame visual checkpoint while avoiding per-tick
+ * Playwright protocol round trips. Inputs still use the real keyboard bridge. */
+export async function captureFeelTo(page: Page, target: number) {
+  if (!Number.isSafeInteger(target) || target < 1 || target > 1350) throw new Error('Feel capture target must be 1..1350');
+  const targets: number[] = [];
+  for (let tick = 8; tick < target; tick += 8) targets.push(tick);
+  targets.push(target);
+  const inputs = FEEL_INPUTS.filter(([at]) => at < target);
+  const boundaries = [...inputs.map(([at]) => at), target];
+  let previous = 0;
+  const checkpoints = [];
+  for (const boundary of boundaries) {
+    const samples = await page.evaluate(async ({ targets, initial }) => {
+      const hooks = window.__RUNNER_TEST__;
+      if (!hooks || (initial && hooks.read().tick !== 0)) throw new Error('Feel capture must start at tick zero');
+      const samples = [];
+      for (const target of targets) {
+        const tick = hooks.read().tick;
+        if (target > tick) hooks.stepTicks(target - tick);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+        // A new task, like the original next evaluate, runs after all callbacks
+        // in the completed render frame rather than inside their microtasks.
+        await new Promise<void>((resolve) => setTimeout(resolve, 0));
+        const effects = window.__FEEDBACK__;
+        if (!effects) throw new Error(`Feedback missing at capture target ${target}`);
+        samples.push({ target, tick: hooks.read().tick, status: hooks.read().status, particles: effects.particles, counts: effects.counts });
+      }
+      return samples;
+    }, { targets: targets.filter(tick => tick > previous && tick <= boundary), initial: previous === 0 });
+    checkpoints.push(...samples);
+    const input = inputs.find(([at]) => at === boundary);
+    if (input) await page.keyboard.press(input[1]);
+    previous = boundary;
+  }
+  return checkpoints;
+}
