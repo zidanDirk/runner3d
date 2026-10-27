@@ -1,0 +1,96 @@
+name: Candidate visual environment diagnostics (not approval)
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_sha:
+        description: Full source SHA reviewed for this diagnostics run; must match selected workflow ref
+        required: true
+        type: string
+      expected_image_version:
+        description: Exact candidate ImageVersion to observe; this does not approve it
+        required: true
+        type: string
+      confirm_candidate:
+        description: Type DIAGNOSE followed by a space and the exact reviewed source SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-candidate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  candidate-diagnostics:
+    runs-on: macos-26
+    timeout-minutes: 60
+    env:
+      RUNNER3D_VISUAL_DIAGNOSTICS: candidate-only
+      RUNNER3D_CANDIDATE_IMAGE_VERSION: ${{ inputs.expected_image_version }}
+    steps:
+      - name: Bind manual human review to this exact diagnostics source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          SOURCE_SHA: ${{ github.sha }}
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+          CONFIRMATION: ${{ inputs.confirm_candidate }}
+        run: |
+          node --input-type=module <<'JS'
+          const { EVENT_NAME, SENDER_TYPE, SOURCE_SHA, REVIEWED_SHA, CONFIRMATION } = process.env;
+          if (EVENT_NAME !== 'workflow_dispatch' || SENDER_TYPE !== 'User' || !/^[a-f0-9]{40}$/.test(REVIEWED_SHA ?? '') || REVIEWED_SHA !== SOURCE_SHA || CONFIRMATION !== `DIAGNOSE ${REVIEWED_SHA}`) {
+            throw new Error('Manual human review and exact diagnostics source SHA are required');
+          }
+          JS
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+          cache: npm
+      - name: Record safe actual host facts before any Playwright config is read
+        run: node scripts/visual/candidate.mjs candidate
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify all existing reference hashes before diagnostics
+        run: npm run --silent visual:validate > artifacts/visual-candidate/references-before.json
+      - name: Record actual browser, renderer and fonts before matching
+        run: npx playwright test tests/e2e/00-visual-provenance.spec.ts --config playwright.visual-candidate.config.ts --reporter=list --output=test-results/visual-candidate-provenance-before
+      - name: Match the existing comparison's Apple system font
+        run: swift scripts/release/ensure-ci-font.swift --download-system-font
+        timeout-minutes: 3
+      - name: Record actual browser, renderer and fonts after matching
+        run: npx playwright test tests/e2e/00-visual-provenance.spec.ts --config playwright.visual-candidate.config.ts --reporter=list --output=test-results/visual-candidate-provenance-after
+      - name: Run all 77 unchanged visual tests against the existing reviewed references
+        # Collection only. Neither a green comparison nor this workflow approves a new image.
+        run: npm run test:visual -- --config playwright.visual-candidate.config.ts
+        timeout-minutes: 38
+      - name: Verify that diagnostics did not alter any reference bytes
+        if: always()
+        run: npm run --silent visual:validate > artifacts/visual-candidate/references-after.json
+      - name: Summarize comparison completeness while leaving approval pending
+        if: always()
+        run: node scripts/visual/candidate.mjs summary
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: candidate-visual-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/visual-candidate/**/*.json
+            test-results/**/visual-provenance.json
+            test-results/**/*.png
+            test-results/**/error-context.md
+            artifacts/ui-ux/regression/**/*.png
+            artifacts/ui-ux/screenshots/**/*.png
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: candidate-visual-traces-${{ github.run_id }}-${{ github.run_attempt }}
+          path: test-results/**/trace.zip
+          retention-days: 14

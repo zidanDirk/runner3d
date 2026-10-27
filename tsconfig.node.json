@@ -24,6 +24,7 @@
     "tests/loading",
     "vite.config.ts",
     "playwright.config.ts",
+    "playwright.visual-candidate.config.ts",
     "playwright.production.config.ts",
     "tests/e2e",
     "tests/production",
