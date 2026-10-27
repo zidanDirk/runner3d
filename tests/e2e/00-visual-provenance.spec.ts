@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { platform, release } from 'node:os';
 import { waitForCharacterPreview } from './preview-readiness';
 import { currentVisualPlatform, REVIEWED_BROWSER_VERSION, visualHostFacts } from '../../scripts/visual/platform.mjs';
+import { currentCandidateDiagnostic, visualSourceFacts } from '../../scripts/visual/candidate.mjs';
 
 function systemPingFangFiles(): { path: string; sha256: string }[] {
   const root = '/System/Library/AssetsV2';
@@ -38,12 +39,12 @@ test('records actual CJK font and WebGL provenance without altering screenshots'
       const canvas = document.querySelector('canvas');
       const gl = canvas?.getContext('webgl2');
       const debug = gl?.getExtension('WEBGL_debug_renderer_info');
-      return { language: navigator.language, languages: navigator.languages, userAgent: navigator.userAgent,
+      return { devicePixelRatio: window.devicePixelRatio, vendor: gl && debug ? String(gl.getParameter(debug.UNMASKED_VENDOR_WEBGL)) : null, language: navigator.language, languages: navigator.languages, userAgent: navigator.userAgent,
         cssFontFamily: getComputedStyle(document.querySelector('h1') ?? document.body).fontFamily,
         renderer: gl && debug ? String(gl.getParameter(debug.UNMASKED_RENDERER_WEBGL)) : null };
     });
-    const comparison = currentVisualPlatform();
-    const report = { comparison, runner: visualHostFacts(), host: { os: platform(), release: release(), browser: browser.version() }, ...environment, actualFonts: fonts.fonts, systemPingFangFiles: systemPingFangFiles() };
+    const comparison = testInfo.config.metadata.visualCandidate ? currentCandidateDiagnostic() : currentVisualPlatform();
+    const report = { comparison, source: visualSourceFacts(), runner: visualHostFacts(), host: { os: platform(), release: release(), browser: browser.version() }, ...environment, actualFonts: fonts.fonts, systemPingFangFiles: systemPingFangFiles() };
     writeFileSync(testInfo.outputPath('visual-provenance.json'), JSON.stringify(report, null, 2) + '\n');
     console.log(`[visual-provenance] ${JSON.stringify(report)}`);
     if (comparison.id === 'github-macos-26') expect(browser.version()).toBe(REVIEWED_BROWSER_VERSION);
