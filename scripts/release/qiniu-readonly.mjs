@@ -3,14 +3,10 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createKodoClient, KodoError, urlsafe } from './kodo-client.mjs';
+import { parseRegionEndpoints, isAllowedServiceHost, RegionEndpointError } from './kodo-endpoints.mjs';
 
 export const READONLY_BUCKET = 'supergames';
 export const READONLY_EXISTING_KEY = 'runner/models/generated/city-runner.glb';
-const patterns = {
-  up: /^(?:up|upload)(?:-[a-z0-9]+)*\.(?:qiniup\.com|qbox\.me)$/,
-  rs: /^rs(?:-[a-z0-9]+)*\.(?:qiniuapi\.com|qiniu\.com)$/,
-  rsf: /^rsf(?:-[a-z0-9]+)*\.(?:qiniuapi\.com|qiniu\.com)$/,
-};
 const fail = code => { throw new KodoError(code); };
 const abortable = async (promise, signal) => {
   let onAbort;
@@ -40,7 +36,7 @@ export function createReadonlyTransport({ accessKey, missingKey, fetcher = fetch
   if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 30000) fail('INVALID_TIMEOUT');
   if (!/^runner\/__readonly_verification__\/missing-[a-f0-9-]{36}\.glb$/.test(missingKey)) fail('INVALID_MISSING_KEY');
   const paths = new Set([READONLY_EXISTING_KEY, missingKey].map(key => `/stat/${urlsafe(`${READONLY_BUCKET}:${key}`)}`));
-  const observation = { requests: [], endpoints: null, errorCode: null };
+  const observation = { requests: [], endpoints: null, errorCode: null, regionFailure: null };
   const overall = AbortSignal.timeout(60000);
   const guardedFetch = async (input, init = {}) => {
     try {
@@ -50,7 +46,7 @@ export function createReadonlyTransport({ accessKey, missingKey, fetcher = fetch
       const region = url.hostname === 'uc.qiniuapi.com' && url.pathname === '/v4/query';
       if (region) {
         if (JSON.stringify([...url.searchParams.keys()].sort()) !== '["ak","bucket"]' || url.searchParams.get('ak') !== accessKey || url.searchParams.get('bucket') !== READONLY_BUCKET) fail('UNSAFE_REGION_QUERY');
-      } else if (!patterns.rs.test(url.hostname) || !paths.has(url.pathname) || url.search || !observation.endpoints?.rs.includes(url.origin)) fail('UNSAFE_READ_PATH');
+      } else if (!isAllowedServiceHost('rs', url.hostname) || !paths.has(url.pathname) || url.search || !observation.endpoints?.rs.includes(url.origin)) fail('UNSAFE_READ_PATH');
       if (observation.requests.length >= 3) fail('REQUEST_LIMIT');
       const signal = AbortSignal.any([overall, AbortSignal.timeout(timeoutMs), ...(init.signal ? [init.signal] : [])]);
       const item = { method: 'GET', host: url.hostname, path: region ? '/v4/query' : '/stat/<entry-redacted>', status: null };
@@ -63,18 +59,14 @@ export function createReadonlyTransport({ accessKey, missingKey, fetcher = fetch
       const bytes = await boundedBytes(response, signal);
       if (region) {
         let value; try { value = JSON.parse(bytes.toString('utf8')); } catch { fail('INVALID_REGION_JSON'); }
-        const record = value?.hosts?.[0], endpoints = {};
-        for (const [service, pattern] of Object.entries(patterns)) {
-          const domains = record?.[service]?.domains;
-          if (!Array.isArray(domains) || !domains.length || domains.length > 16 || !domains.every(host => typeof host === 'string' && pattern.test(host))) fail('INVALID_REGION_ENDPOINT');
-          endpoints[service] = domains.map(host => `https://${host}`);
-        }
-        observation.endpoints = endpoints;
+        observation.endpoints = parseRegionEndpoints(value);
       }
       return new Response(bytes, { status: 200, headers: { 'Content-Type': 'application/json' } });
     } catch (error) {
+      if (error instanceof RegionEndpointError) observation.regionFailure = error.failure;
       observation.errorCode = error instanceof KodoError && /^[A-Z0-9_]+$/.test(error.code) ? error.code : 'NETWORK_OR_TIMEOUT';
-      throw new KodoError(observation.errorCode);
+      if (observation.regionFailure) observation.errorCode = 'INVALID_REGION_ENDPOINT';
+      throw new KodoError(observation.errorCode, observation.regionFailure ?? undefined);
     }
   };
   return { fetcher: guardedFetch, observation };
@@ -137,6 +129,7 @@ export async function verifyQiniuReadonly({ accessKey, secretKey, fetcher = fetc
     report.missingObject.status = 'PASS'; report.status = 'PASS';
   } catch (error) {
     if (transport?.observation.endpoints) report.region = { status: 'PASS', endpoints: transport.observation.endpoints };
+    if (transport?.observation.regionFailure) report.region = { status: 'FAIL', failure: transport.observation.regionFailure };
     if (report.existingObject.status === 'NOT_RUN' && (transport?.observation.requests.length ?? 0) >= 2) report.existingObject.status = 'FAIL';
     if (report.missingObject.status === 'FAIL') report.missingObject.httpStatus = transport?.observation.requests.at(-1)?.status ?? null;
     report.errorCode = transport?.observation.errorCode ?? (error instanceof KodoError && /^[A-Z0-9_]+$/.test(error.code) ? error.code : 'VERIFICATION_FAILED');

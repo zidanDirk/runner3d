@@ -35,6 +35,8 @@
 
 生产传输保留真实 TLS 校验、禁止重定向、单请求 30 秒/整体 8 分钟、有限响应读取；不自动重试。测试传输明确标为 `injected-test-transport`。合成 HTTP/签名测试验证协议实现，不能证明七牛账号权限、真实 HTTPS、CDN 规则或线上响应头已经通过。
 
+Region主机策略统一在 `kodo-endpoints.mjs`，上传和只读入口不再各写一份正则。官方确认的8区域rs/rsf `.qbox.me` 管理主/备域被精确纳入；每个主备项仍须通过DNS语法、角色和白名单检查，不放任任意后缀或忽略坏备用。只读失败写 `region.failure`，上传失败回执写 `regionFailure`，均仅包含service/category/domainClass/index，不保存原始域名或响应。详见 [只读验证说明](qiniu-readonly.md)。
+
 `sameCacheControl()` 的实际规则保持为两侧分别转小写、按逗号分割、修剪每个指令的边缘空白、排序后逐项精确比较；因此忽略大小写、指令顺序及边缘空白。不规范化等号内部空格，不解析/折算数值，不去重。缺少 immutable、额外/重复/冲突指令、空指令和不同 max-age 均拒绝。MIME 映射也保持原值，未为通过测试放宽真实回查。
 
 ## 不可变上传与失败状态

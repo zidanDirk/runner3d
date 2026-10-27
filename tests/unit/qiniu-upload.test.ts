@@ -45,6 +45,56 @@ async function withCloud(run: (context: { root: string; plan: UploadPlan; server
 }
 
 describe('new-only immutable candidate upload through real multipart HTTP', () => {
+  it('accepts official qbox management backups with the same strict region parser', async () => withCloud(async ({ plan, server, checkpoint }) => {
+    server.controls.regional = true;
+    const transport: typeof fetch = async (input, init) => {
+      const response = await server.transport(input, init);
+      const url = new URL(input instanceof Request ? input.url : input.toString());
+      if (url.pathname !== '/v4/query') return response;
+      return new Response(JSON.stringify({ hosts: [{ up: { domains: ['up-z2.qiniup.com'] }, rs: { domains: ['rs-z2.qiniuapi.com', 'rs-z2.qbox.me'] }, rsf: { domains: ['rsf-z2.qiniuapi.com', 'rsf-z2.qbox.me'] } }] }));
+    };
+    const client = createKodoClient({ accessKey: SYNTHETIC_AK, secretKey: SYNTHETIC_SK, bucket: 'synthetic-bucket' }, { fetcher: transport });
+    expect((await uploadQiniuCandidate(plan, client, { checkpoint })).status).toBe('COMPLETE');
+    expect(server.puts).toHaveLength(plan.files.length + 1);
+    expect(server.puts.at(-1)).toBe(`${plan.prefix}index.html`);
+  }));
+
+  it('uses qbox management primary endpoints for stat and complete inventory without changing insertOnly or index-last', async () => withCloud(async ({ plan, server, checkpoint }) => {
+    server.controls.regional = true;
+    const transport: typeof fetch = async (input, init) => {
+      const response = await server.transport(input, init);
+      const url = new URL(input instanceof Request ? input.url : input.toString());
+      if (url.pathname !== '/v4/query') return response;
+      return new Response(JSON.stringify({ hosts: [{ up: { domains: ['up-z2.qiniup.com'] }, rs: { domains: ['rs-z2.qbox.me', 'rs-z2.qiniuapi.com'] }, rsf: { domains: ['rsf-z2.qbox.me', 'rsf-z2.qiniuapi.com'] } }] }));
+    };
+    const client = createKodoClient({ accessKey: SYNTHETIC_AK, secretKey: SYNTHETIC_SK, bucket: 'synthetic-bucket' }, { fetcher: transport });
+    expect((await uploadQiniuCandidate(plan, client, { checkpoint })).status).toBe('COMPLETE');
+    expect(server.requests.some(request => request.host === 'rs-z2.qbox.me' && request.path.startsWith('/stat/'))).toBe(true);
+    expect(server.requests.some(request => request.host === 'rsf-z2.qbox.me' && request.path === '/list')).toBe(true);
+    expect(server.policies.every(policy => policy.insertOnly === 1)).toBe(true);
+    expect(server.puts.at(-1)).toBe(`${plan.prefix}index.html`);
+  }));
+
+  it.each(['up', 'rs', 'rsf'] as const)('fails closed on a credential-bearing %s backup before writes and preserves a safe receipt classification', async service => withCloud(async ({ plan, server, checkpoint, receipts }) => {
+    const rawHost = `${SYNTHETIC_AK}:${SYNTHETIC_SK}@attacker.invalid`;
+    const transport: typeof fetch = async (input, init) => {
+      const response = await server.transport(input, init);
+      const url = new URL(input instanceof Request ? input.url : input.toString());
+      if (url.pathname !== '/v4/query') return response;
+      const region = { up: { domains: ['up.qiniup.com'] }, rs: { domains: ['rs.qiniuapi.com'] }, rsf: { domains: ['rsf.qiniuapi.com'] } };
+      region[service].domains.push(rawHost);
+      return new Response(JSON.stringify({ hosts: [region] }));
+    };
+    const client = createKodoClient({ accessKey: SYNTHETIC_AK, secretKey: SYNTHETIC_SK, bucket: 'synthetic-bucket' }, { fetcher: transport });
+    let caught: unknown; try { await client.list(plan.prefix); } catch (error) { caught = error; }
+    const failure = { service, category: 'CREDENTIALS', domainClass: 'not-a-host', index: 1 };
+    expect(caught).toMatchObject({ code: service === 'up' ? 'INVALID_UPLOAD_HOST' : 'INVALID_MANAGEMENT_HOST', regionFailure: failure });
+    await expect(uploadQiniuCandidate(plan, client, { checkpoint })).rejects.toThrow(service === 'up' ? 'INVALID_UPLOAD_HOST' : 'INVALID_MANAGEMENT_HOST');
+    expect(receipts.at(-1)).toMatchObject({ status: 'BLOCKED', regionFailure: failure });
+    expect(server.requests).toHaveLength(1); expect(server.puts).toHaveLength(0);
+    const output = JSON.stringify(receipts) + String(caught); for (const value of [SYNTHETIC_AK, SYNTHETIC_SK, rawHost, 'attacker.invalid']) expect(output).not.toContain(value);
+  }));
+
   it('writes correct cache metadata on the FIRST PUT and preserves every file hash and BuildID', async () => withCloud(async ({ root, plan, server, client, checkpoint, receipts }) => {
     const before = await verifyRelease(root);
     const historical = Buffer.from('historical object');

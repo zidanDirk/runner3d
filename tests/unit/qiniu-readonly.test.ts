@@ -38,7 +38,7 @@ async function withServer(run: (context: { controls: Controls; calls: { method: 
         if (target.searchParams.get('ak') !== controls.accessKey || target.searchParams.get('bucket') !== READONLY_BUCKET) throw new Error('Invalid query');
         send(controls.queryStatus, controls.queryStatus === 200 ? controls.region : { error: `${AK} ${SK} Authorization: forbidden-body` }); return;
       }
-      if (target.hostname !== 'rs-z2.qiniuapi.com' || !target.pathname.startsWith('/stat/')) throw new Error('Unexpected endpoint');
+      if (!['rs-z2.qiniuapi.com', 'rs-z2.qbox.me'].includes(target.hostname) || !target.pathname.startsWith('/stat/')) throw new Error('Unexpected endpoint');
       const date = String(req.headers['x-qiniu-date']);
       const canonical = `GET ${target.pathname}\nHost: ${target.host}\nContent-Type: application/x-www-form-urlencoded\nX-Qiniu-Date: ${date}\n\n`;
       const signature = createHmac('sha1', SK).update(canonical).digest('base64').replaceAll('+', '-').replaceAll('/', '_');
@@ -63,6 +63,29 @@ async function withServer(run: (context: { controls: Controls; calls: { method: 
 
 const run = (fetcher: typeof fetch, options: { accessKey?: string; timeoutMs?: number } = {}) => verifyQiniuReadonly({ accessKey: options.accessKey ?? AK, secretKey: SK, fetcher, now: fixedNow, ...(options.timeoutMs === undefined ? {} : { timeoutMs: options.timeoutMs }) });
 describe('Qiniu read-only actual-client protocol through synthetic loopback', () => {
+  it('accepts official qbox management backups without weakening GET-only validation', async () => withServer(async ({ fetcher, controls, calls }) => {
+    const region = structuredClone(REGION);
+    region.hosts[0]!.rs.domains.push('rs-z2.qbox.me');
+    region.hosts[0]!.rsf.domains.push('rsf-z2.qbox.me');
+    controls.region = region;
+    const report = await run(fetcher);
+    expect(report.status).toBe('PASS'); expect(report.requestCount).toBe(3); expect(report.writesExecuted).toBe(false);
+    expect(report.region.endpoints?.rs).toEqual(['https://rs-z2.qiniuapi.com', 'https://rs-z2.qbox.me']);
+    expect(report.region.endpoints?.rsf).toEqual(['https://rsf-z2.qiniuapi.com', 'https://rsf-z2.qbox.me']);
+    expect(calls.every(call => call.method === 'GET')).toBe(true);
+  }));
+
+  it('uses qbox management primary endpoints for both actual stat GETs', async () => withServer(async ({ fetcher, controls, calls }) => {
+    const region = structuredClone(REGION);
+    region.hosts[0]!.rs.domains = ['rs-z2.qbox.me', 'rs-z2.qiniuapi.com'];
+    region.hosts[0]!.rsf.domains = ['rsf-z2.qbox.me', 'rsf-z2.qiniuapi.com'];
+    controls.region = region;
+    const report = await run(fetcher);
+    expect(report.status).toBe('PASS'); expect(report.requestCount).toBe(3); expect(report.writesExecuted).toBe(false);
+    expect(report.region.endpoints?.rs[0]).toBe('https://rs-z2.qbox.me');
+    expect(calls.slice(1).every(call => call.host === 'rs-z2.qbox.me' && call.method === 'GET')).toBe(true);
+  }));
+
   it('performs exactly three GETs for z2, validates the old GLB metadata and maps real HTTP612 to null', async () => withServer(async ({ fetcher, calls }) => {
     const report = await run(fetcher);
     expect(report).toMatchObject({ status: 'PASS', scope: 'synthetic-test', testedAt: fixedNow().toISOString(), bucket: 'supergames', writesExecuted: false, requestCount: 3 });
@@ -134,6 +157,17 @@ describe('Qiniu read-only actual-client protocol through synthetic loopback', ()
   it.each(['up', 'rs', 'rsf'] as const)('rejects unrecognized %s Region endpoint before any stat', async service => withServer(async ({ fetcher, controls, calls }) => {
     const region = structuredClone(REGION); region.hosts[0]![service].domains = ['attacker.invalid']; controls.region = region;
     const report = await run(fetcher); expect(report.status).toBe('FAIL'); expect(report.errorCode).toBe('INVALID_REGION_ENDPOINT'); expect(calls).toHaveLength(1);
+    expect(report.region).toMatchObject({ failure: { service, category: 'UNRECOGNIZED_DOMAIN', domainClass: 'other', index: 0 } });
+  }));
+
+  it.each(['up', 'rs', 'rsf'] as const)('rejects a credential-bearing %s backup and reports only its safe classification', async service => withServer(async ({ fetcher, controls, calls }) => {
+    const region = structuredClone(REGION), rawHost = `${AK}:${SK}@attacker.invalid`;
+    region.hosts[0]![service].domains.push(rawHost); controls.region = region;
+    const report = await run(fetcher);
+    expect(report).toMatchObject({ status: 'FAIL', errorCode: 'INVALID_REGION_ENDPOINT', requestCount: 1, writesExecuted: false });
+    expect(report.region).toMatchObject({ failure: { service, category: 'CREDENTIALS', domainClass: 'not-a-host', index: 1 } });
+    expect(calls).toHaveLength(1); expect(report.existingObject.status).toBe('NOT_RUN');
+    const output = JSON.stringify(report); for (const value of [AK, SK, rawHost, 'attacker.invalid', 'Authorization']) expect(output).not.toContain(value);
   }));
 });
 
