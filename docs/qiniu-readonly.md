@@ -20,6 +20,10 @@ GitHub要求 `workflow_dispatch` 工作流先存在于默认分支，之后才�
 
 真实执行应恰好3次GET：Region、已有对象stat、缺失对象stat。传输保护只允许这3条路径，禁止任何其他 GET 路径及 PUT/POST/DELETE/PATCH；不调用客户端put。目标主机需来自已验证的Region rs集合，HTTPS证书校验开启，禁止重定向/HTTP降级。每次请求默认15秒，整体60秒，成功响应最多256KiB；Job5分钟、验证步骤3分钟，均无自动重试。
 
+上传客户端与只读脚本共用 `scripts/release/kodo-endpoints.mjs`。在既有主机格式之外，管理服务只新增官方SDK确认的16个 `.qbox.me` Host：`rs-<region>.qbox.me` / `rsf-<region>.qbox.me`，region严格限于z0、cn-east-2、z1、z2、na0、as0、ap-southeast-2、ap-southeast-3；不泛放`*.qbox.me`、裸rs.qbox.me或未来未知区域。所选`hosts[0]`的up/rs/rsf每个domains项均验证，不能只检查第一项而忽略恶意备用。`up.acc_domains`、io、s3等未使用字段不作为替代服务地址。
+
+失败时 `region.failure` 只记录固定分类，例如 `{"service":"rsf","category":"UNRECOGNIZED_DOMAIN","domainClass":"other","index":1}`。它不含被拒绝的原始Host、响应或凭据。2026-10-26运行40303668015的旧报告只有INVALID_REGION_ENDPOINT，无法还原具体失败服务；本次官方兼容夹具并非真实Region响应的逐字节重放。官方来源：[固定SDK主/备域构建](https://github.com/qiniu/nodejs-sdk/blob/v7.15.5/qiniu/httpc/region.js)、[Region解析](https://github.com/qiniu/nodejs-sdk/blob/v7.15.5/qiniu/httpc/regionsProvider.js)、[存储区域表](https://developer.qiniu.com/kodo/1671/region-endpoint-fq)。
+
 脚本只从步骤环境读取AK/SK，密钥不进入命令参数或其他步骤。`NODE_DEBUG` / `NODE_OPTIONS` 在工作流中清空。报告只按字段白名单构建，不含query、上传Token、Authorization或原始响应；未知自由文本Cache-Control会标记已隐藏，避免把元信息当作凭据输出通道。错误使用固定代码，控制台只输出PASS/FAIL、请求数和writes=false。
 
 ## JSON 与证据边界

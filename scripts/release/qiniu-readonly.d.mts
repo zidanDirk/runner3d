@@ -11,7 +11,7 @@ export interface ReadonlyReport {
   writesExecuted: false;
   requestCount: number;
   requests: ReadonlyRequest[];
-  region: { status: 'PASS' | 'FAIL' | 'NOT_RUN'; endpoints?: ReadonlyEndpoints };
+  region: { status: 'PASS' | 'FAIL' | 'NOT_RUN'; endpoints?: ReadonlyEndpoints; failure?: import('./kodo-endpoints.mjs').RegionEndpointFailure };
   existingObject: { status: 'PASS' | 'FAIL' | 'NOT_RUN'; key: string; bytes?: number; mimeType?: string; hash?: string; md5?: string; cacheControl?: string; cacheControlRedacted?: boolean };
   missingObject: { status: 'PASS' | 'FAIL' | 'NOT_RUN'; key: string; httpStatus?: number | null; mappedToNull?: boolean };
   errorCode?: string;
@@ -19,6 +19,6 @@ export interface ReadonlyReport {
 }
 export function createReadonlyTransport(options: { accessKey: string; missingKey: string; fetcher?: typeof fetch; timeoutMs?: number }): {
   fetcher: typeof fetch;
-  observation: { requests: ReadonlyRequest[]; endpoints: ReadonlyEndpoints | null; errorCode: string | null };
+  observation: { requests: ReadonlyRequest[]; endpoints: ReadonlyEndpoints | null; errorCode: string | null; regionFailure: import('./kodo-endpoints.mjs').RegionEndpointFailure | null };
 };
 export function verifyQiniuReadonly(options?: { accessKey?: string; secretKey?: string; fetcher?: typeof fetch; timeoutMs?: number; now?: () => Date }): Promise<ReadonlyReport>;

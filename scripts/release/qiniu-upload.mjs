@@ -97,9 +97,10 @@ export async function uploadQiniuCandidate(plan, client, { resume = false, check
   } catch (error) {
     const code = error instanceof KodoError ? error.code : 'LOCAL_CHECKPOINT_OR_IO_FAILURE';
     result.errorCode = code;
+    if (error instanceof KodoError && error.regionFailure) result.regionFailure = error.regionFailure;
     result.status = /MISMATCH|DUPLICATE|UNTRUSTED|UNEXPECTED|INVALID/.test(code) ? 'BLOCKED' : 'RESUME_REQUIRED';
     try { await save(); } catch { /* Prior checkpoint + Kodo state still identify the immutable attempt. */ }
-    throw new KodoError(`${code}; ${result.status}; exact artifact and explicit resume required, never overwrite/delete`);
+    throw new KodoError(`${code}; ${result.status}; exact artifact and explicit resume required, never overwrite/delete`, error instanceof KodoError ? error.regionFailure : undefined);
   }
 }
 

@@ -1,4 +1,5 @@
 import { createHash, createHmac } from 'node:crypto';
+import { parseRegionEndpoints, RegionEndpointError } from './kodo-endpoints.mjs';
 
 export const urlsafe = bytes => Buffer.from(bytes).toString('base64').replaceAll('+', '-').replaceAll('/', '_');
 export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -19,7 +20,7 @@ export function managementAuthorization(accessKey, secretKey, url, date) {
   return `Qiniu ${accessKey}:${urlsafe(createHmac('sha1', secretKey).update(canonical).digest())}`;
 }
 export class KodoError extends Error {
-  constructor(code) { super(`Kodo ${code}`); this.name = 'KodoError'; this.code = code; }
+  constructor(code, regionFailure) { super(`Kodo ${code}`); this.name = 'KodoError'; this.code = code; if (regionFailure) this.regionFailure = regionFailure; }
 }
 
 /** Native HTTPS only. Injectable transport is for synthetic protocol tests. */
@@ -53,17 +54,14 @@ export function createKodoClient({ accessKey, secretKey, bucket }, { fetcher = f
   const discover = async () => {
     if (!endpoints) endpoints = (async () => {
       const query = new URLSearchParams({ ak: accessKey, bucket });
-      const value = await request(`https://uc.qiniuapi.com/v4/query?${query}`), region = value?.hosts?.[0];
-      const select = (service, pattern, code) => {
-        const domains = region?.[service]?.domains;
-        if (!Array.isArray(domains) || !domains.length || !domains.every(d => typeof d === 'string' && pattern.test(d))) throw new KodoError(code);
-        return `https://${domains[0]}`;
-      };
-      return {
-        up: select('up', /^(?:up|upload)(?:-[a-z0-9]+)*\.(?:qiniup\.com|qbox\.me)$/, 'INVALID_UPLOAD_HOST'),
-        rs: select('rs', /^rs(?:-[a-z0-9]+)*\.(?:qiniuapi\.com|qiniu\.com)$/, 'INVALID_MANAGEMENT_HOST'),
-        rsf: select('rsf', /^rsf(?:-[a-z0-9]+)*\.(?:qiniuapi\.com|qiniu\.com)$/, 'INVALID_MANAGEMENT_HOST'),
-      };
+      const value = await request(`https://uc.qiniuapi.com/v4/query?${query}`);
+      try {
+        const parsed = parseRegionEndpoints(value);
+        return { up: parsed.up[0], rs: parsed.rs[0], rsf: parsed.rsf[0] };
+      } catch (error) {
+        if (error instanceof RegionEndpointError) throw new KodoError(error.failure.service === 'up' ? 'INVALID_UPLOAD_HOST' : 'INVALID_MANAGEMENT_HOST', error.failure);
+        throw error;
+      }
     })();
     return endpoints;
   };
