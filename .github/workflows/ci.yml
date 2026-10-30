@@ -64,7 +64,7 @@ jobs:
       - name: Verify all original and approved platform reference hashes
         run: npm run visual:validate
       - name: Record real font and renderer provenance before the full comparison
-        run: npx playwright test tests/e2e/00-visual-provenance.spec.ts --output=test-results/visual-provenance
+        run: npx playwright test --config playwright.visual-observe.config.ts --output=test-results/visual-provenance
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -96,6 +96,7 @@ jobs:
             test-results/**/error-context.md
             test-results/**/.last-run.json
             test-results/**/visual-provenance.json
+            test-results/visual-contract/result.json
           retention-days: 14
       - uses: actions/upload-artifact@v4
         if: always()

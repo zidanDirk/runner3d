@@ -9,6 +9,7 @@ export default defineConfig({
   fullyParallel: false,
   updateSnapshots: 'none',
   snapshotPathTemplate: visualPlatform.snapshotPathTemplate,
+  globalSetup: visualPlatform.id === 'local-original' ? undefined : './tests/e2e/visual-contract-setup.ts',
   workers: 1,
   timeout: 35000,
   expect: { timeout: 7000 },
