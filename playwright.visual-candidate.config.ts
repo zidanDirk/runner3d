@@ -6,6 +6,7 @@ import { currentCandidateDiagnostic } from './scripts/visual/candidate.mjs';
 // its image allowlist remain unchanged; this configuration cannot approve it.
 const candidate = currentCandidateDiagnostic();
 export default defineConfig(base, {
+  globalSetup: [],
   updateSnapshots: 'none',
   snapshotPathTemplate: candidate.snapshotPathTemplate,
   outputDir: './test-results/visual-candidate',
