@@ -66,6 +66,9 @@ test('immutable nested release loads exact version, GLBs, real run/settlement/re
   expect(remote.ok()).toBe(true); expect(await remote.json()).toMatchObject(metadata);
   expect(await page.evaluate(() => '__RUNNER_TEST__' in window || '__PRODUCT_LIFECYCLE__' in window)).toBe(false);
   await page.getByRole('button', { name: '开始奔跑', exact: true }).click();
+  // The home preview is ready before the lazy game scene and its startup GLBs.
+  // Match the existing 15s asset startup budget before measuring run progress.
+  await expect(page.getByRole('button', { name: '暂停游戏', exact: true })).toBeVisible({ timeout: 15000 });
   await expect.poll(async () => Number((await page.getByTestId('distance').innerText()).replaceAll(',', ''))).toBeGreaterThan(15);
   await expect.poll(async () => Number(await page.getByTestId('coins').innerText())).toBeGreaterThan(0);
   await page.getByRole('button', { name: '暂停游戏', exact: true }).click();
