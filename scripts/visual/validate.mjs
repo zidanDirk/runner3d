@@ -33,13 +33,17 @@ export function validateVisualReferences(root = resolve(dirname(fileURLToPath(im
   check(digest(raw) === APPROVED_PROPOSAL_SHA256, 'Approved proposal hash changed; manual review required');
   const proposal = JSON.parse(raw.toString('utf8'));
   check(proposal.schemaVersion === 1 && proposal.entries.length === 91, 'Expected the 91 approved reference pairs');
-  const entries = [], expected = new Set(); let reviewed = 0, copied = 0;
+  const entries = [], expected = new Set(), expectedDirectories = new Set(); let reviewed = 0, copied = 0;
   for (const row of proposal.entries) {
     check(/^tests\/e2e\/[a-z0-9-]+\.spec\.ts-snapshots\/[a-z0-9-]+\.png$/.test(row.original), 'Invalid original reference path');
     const filename = row.original.split('/').at(-1);
     check(row.proposed === `${row.original.slice(0, -filename.length)}github-macos-26/${filename}`, 'Invalid platform reference path');
     check(!expected.has(row.original) && !expected.has(row.proposed), 'Duplicate reference path');
     expected.add(row.original); expected.add(row.proposed);
+    for (const path of [row.original, row.proposed]) {
+      let parent = dirname(path);
+      while (parent !== 'tests/e2e') { expectedDirectories.add(parent); parent = dirname(parent); }
+    }
     const original = realFile(root, row.original), platform = realFile(root, row.proposed);
     const originalSha256 = digest(original), platformSha256 = digest(platform);
     check(originalSha256 === row.originalSha256, `Original reference hash mismatch: ${row.original}`);
@@ -56,11 +60,12 @@ export function validateVisualReferences(root = resolve(dirname(fileURLToPath(im
   check(reviewed === 35 && copied === 56, 'Expected exactly 35 reviewed actuals and 56 unchanged copies');
   const found = [];
   const walk = directory => {
+    check(expectedDirectories.has(directory), `Unexpected reference directory: ${directory}`);
     for (const entry of readdirSync(join(root, directory), { withFileTypes: true })) {
       const path = `${directory}/${entry.name}`;
       check(!entry.isSymbolicLink(), `Reference symlink forbidden: ${path}`);
       if (entry.isDirectory()) walk(path);
-      else if (entry.name.endsWith('.png')) found.push(path);
+      else { check(expected.has(path), `Unexpected reference file: ${path}`); found.push(path); }
     }
   };
   for (const entry of readdirSync(join(root, 'tests/e2e'), { withFileTypes: true })) {

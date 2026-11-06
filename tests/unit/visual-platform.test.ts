@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { selectVisualPlatform } from '../../scripts/visual/platform.mjs';
@@ -59,7 +59,7 @@ describe('approved visual reference byte contract', () => {
   });
   it('rejects an unreviewed future reference', () => {
     const path = join(root, dirname(report.entries[0]!.platform), 'unreviewed.png');
-    try { copyFileSync(report.entries[0]!.original, path); expect(() => validateVisualReferences(root)).toThrow('Unexpected or missing'); }
+    try { copyFileSync(report.entries[0]!.original, path); expect(() => validateVisualReferences(root)).toThrow('Unexpected reference file'); }
     finally { rmSync(path); }
   });
   it('rejects an extra top-level snapshot symlink before traversing it', () => {
@@ -67,5 +67,39 @@ describe('approved visual reference byte contract', () => {
     mkdirSync(target);
     try { symlinkSync(target, link, 'dir'); expect(() => validateVisualReferences(root)).toThrow('directory/symlink forbidden'); }
     finally { rmSync(link); rmSync(target, { recursive: true }); }
+  });
+  it('rejects a missing original PNG rather than trusting the paired platform file', () => {
+    const path = join(root, report.entries[0]!.original), bytes = readFileSync(path);
+    try { rmSync(path); expect(() => validateVisualReferences(root)).toThrow(); }
+    finally { writeFileSync(path, bytes); }
+  });
+  it('rejects a missing platform directory', () => {
+    const path = join(root, dirname(report.entries[0]!.platform)), backup = join(root, 'temporarily-removed-platform');
+    try { renameSync(path, backup); expect(() => validateVisualReferences(root)).toThrow(); }
+    finally { renameSync(backup, path); }
+  });
+  it('rejects a reference file symlink even when its target is another valid PNG', () => {
+    const path = join(root, report.entries[0]!.original), bytes = readFileSync(path);
+    try {
+      rmSync(path); symlinkSync(join(root, report.entries[1]!.original), path);
+      expect(() => validateVisualReferences(root)).toThrow('symlink forbidden');
+    } finally { rmSync(path); writeFileSync(path, bytes); }
+  });
+  it('rejects a nested platform directory symlink', () => {
+    const path = join(root, dirname(report.entries[0]!.platform)), backup = join(root, 'temporarily-removed-platform');
+    try {
+      renameSync(path, backup); symlinkSync(backup, path, 'dir');
+      expect(() => validateVisualReferences(root)).toThrow('symlink forbidden');
+    } finally { rmSync(path); renameSync(backup, path); }
+  });
+  it('rejects an unreviewed empty directory in the protected reference tree', () => {
+    const path = join(root, dirname(report.entries[0]!.original), 'unreviewed-empty');
+    try { mkdirSync(path); expect(() => validateVisualReferences(root)).toThrow(); }
+    finally { rmSync(path, { recursive: true }); }
+  });
+  it('rejects non-PNG additions instead of treating the reference directory as scratch space', () => {
+    const path = join(root, dirname(report.entries[0]!.platform), 'unreviewed.json');
+    try { writeFileSync(path, '{}'); expect(() => validateVisualReferences(root)).toThrow(); }
+    finally { rmSync(path); }
   });
 });
