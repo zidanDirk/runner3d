@@ -1,0 +1,177 @@
+name: Exact visual assertion evidence (diagnostics only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_sha:
+        description: Full reviewed source SHA; must match the selected workflow ref
+        required: true
+        type: string
+      confirm_capture:
+        description: Type CAPTURE followed by a space and the exact reviewed SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-actual-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  approved_equivalence:
+    name: Approved image equivalence before candidate collection
+    runs-on: macos-26
+    timeout-minutes: 90
+    outputs:
+      proof_sha256: ${{ steps.collect.outputs.proof_sha256 }}
+    env:
+      RUNNER3D_ACTUAL_PHASE: approved-equivalence
+      RUNNER3D_ACTUAL_EXPECTED_IMAGE: '20261013.0424.1'
+      RUNNER3D_ACTUAL_REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+    steps:
+      - name: Bind manual human review to the exact source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          SOURCE_SHA: ${{ github.sha }}
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+          CONFIRMATION: ${{ inputs.confirm_capture }}
+        run: |
+          node --input-type=module <<'JS'
+          const { EVENT_NAME, SENDER_TYPE, SOURCE_SHA, REVIEWED_SHA, CONFIRMATION } = process.env;
+          if (EVENT_NAME !== 'workflow_dispatch' || SENDER_TYPE !== 'User' || !/^[a-f0-9]{40}$/.test(REVIEWED_SHA ?? '') || REVIEWED_SHA !== SOURCE_SHA || CONFIRMATION !== `CAPTURE ${REVIEWED_SHA}`) {
+            throw new Error('Manual review, exact source SHA, and CAPTURE confirmation are required');
+          }
+          JS
+      - uses: actions/checkout@v7
+        id: checkout
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+          cache: npm
+      - name: Record actual host and reject an unavailable approved image
+        run: node scripts/visual/actual-evidence.mjs observe
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify the complete existing reference inventory
+        run: |
+          mkdir -p artifacts/visual-actual
+          npm run --silent visual:validate > artifacts/visual-actual/references-workflow-before.json
+      - name: Match the reviewed Apple system font
+        run: swift scripts/release/ensure-ci-font.swift --download-system-font
+        timeout-minutes: 3
+      - name: Verify native and diagnostic comparison equivalence on the approved image
+        id: collect
+        # The script verifies mechanism fixtures, then native 77 and instrumented 77.
+        # Test budgets, states, stabilization and comparison options are unchanged.
+        run: node scripts/visual/actual-evidence.mjs run
+        timeout-minutes: 80
+      - name: Validate coverage and proof without granting release eligibility
+        if: always() && steps.checkout.outcome == 'success'
+        run: node scripts/visual/actual-evidence.mjs validate
+      - name: Verify all 182 reference hashes after diagnostics
+        if: always() && steps.checkout.outcome == 'success'
+        run: |
+          mkdir -p artifacts/visual-actual
+          npm run --silent visual:validate > artifacts/visual-actual/references-workflow-after.json
+      - name: Publish proof only after the complete approved-image validation succeeded
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: actual-approved-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/visual-actual/proof.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Preserve approved-image evidence and failure details
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-approved-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/visual-actual/
+            test-results/**/visual-provenance.json
+            test-results/**/error-context.md
+            test-results/**/*.png
+          retention-days: 14
+      - name: Preserve approved-image traces separately
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-approved-traces-${{ github.run_id }}-${{ github.run_attempt }}
+          path: test-results/**/trace.zip
+          retention-days: 14
+
+  candidate_collect:
+    name: Candidate evidence after approved-image equivalence
+    needs: approved_equivalence
+    # A failed or unavailable approved image never allows candidate collection.
+    if: needs.approved_equivalence.result == 'success'
+    runs-on: macos-26
+    timeout-minutes: 60
+    env:
+      RUNNER3D_ACTUAL_PHASE: candidate-collect
+      RUNNER3D_ACTUAL_EXPECTED_IMAGE: '20261021.0445.8'
+      RUNNER3D_ACTUAL_REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+      RUNNER3D_ACTUAL_PROOF_SHA256: ${{ needs.approved_equivalence.outputs.proof_sha256 }}
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+          cache: npm
+      - name: Record actual candidate host before browser setup
+        run: node scripts/visual/actual-evidence.mjs observe
+      - name: Download only this workflow run's approved-image proof
+        uses: actions/download-artifact@v4
+        with:
+          name: actual-approved-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/visual-actual/prerequisite/
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify the complete existing reference inventory
+        run: |
+          mkdir -p artifacts/visual-actual
+          npm run --silent visual:validate > artifacts/visual-actual/references-workflow-before.json
+      - name: Match the reviewed Apple system font
+        run: swift scripts/release/ensure-ci-font.swift --download-system-font
+        timeout-minutes: 3
+      - name: Capture exact candidate matcher inputs for all 77 visual tests
+        # run validates proof bytes, SHA, Run/Attempt, approved host and 91-point
+        # equivalence before collecting. Even PASS remains ineligible for release.
+        run: node scripts/visual/actual-evidence.mjs run
+        timeout-minutes: 38
+      - name: Validate candidate coverage without approving the image
+        if: always() && steps.checkout.outcome == 'success'
+        run: node scripts/visual/actual-evidence.mjs validate
+      - name: Verify all 182 reference hashes after diagnostics
+        if: always() && steps.checkout.outcome == 'success'
+        run: |
+          mkdir -p artifacts/visual-actual
+          npm run --silent visual:validate > artifacts/visual-actual/references-workflow-after.json
+      - name: Preserve candidate exact-buffer evidence and failure details
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-candidate-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/visual-actual/
+            test-results/**/visual-provenance.json
+            test-results/**/error-context.md
+            test-results/**/*.png
+          retention-days: 14
+      - name: Preserve candidate traces separately
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-candidate-traces-${{ github.run_id }}-${{ github.run_attempt }}
+          path: test-results/**/trace.zip
+          retention-days: 14
