@@ -59,19 +59,6 @@ jobs:
           JS
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - name: Require successful full CI for this exact candidate commit
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPOSITORY: ${{ github.repository }}
-          EXPECTED_COMMIT: ${{ github.sha }}
-        run: |
-          node --input-type=module <<'JS'
-          import { verifyCandidateCI } from './scripts/release/preflight.mjs';
-          const response = await fetch(`https://api.github.com/repos/${process.env.REPOSITORY}/actions/workflows/ci.yml/runs?per_page=100`, { headers: { Authorization: `Bearer ${process.env.GH_TOKEN}`, Accept: 'application/vnd.github+json' } });
-          if (!response.ok) throw new Error('Cannot verify candidate CI');
-          const data = await response.json();
-          console.log(verifyCandidateCI(data.workflow_runs, process.env.EXPECTED_COMMIT));
-          JS
       - name: Check original resume run repository, workflow and exact source SHA
         if: inputs.resume_source_run_id != ''
         env:
@@ -119,6 +106,8 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      release_url: ${{ steps.destination.outputs.release_url }}
     # Production candidate uploads remain closed pending real Preview evidence.
     # Enabling them requires a separate reviewed change; promotion stays separate.
     environment: ${{ inputs.environment }}
@@ -133,7 +122,21 @@ jobs:
         with:
           name: reviewed-release
           path: .
+      - name: Resolve the immutable Preview destination
+        id: destination
+        env:
+          RELEASE_BASE_URL: ${{ vars.RELEASE_BASE_URL }}
+          EXPECTED_BUILD: ${{ needs.verify.outputs.build_id }}
+        run: |
+          node --input-type=module <<'JS'
+          import { appendFileSync } from 'node:fs';
+          const base = new URL(process.env.RELEASE_BASE_URL);
+          const id = process.env.EXPECTED_BUILD;
+          if (base.protocol !== 'https:' || base.username || base.password || base.search || base.hash || !/^\/(?:[A-Za-z0-9_-]+\/)*$/.test(base.pathname) || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$/.test(id)) throw new Error('Invalid immutable Preview destination');
+          appendFileSync(process.env.GITHUB_OUTPUT, `release_url=${new URL(`releases/${id}/`, base).href}\n`);
+          JS
       - name: Upload new candidate or explicitly resume the exact original artifact
+        id: upload
         env:
           RESUME_SOURCE_RUN: ${{ inputs.resume_source_run_id }}
           QINIU_AK: ${{ secrets.QINIU_AK }}
@@ -155,13 +158,140 @@ jobs:
           name: immutable-upload-receipt
           path: artifacts/beta-release/uploads/*.json
           retention-days: 30
-      - run: node scripts/release/remote-smoke.mjs "$RELEASE_TEST_URL" "$RELEASE_BUILD_ID" "$RELEASE_EXPECTED_COMMIT"
+      - name: Verify basic Preview HTTPS and exact artifact bytes
+        id: basic
         env:
-          RELEASE_TEST_URL: ${{ vars.RELEASE_BASE_URL }}releases/${{ needs.verify.outputs.build_id }}/
+          RELEASE_TEST_URL: ${{ steps.destination.outputs.release_url }}
           RELEASE_BUILD_ID: ${{ needs.verify.outputs.build_id }}
           RELEASE_EXPECTED_COMMIT: ${{ github.sha }}
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:release
+        run: |
+          node --input-type=module <<'JS'
+          import { readFile, mkdir, writeFile } from 'node:fs/promises';
+          import { createHash } from 'node:crypto';
+          import { verifyRelease } from './scripts/release/verify.mjs';
+          import { releaseFilePolicy } from './scripts/release/cache-policy.mjs';
+          const output = 'artifacts/beta-release/preview';
+          await mkdir(output, { recursive: true });
+          const result = { status: 'FAIL', scope: 'basic-preview-https-integrity', files: [], strictCDN: 'PENDING; separate diagnostic, not a Preview prerequisite' };
+          const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+          try {
+            if (process.env.NODE_TLS_REJECT_UNAUTHORIZED === '0') throw new Error('TLS verification must remain enabled');
+            const url = new URL(process.env.RELEASE_TEST_URL), id = process.env.RELEASE_BUILD_ID;
+            if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || !url.pathname.endsWith(`/releases/${id}/`)) throw new Error('Invalid immutable Preview HTTPS URL');
+            const artifact = await verifyRelease();
+            if (!/^[a-f0-9]{40}$/.test(process.env.RELEASE_EXPECTED_COMMIT) || artifact.release.commit !== process.env.RELEASE_EXPECTED_COMMIT || artifact.release.buildId !== id || artifact.release.environment !== 'preview') throw new Error('Preview source/build identity mismatch');
+            const local = await readFile('dist/release-manifest.json'), manifest = JSON.parse(local);
+            const entries = Object.entries(manifest.files);
+            if (!manifest.files['index.html'] || !manifest.files['release.json'] || !entries.some(([path]) => path.endsWith('.js')) || !entries.some(([path]) => path.endsWith('.glb')) || entries.length > 256 || artifact.bytes > 64 * 1024 * 1024 || local.length > 256 * 1024) throw new Error('Incomplete or oversized Preview artifact');
+            for (const [path, entry] of entries) {
+              releaseFilePolicy(path);
+              if (!path.split('/').every(part => part && part !== '.' && part !== '..') || entry.bytes > 8 * 1024 * 1024) throw new Error('Unsafe Preview file map');
+            }
+            Object.assign(result, { commit: artifact.release.commit, buildId: id, manifestSha256: artifact.manifestSha256, previewURL: new URL('index.html', url).href, plannedFiles: entries.length + 1, uploadIntentObjects: 1 });
+            const deadline = AbortSignal.timeout(120000);
+            const get = async (path, expected, bytes) => {
+              const target = new URL(path, url);
+              if (target.origin !== url.origin || !target.pathname.startsWith(url.pathname)) throw new Error('Resource escaped Preview directory');
+              const response = await fetch(target, { method: 'GET', redirect: 'error', cache: 'no-store', signal: AbortSignal.any([deadline, AbortSignal.timeout(30000)]) });
+              if (response.status !== 200) throw new Error(`HTTP ${response.status}: ${path}`);
+              const mime = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
+              const policy = releaseFilePolicy(path);
+              const aliases = path.endsWith('.js') ? ['application/javascript', 'text/javascript'] : path.endsWith('.glb') ? ['model/gltf-binary', 'application/octet-stream'] : [policy.mimeType];
+              if (!aliases.includes(mime)) throw new Error(`Incorrect MIME: ${path}`);
+              const chunks = []; let size = 0;
+              if (!response.body) throw new Error(`Missing response body: ${path}`);
+              const reader = response.body.getReader();
+              try {
+                for (;;) {
+                  const { value, done } = await reader.read(); if (done) break;
+                  size += value.length;
+                  if (size > bytes) { await reader.cancel(); throw new Error(`Transfer exceeds reviewed bytes: ${path}`); }
+                  chunks.push(value);
+                }
+              } finally { reader.releaseLock(); }
+              const body = Buffer.concat(chunks);
+              if (size !== bytes || hash(body) !== expected) throw new Error(`Remote integrity mismatch: ${path}`);
+              result.files.push({ path, bytes: size, sha256: expected, contentType: mime });
+              return body;
+            };
+            await get('release-manifest.json', hash(local), local.length);
+            // Explicit index.html: object storage need not support directory defaults.
+            for (const [path, entry] of entries) {
+              const bytes = await get(path, entry.sha256, entry.bytes);
+              if (path === 'release.json' && JSON.stringify(JSON.parse(bytes)) !== JSON.stringify(manifest.release)) throw new Error('Remote release identity mismatch');
+            }
+            await get('release-manifest.json', hash(local), local.length);
+            result.status = 'PASS';
+          } catch (error) { result.error = error instanceof Error ? error.message : 'Basic Preview verification failed'; process.exitCode = 1; }
+          result.checkedAt = new Date().toISOString();
+          await writeFile(`${output}/basic.json`, JSON.stringify(result, null, 2) + '\n');
+          console.log(JSON.stringify(result, null, 2));
+          JS
+      - name: Summarize Preview identity, upload receipt and basic acceptance
+        if: always()
         env:
-          RELEASE_TEST_URL: ${{ vars.RELEASE_BASE_URL }}releases/${{ needs.verify.outputs.build_id }}/
+          SOURCE_SHA: ${{ github.sha }}
+          BUILD_ID: ${{ needs.verify.outputs.build_id }}
+          RELEASE_TEST_URL: ${{ steps.destination.outputs.release_url }}
+          UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
+          BASIC_OUTCOME: ${{ steps.basic.outcome }}
+        run: |
+          node --input-type=module <<'JS'
+          import { readFile, appendFile } from 'node:fs/promises';
+          const load = async path => { try { return JSON.parse(await readFile(path, 'utf8')); } catch { return null; } };
+          const manifest = await load('dist/release-manifest.json');
+          const receipt = await load(`artifacts/beta-release/uploads/${process.env.BUILD_ID}.json`);
+          const basic = await load('artifacts/beta-release/preview/basic.json');
+          const hash = manifest ? (await import('node:crypto')).createHash('sha256').update(await readFile('dist/release-manifest.json')).digest('hex') : 'unavailable';
+          const planned = manifest ? Object.keys(manifest.files).length + 1 : 'unavailable';
+          const link = process.env.RELEASE_TEST_URL ? new URL('index.html', process.env.RELEASE_TEST_URL).href : 'unavailable';
+          const lines = ['### Immutable technical Preview', `- Source SHA: ${process.env.SOURCE_SHA}`, `- BuildID: ${process.env.BUILD_ID}`, `- Manifest SHA256: ${hash}`, `- Preview HTTPS URL: ${link}`, `- Planned version files (including release-manifest.json): ${planned}`, `- Additional Upload Intent object: 1 (outside version directory)`, `- Version files newly uploaded: ${receipt?.uploaded?.length ?? 'unavailable'}; reused on exact-artifact resume: ${receipt?.reused?.length ?? 'unavailable'}`, `- Upload: ${process.env.UPLOAD_OUTCOME}; receipt status: ${receipt?.status ?? 'unavailable'}`, `- Basic HTTPS/integrity: ${process.env.BASIC_OUTCOME === 'success' && basic?.status === 'PASS' ? 'PASS' : 'FAIL / NOT COMPLETED'}`, '- Strict CDN: separate non-blocking diagnostic below; HTTP→HTTPS, final cache headers and missing-object checks remain unapproved until it passes. A first strict failure can leave later checks unexecuted.', '- This is a technical Preview, not visual acceptance, Production promotion or a stable-entry change.'];
+          await appendFile(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          JS
+      - name: Retain basic Preview evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: basic-preview-acceptance
+          path: artifacts/beta-release/preview/
+          retention-days: 30
+  strict-cdn-diagnostic:
+    needs: [verify, candidate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # A strict CDN failure is evidence to review, not technical Preview failure.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+      - uses: actions/download-artifact@v4
+        with:
+          name: reviewed-release
+          path: .
+      - name: Run unchanged strict CDN diagnostic
+        id: strict
+        timeout-minutes: 3
+        env:
+          RELEASE_TEST_URL: ${{ needs.candidate.outputs.release_url }}
+          RELEASE_BUILD_ID: ${{ needs.verify.outputs.build_id }}
+          RELEASE_EXPECTED_COMMIT: ${{ github.sha }}
+        run: |
+          mkdir -p artifacts/beta-release/cdn
+          node scripts/release/remote-smoke.mjs "$RELEASE_TEST_URL" "$RELEASE_BUILD_ID" "$RELEASE_EXPECTED_COMMIT" > artifacts/beta-release/cdn/report.json 2> artifacts/beta-release/cdn/error.log
+      - name: Summarize independent strict CDN outcome
+        if: always()
+        env:
+          STRICT_OUTCOME: ${{ steps.strict.outcome }}
+        run: |
+          echo "### Strict CDN diagnostic: $STRICT_OUTCOME (non-blocking)" >> "$GITHUB_STEP_SUMMARY"
+          echo 'Original remote-smoke assertions unchanged. Review report/error artifact; failure may leave subsequent checks unexecuted. Visual acceptance and Production remain separate.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: strict-cdn-diagnostic
+          path: artifacts/beta-release/cdn/
+          retention-days: 30

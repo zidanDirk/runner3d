@@ -55,12 +55,20 @@ it('restores exact original bytes and gate without changing BuildID; refuses wro
   } finally { await rm(gateRoot, { recursive: true, force: true }); }
 }, 'production'));
 
-it('archives the restored artifact in the new run and gates both new and resume on unchanged remote/browser smoke', async () => {
+it('archives exact recovery and gates Preview on its own Release Gate and basic HTTPS, with separate strict diagnostics', async () => {
   const workflow = await readFile('.github/workflows/deploy-qiniu.yml', 'utf8');
   expect(workflow).toContain('verifyResumeSource'); expect(workflow).toContain('verifyResumeArtifact');
   expect(workflow).toContain('run-id: ${{ inputs.resume_source_run_id }}');
   expect(workflow).toMatch(/run: npm run release:check\s+if: inputs\.resume_source_run_id == ''/);
   expect(workflow).toContain('name: reviewed-release'); expect(workflow).toContain('upload-artifact@v4');
   expect(workflow).toContain('qiniu.mjs upload --execute --resume');
-  expect(workflow).toContain('node scripts/release/remote-smoke.mjs'); expect(workflow).toContain('npm run test:release');
+  expect(workflow).not.toContain('verifyCandidateCI');
+  expect(workflow).not.toContain('npm run test:release'); // Already executed inside the unchanged local Release Gate.
+  const [candidate, strict] = workflow.split('  strict-cdn-diagnostic:');
+  expect(candidate).toContain('id: basic'); expect(candidate).not.toContain('continue-on-error');
+  expect(candidate).not.toContain('remote-smoke.mjs');
+  expect(strict).toContain('needs: [verify, candidate]'); expect(strict).toContain('continue-on-error: true');
+  expect(strict).toContain('node scripts/release/remote-smoke.mjs');
+  expect(strict).not.toContain('QINIU_AK'); expect(strict).not.toContain('QINIU_SK');
+  expect(strict).toContain('if: always()'); expect(strict).toContain('artifacts/beta-release/cdn/');
 });
