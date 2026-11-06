@@ -9,6 +9,6 @@ if (externalURL && (new URL(externalURL).protocol !== 'https:' || !externalURL.e
 export default defineConfig({
   testDir: './tests/release', outputDir: './test-results/task14/release', workers: 1, timeout: 45000,
   updateSnapshots: 'none', reporter: [['list']],
-  use: { ...devices['Desktop Chrome'], baseURL: externalURL ?? localURL, viewport: { width: 1440, height: 1000 }, launchOptions: { channel: 'chromium' }, screenshot: 'only-on-failure' },
+  use: { ...devices['Desktop Chrome'], baseURL: externalURL ?? localURL, viewport: { width: 1440, height: 1000 }, launchOptions: { channel: 'chromium' }, screenshot: 'only-on-failure', trace: 'retain-on-failure' },
   ...(externalURL ? {} : { webServer: { command: 'node scripts/release/serve.mjs', url: localURL, reuseExistingServer: false } }),
 });
