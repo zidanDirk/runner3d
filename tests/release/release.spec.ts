@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
-import { followPowerupRoute, POWERUP_ROUTE } from '../production/route-journey';
+import { beginPowerupRoute, followPowerupRoute, POWERUP_ROUTE } from '../production/route-journey';
 
 const metadata: { version: string; buildId: string; environment: string } = JSON.parse(readFileSync('dist/release.json', 'utf8'));
 
@@ -24,11 +24,10 @@ test('release real keyboard journey collects every powerup and settles without p
   // Real trusted inputs; exact jump/slide poses are asserted in the fixed-tick e2e suite.
   await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('Space');
-  // >20m exceeds the actual ~0.95s jump at initial speed; send slide after landing.
-  await expect.poll(async () => Number(await page.getByTestId('distance').innerText())).toBeGreaterThan(20);
-  await page.keyboard.press('ArrowDown');
-  await followPowerupRoute(page, testInfo.outputPath('release-active-powerups.png'), 75000);
+  const routeStart = await beginPowerupRoute(page, testInfo.outputPath('release-active-powerups.png'));
+  // The route loop keeps steering while checking the original >20m/5s jump
+  // progress and sending the real grounded slide input.
+  await followPowerupRoute(page, testInfo.outputPath('release-active-powerups.png'), 75000, routeStart);
   expect(models.size).toBe(3);
   const coins = await page.getByTestId('coins').innerText();
   expect(Number(coins)).toBeGreaterThan(0);
@@ -66,6 +65,9 @@ test('immutable nested release loads exact version, GLBs, real run/settlement/re
   expect(remote.ok()).toBe(true); expect(await remote.json()).toMatchObject(metadata);
   expect(await page.evaluate(() => '__RUNNER_TEST__' in window || '__PRODUCT_LIFECYCLE__' in window)).toBe(false);
   await page.getByRole('button', { name: '开始奔跑', exact: true }).click();
+  // The home preview is ready before the lazy game scene and its startup GLBs.
+  // Match the existing 15s asset startup budget before measuring run progress.
+  await expect(page.getByRole('button', { name: '暂停游戏', exact: true })).toBeVisible({ timeout: 15000 });
   await expect.poll(async () => Number((await page.getByTestId('distance').innerText()).replaceAll(',', ''))).toBeGreaterThan(15);
   await expect.poll(async () => Number(await page.getByTestId('coins').innerText())).toBeGreaterThan(0);
   await page.getByRole('button', { name: '暂停游戏', exact: true }).click();

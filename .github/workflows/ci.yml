@@ -35,6 +35,12 @@ jobs:
           name: core-browser-failures
           path: test-results/task14/gate-core/
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: release-smoke-failures
+          path: test-results/task14/release/
+          retention-days: 14
   visual-comparison:
     # Human-approved separate references. Original 91 PNGs remain byte-identical.
     # Unknown hosts/images fail closed; no future diff is accepted automatically.
