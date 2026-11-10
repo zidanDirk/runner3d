@@ -1,0 +1,111 @@
+name: Reviewed Qiniu home Cache-Control maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Read-only by default; execute changes only supergames:runner/index.html to no-store
+        type: choice
+        options: [dry-run, execute]
+        default: dry-run
+        required: true
+      reviewed_sha:
+        description: Human-reviewed full 40-character SHA; must match this selected master revision
+        type: string
+        required: true
+      confirmation:
+        description: 'Execute only: SET NO-STORE supergames:runner/index.html Fsydo-Rs3kzKg93e_csZgcGEPOmk'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  # Serialize with the existing release writers without changing their workflows.
+  group: reviewed-qiniu-release
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require manual master review before credentials are available
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SOURCE_REF: ${{ github.ref }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          SOURCE_SHA: ${{ github.sha }}
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+          MAINTENANCE_MODE: ${{ inputs.mode }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+          NODE_DEBUG: ''
+          NODE_OPTIONS: ''
+        run: |
+          node --input-type=module <<'JS'
+          const { EVENT_NAME, SOURCE_REF, SENDER_TYPE, SOURCE_SHA, REVIEWED_SHA, MAINTENANCE_MODE, CONFIRMATION } = process.env;
+          const confirmation = 'SET NO-STORE supergames:runner/index.html Fsydo-Rs3kzKg93e_csZgcGEPOmk';
+          if (EVENT_NAME !== 'workflow_dispatch' || SOURCE_REF !== 'refs/heads/master' || SENDER_TYPE !== 'User' || !/^[a-f0-9]{40}$/.test(REVIEWED_SHA ?? '') || REVIEWED_SHA !== SOURCE_SHA || !['dry-run', 'execute'].includes(MAINTENANCE_MODE) || (MAINTENANCE_MODE === 'execute' ? CONFIRMATION !== confirmation : CONFIRMATION !== '')) {
+            throw new Error('Manual master review, exact source SHA and mode-specific confirmation are required');
+          }
+          console.log('Reviewed master revision and maintenance mode accepted; no credentials accessed');
+          JS
+  maintenance:
+    needs: authorize
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Reuse the existing review boundary; this does not alter its protection.
+    environment: preview
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.17.0'
+      - name: Inspect or conditionally maintain the single home object
+        timeout-minutes: 3
+        env:
+          QINIU_AK: ${{ secrets.QINIU_AK }}
+          QINIU_SK: ${{ secrets.QINIU_SK }}
+          QINIU_HOME_CACHE_CONFIRM: ${{ inputs.confirmation }}
+          MAINTENANCE_MODE: ${{ inputs.mode }}
+          NODE_DEBUG: ''
+          NODE_OPTIONS: ''
+        run: |
+          if [ "$MAINTENANCE_MODE" = execute ]; then
+            node scripts/release/qiniu-home-cache.mjs --execute
+          else
+            node scripts/release/qiniu-home-cache.mjs --dry-run
+          fi
+      - name: Preserve the sanitized maintenance report even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qiniu-home-cache-report
+          path: artifacts/qiniu-home-cache/report.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Summarize maintenance without credentials or raw API responses
+        if: always()
+        env:
+          MAINTENANCE_MODE: ${{ inputs.mode }}
+          NODE_DEBUG: ''
+          NODE_OPTIONS: ''
+        run: |
+          node --input-type=module <<'JS'
+          import { appendFile, readFile } from 'node:fs/promises';
+          const mode = ['dry-run', 'execute'].includes(process.env.MAINTENANCE_MODE) ? process.env.MAINTENANCE_MODE : 'unavailable';
+          let status = 'FAIL', attempts = 'unavailable', acknowledged = 'unavailable';
+          try {
+            const report = JSON.parse(await readFile('artifacts/qiniu-home-cache/report.json', 'utf8'));
+            if (Number.isSafeInteger(report.writesAttempted) && report.writesAttempted >= 0 && report.writesAttempted <= 1) attempts = report.writesAttempted;
+            if (Number.isSafeInteger(report.writesAcknowledged) && report.writesAcknowledged >= 0 && report.writesAcknowledged <= 1) acknowledged = report.writesAcknowledged;
+            const bounded = attempts !== 'unavailable' && acknowledged !== 'unavailable' && acknowledged <= attempts;
+            const expectedWrites = mode === 'dry-run' ? attempts === 0 && acknowledged === 0 : (report.outcome === 'UPDATED' && attempts === 1 && acknowledged === 1) || (report.outcome === 'UNCHANGED' && attempts === 0 && acknowledged === 0);
+            if (mode !== 'unavailable' && report.status === 'PASS' && report.scope === 'real-api' && report.mode === mode && bounded && expectedWrites) status = 'PASS';
+          } catch { /* Do not print malformed reports or untrusted API errors. */ }
+          await appendFile(process.env.GITHUB_STEP_SUMMARY, `Home Cache-Control maintenance: ${status}; mode: ${mode}; write attempts: ${attempts}; acknowledged: ${acknowledged}. CDN was not refreshed.\n`);
+          JS

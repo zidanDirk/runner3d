@@ -1,0 +1,83 @@
+{
+  "scope": "Parser-validated injected display-only fixture; not evidence of earning, purchasing or claiming",
+  "fixtureFunding": {
+    "earnedCoins": 1740,
+    "claimedRewards": 810,
+    "upgradeSpend": 2550,
+    "wallet": 0
+  },
+  "before": {
+    "profile": {
+      "schemaVersion": 1,
+      "walletCoins": 0,
+      "bestScore": 20000,
+      "bestDistance": 10000,
+      "upgrades": {
+        "magnet": 3,
+        "shield": 3,
+        "double-score": 3
+      },
+      "missions": {
+        "claimed": [
+          "coins-1",
+          "coins-2",
+          "coins-3",
+          "distance-1",
+          "distance-2",
+          "distance-3",
+          "powerups-1",
+          "powerups-2",
+          "powerups-3"
+        ]
+      },
+      "statistics": {
+        "totalCoins": 1740,
+        "totalDistance": 20000,
+        "powerupsCollected": 40,
+        "runsCompleted": 12
+      }
+    },
+    "preferences": null,
+    "raw": {
+      "profile": "{\"schemaVersion\":1,\"walletCoins\":0,\"bestScore\":20000,\"bestDistance\":10000,\"upgrades\":{\"magnet\":3,\"shield\":3,\"double-score\":3},\"missions\":{\"claimed\":[\"coins-1\",\"coins-2\",\"coins-3\",\"distance-1\",\"distance-2\",\"distance-3\",\"powerups-1\",\"powerups-2\",\"powerups-3\"]},\"statistics\":{\"totalCoins\":1740,\"totalDistance\":20000,\"powerupsCollected\":40,\"runsCompleted\":12}}",
+      "preferences": null
+    }
+  },
+  "after": {
+    "profile": {
+      "schemaVersion": 1,
+      "walletCoins": 0,
+      "bestScore": 20000,
+      "bestDistance": 10000,
+      "upgrades": {
+        "magnet": 3,
+        "shield": 3,
+        "double-score": 3
+      },
+      "missions": {
+        "claimed": [
+          "coins-1",
+          "coins-2",
+          "coins-3",
+          "distance-1",
+          "distance-2",
+          "distance-3",
+          "powerups-1",
+          "powerups-2",
+          "powerups-3"
+        ]
+      },
+      "statistics": {
+        "totalCoins": 1740,
+        "totalDistance": 20000,
+        "powerupsCollected": 40,
+        "runsCompleted": 12
+      }
+    },
+    "preferences": null,
+    "raw": {
+      "profile": "{\"schemaVersion\":1,\"walletCoins\":0,\"bestScore\":20000,\"bestDistance\":10000,\"upgrades\":{\"magnet\":3,\"shield\":3,\"double-score\":3},\"missions\":{\"claimed\":[\"coins-1\",\"coins-2\",\"coins-3\",\"distance-1\",\"distance-2\",\"distance-3\",\"powerups-1\",\"powerups-2\",\"powerups-3\"]},\"statistics\":{\"totalCoins\":1740,\"totalDistance\":20000,\"powerupsCollected\":40,\"runsCompleted\":12}}",
+      "preferences": null
+    }
+  }
+}

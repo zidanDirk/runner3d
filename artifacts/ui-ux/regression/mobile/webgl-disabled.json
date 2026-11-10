@@ -1,0 +1,6 @@
+{
+  "scope": "isolated desktop Chromium with --disable-webgl, mobile viewport simulation; not a physical GPU failure",
+  "error": "3D 场景无法启动请启用浏览器硬件加速和 WebGL，然后刷新页面。刷新页面",
+  "progressBars": 0,
+  "gameStatus": "ready"
+}

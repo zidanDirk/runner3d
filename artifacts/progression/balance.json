@@ -1,0 +1,1223 @@
+{
+  "model": "100 independent novice seeds, 18% wrong lane per row; matched 40 seeds at 6%; safe-lane intent held until row+9m; cap1000m then seek collision; actual 120Hz engine, no human-player inference",
+  "balance": {
+    "version": 1,
+    "difficulty": {
+      "version": 1,
+      "speed": {
+        "initial": 16,
+        "maximum": 24,
+        "perMeter": 0.004
+      },
+      "track": {
+        "rowSpacing": 26,
+        "firstRow": 48,
+        "lookAhead": 170,
+        "recycleBehind": 12
+      },
+      "obstacles": {
+        "blockedLanes": 2,
+        "recoveryEvery": 5,
+        "weights": {
+          "hurdle": 1,
+          "gate": 1,
+          "block": 1
+        }
+      },
+      "coins": {
+        "trailCount": 4,
+        "trailStart": -9,
+        "trailSpacing": 4,
+        "introCount": 6,
+        "introStart": 10,
+        "introSpacing": 4
+      },
+      "powerups": {
+        "rowProbability": 0.18,
+        "firstDistance": 180
+      },
+      "fairness": {
+        "reactionSeconds": 0.35,
+        "inputLatencySeconds": 0.08,
+        "decisionTicks": 6,
+        "maxSearchNodes": 4096,
+        "maxAttempts": 1
+      },
+      "telegraph": {
+        "minimumSpeed": 20,
+        "lookAhead": 50,
+        "minimumLeadDistance": 4,
+        "maxRows": 2
+      },
+      "stages": [
+        {
+          "id": "beginner",
+          "name": "适应",
+          "startDistance": 0
+        },
+        {
+          "id": "easy",
+          "name": "基础",
+          "startDistance": 250
+        },
+        {
+          "id": "medium",
+          "name": "进阶",
+          "startDistance": 600
+        },
+        {
+          "id": "hard",
+          "name": "挑战",
+          "startDistance": 1200
+        },
+        {
+          "id": "expert",
+          "name": "高速",
+          "startDistance": 2000
+        }
+      ]
+    },
+    "powerups": {
+      "rowProbability": 0.18,
+      "firstDistance": 180,
+      "rowOffset": 7,
+      "durations": {
+        "magnet": [
+          8,
+          10,
+          12,
+          14
+        ],
+        "shield": [
+          15,
+          18,
+          21,
+          24
+        ],
+        "double-score": [
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "magnetRadius": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "multiplier": 2,
+      "pickupWidth": 0.85,
+      "pickupHeight": 0.85,
+      "pickupDepth": 0.3,
+      "pickupBottom": 0.65
+    },
+    "economy": {
+      "upgradePrices": [
+        100,
+        250,
+        500
+      ],
+      "maxUpgradeLevel": 3,
+      "retiredRunCapacity": 32,
+      "eventCapacity": 32
+    },
+    "missions": [
+      {
+        "id": "coins-1",
+        "kind": "coins",
+        "tier": 1,
+        "target": 100,
+        "reward": 40
+      },
+      {
+        "id": "coins-2",
+        "kind": "coins",
+        "tier": 2,
+        "target": 300,
+        "reward": 80
+      },
+      {
+        "id": "coins-3",
+        "kind": "coins",
+        "tier": 3,
+        "target": 800,
+        "reward": 150
+      },
+      {
+        "id": "distance-1",
+        "kind": "distance",
+        "tier": 1,
+        "target": 1000,
+        "reward": 40
+      },
+      {
+        "id": "distance-2",
+        "kind": "distance",
+        "tier": 2,
+        "target": 3000,
+        "reward": 80
+      },
+      {
+        "id": "distance-3",
+        "kind": "distance",
+        "tier": 3,
+        "target": 10000,
+        "reward": 150
+      },
+      {
+        "id": "powerups-1",
+        "kind": "powerups",
+        "tier": 1,
+        "target": 5,
+        "reward": 40
+      },
+      {
+        "id": "powerups-2",
+        "kind": "powerups",
+        "tier": 2,
+        "target": 15,
+        "reward": 80
+      },
+      {
+        "id": "powerups-3",
+        "kind": "powerups",
+        "tier": 3,
+        "target": 40,
+        "reward": 150
+      }
+    ]
+  },
+  "novices": {
+    "samples": 100,
+    "averageCoins": 21.61,
+    "averageScore": 792.02,
+    "averageDistance": 178.01620560471656,
+    "averagePickups": 0.32,
+    "ended": 100,
+    "shieldBreaks": 7
+  },
+  "firstUpgradeRunWithMissionClaims": 7,
+  "firstUpgradeCohorts": {
+    "method": "25 cyclic starting points in the same100 actually simulated novice outcomes; not25 additional independent cohorts",
+    "runs": [
+      7,
+      6,
+      4,
+      9,
+      6,
+      5,
+      3,
+      6,
+      4,
+      11,
+      9,
+      5,
+      3,
+      4,
+      5,
+      9,
+      8,
+      4,
+      6,
+      8,
+      9,
+      6,
+      4,
+      5,
+      2
+    ],
+    "mean": 5.92,
+    "min": 2,
+    "max": 11
+  },
+  "incomeOnlyExpectedRuns": 4.6274872744099955,
+  "comparisons": {
+    "none": {
+      "samples": 40,
+      "averageCoins": 69.65,
+      "averageScore": 2236.75,
+      "averageDistance": 495.7522613299617,
+      "averagePickups": 0,
+      "ended": 40,
+      "shieldBreaks": 0
+    },
+    "magnet": {
+      "samples": 40,
+      "averageCoins": 70.125,
+      "averageScore": 2248.625,
+      "averageDistance": 495.7522613299617,
+      "averagePickups": 0.65,
+      "ended": 40,
+      "shieldBreaks": 0
+    },
+    "shield": {
+      "samples": 40,
+      "averageCoins": 79.85,
+      "averageScore": 2577.55,
+      "averageDistance": 581.526580415486,
+      "averagePickups": 0.95,
+      "ended": 40,
+      "shieldBreaks": 19
+    },
+    "double-score": {
+      "samples": 40,
+      "averageCoins": 69.65,
+      "averageScore": 2676.025,
+      "averageDistance": 495.7522613299617,
+      "averagePickups": 0.825,
+      "ended": 40,
+      "shieldBreaks": 0
+    },
+    "all-l0": {
+      "samples": 40,
+      "averageCoins": 80.575,
+      "averageScore": 3185.8,
+      "averageDistance": 581.526580415486,
+      "averagePickups": 2.825,
+      "ended": 40,
+      "shieldBreaks": 19
+    },
+    "all-l3": {
+      "samples": 40,
+      "averageCoins": 82.225,
+      "averageScore": 3487.425,
+      "averageDistance": 592.5926493843655,
+      "averagePickups": 2.925,
+      "ended": 40,
+      "shieldBreaks": 22
+    }
+  },
+  "noviceRuns": [
+    {
+      "coins": 44,
+      "score": 1459,
+      "distance": 359.3643724430604,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 2581,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.2522959703113,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 925,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.07205488693678,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 734,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.07205488693678,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 734,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 36,
+      "score": 1207,
+      "distance": 307.07834058127565,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 2219,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.07205488693678,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 734,
+      "ended": true
+    },
+    {
+      "coins": 34,
+      "score": 1079,
+      "distance": 229.2588527248998,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1672,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 46,
+      "score": 1457,
+      "distance": 307.36548392295697,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 2221,
+      "ended": true
+    },
+    {
+      "coins": 20,
+      "score": 677,
+      "distance": 177.00147846704812,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1299,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.1147921439065,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 924,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.07205488693678,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 734,
+      "ended": true
+    },
+    {
+      "coins": 6,
+      "score": 197,
+      "distance": 47.07406171048571,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 351,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.0579624349692,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 543,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.1147921439065,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 924,
+      "ended": true
+    },
+    {
+      "coins": 6,
+      "score": 197,
+      "distance": 47.07406171048571,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 351,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 30,
+      "score": 979,
+      "distance": 229.2588527248998,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1672,
+      "ended": true
+    },
+    {
+      "coins": 26,
+      "score": 827,
+      "distance": 177.4191925383878,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1302,
+      "ended": true
+    },
+    {
+      "coins": 34,
+      "score": 1079,
+      "distance": 229.39982801999065,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1673,
+      "ended": true
+    },
+    {
+      "coins": 26,
+      "score": 827,
+      "distance": 177.00147846704812,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1299,
+      "ended": true
+    },
+    {
+      "coins": 6,
+      "score": 197,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 52,
+      "score": 2082,
+      "distance": 385.3063872273662,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 2759,
+      "ended": true
+    },
+    {
+      "coins": 28,
+      "score": 929,
+      "distance": 229.11788212882885,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1671,
+      "ended": true
+    },
+    {
+      "coins": 46,
+      "score": 1457,
+      "distance": 307.07834058127565,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 2219,
+      "ended": true
+    },
+    {
+      "coins": 40,
+      "score": 1333,
+      "distance": 333.1424933010442,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 2400,
+      "ended": true
+    },
+    {
+      "coins": 6,
+      "score": 197,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 10,
+      "score": 323,
+      "distance": 73.0579624349692,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 543,
+      "ended": true
+    },
+    {
+      "coins": 26,
+      "score": 827,
+      "distance": 177.4191925383878,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1302,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.07406171048571,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 351,
+      "ended": true
+    },
+    {
+      "coins": 24,
+      "score": 803,
+      "distance": 203.11900077404184,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1486,
+      "ended": true
+    },
+    {
+      "coins": 46,
+      "score": 1457,
+      "distance": 307.36548392295697,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 2221,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.07406171048571,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 351,
+      "ended": true
+    },
+    {
+      "coins": 158,
+      "score": 5867,
+      "distance": 1035.3877017086622,
+      "pickups": 5,
+      "deathsProtected": 0,
+      "ticks": 6906,
+      "ended": true
+    },
+    {
+      "coins": 24,
+      "score": 803,
+      "distance": 203.11900077404184,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1486,
+      "ended": true
+    },
+    {
+      "coins": 10,
+      "score": 323,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 18,
+      "score": 575,
+      "distance": 125.2522959703113,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 925,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.2522959703113,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 925,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.1147921439065,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 924,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.07406171048571,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 351,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.07205488693678,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 734,
+      "ended": true
+    },
+    {
+      "coins": 20,
+      "score": 677,
+      "distance": 177.00147846704812,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1299,
+      "ended": true
+    },
+    {
+      "coins": 64,
+      "score": 2115,
+      "distance": 515.3935187938471,
+      "pickups": 3,
+      "deathsProtected": 2,
+      "ticks": 3636,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 40,
+      "score": 1452,
+      "distance": 307.07834058127565,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 2219,
+      "ended": true
+    },
+    {
+      "coins": 26,
+      "score": 827,
+      "distance": 177.4191925383878,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1302,
+      "ended": true
+    },
+    {
+      "coins": 24,
+      "score": 803,
+      "distance": 203.11900077404184,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1486,
+      "ended": true
+    },
+    {
+      "coins": 60,
+      "score": 3094,
+      "distance": 515.0925076099037,
+      "pickups": 3,
+      "deathsProtected": 1,
+      "ticks": 3634,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.1147921439065,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 924,
+      "ended": true
+    },
+    {
+      "coins": 54,
+      "score": 1728,
+      "distance": 359.3643724430604,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 2581,
+      "ended": true
+    },
+    {
+      "coins": 24,
+      "score": 829,
+      "distance": 229.2588527248998,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1672,
+      "ended": true
+    },
+    {
+      "coins": 34,
+      "score": 1079,
+      "distance": 229.11788212882885,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1671,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 32,
+      "score": 1055,
+      "distance": 255.13574472945604,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1855,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 6,
+      "score": 197,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.07205488693678,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 734,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.1147921439065,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 924,
+      "ended": true
+    },
+    {
+      "coins": 24,
+      "score": 829,
+      "distance": 229.2588527248998,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1672,
+      "ended": true
+    },
+    {
+      "coins": 10,
+      "score": 323,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.38980438017697,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 926,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.38980438017697,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 926,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 100,
+      "score": 5084,
+      "distance": 749.1144388488369,
+      "pickups": 8,
+      "deathsProtected": 2,
+      "ticks": 5150,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.0579624349692,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 543,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.38980438017697,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 926,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 24,
+      "score": 803,
+      "distance": 203.2591047407343,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1487,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 68,
+      "score": 3039,
+      "distance": 489.4301153184516,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 3463,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.38980438017697,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 926,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 8,
+      "score": 299,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 12,
+      "score": 425,
+      "distance": 125.2522959703113,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 925,
+      "ended": true
+    },
+    {
+      "coins": 10,
+      "score": 323,
+      "distance": 73.0579624349692,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 543,
+      "ended": true
+    },
+    {
+      "coins": 48,
+      "score": 1578,
+      "distance": 359.3643724430604,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 2581,
+      "ended": true
+    },
+    {
+      "coins": 14,
+      "score": 449,
+      "distance": 99.34533091178709,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 736,
+      "ended": true
+    },
+    {
+      "coins": 22,
+      "score": 727,
+      "distance": 177.279949873392,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1301,
+      "ended": true
+    },
+    {
+      "coins": 22,
+      "score": 727,
+      "distance": 177.00147846704812,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1299,
+      "ended": true
+    },
+    {
+      "coins": 68,
+      "score": 2838,
+      "distance": 489.2804726360304,
+      "pickups": 3,
+      "deathsProtected": 0,
+      "ticks": 3462,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 4,
+      "score": 173,
+      "distance": 73.32950415808482,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 545,
+      "ended": true
+    },
+    {
+      "coins": 82,
+      "score": 3392,
+      "distance": 593.1162872741874,
+      "pickups": 3,
+      "deathsProtected": 2,
+      "ticks": 4148,
+      "ended": true
+    },
+    {
+      "coins": 0,
+      "score": 47,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 26,
+      "score": 827,
+      "distance": 177.00147846704812,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 1299,
+      "ended": true
+    },
+    {
+      "coins": 74,
+      "score": 3140,
+      "distance": 515.0925076099037,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 3634,
+      "ended": true
+    },
+    {
+      "coins": 6,
+      "score": 197,
+      "distance": 47.343871144682026,
+      "pickups": 0,
+      "deathsProtected": 0,
+      "ticks": 353,
+      "ended": true
+    },
+    {
+      "coins": 43,
+      "score": 1408,
+      "distance": 333.1424933010442,
+      "pickups": 1,
+      "deathsProtected": 0,
+      "ticks": 2400,
+      "ended": true
+    }
+  ],
+  "finalProfile": {
+    "schemaVersion": 1,
+    "walletCoins": 2821,
+    "bestScore": 5867,
+    "bestDistance": 1035,
+    "upgrades": {
+      "magnet": 0,
+      "shield": 0,
+      "double-score": 0
+    },
+    "missions": {
+      "claimed": [
+        "coins-1",
+        "distance-1",
+        "coins-2",
+        "distance-2",
+        "coins-3",
+        "powerups-1",
+        "distance-3",
+        "powerups-2"
+      ]
+    },
+    "statistics": {
+      "totalCoins": 2161,
+      "totalDistance": 17778,
+      "powerupsCollected": 32,
+      "runsCompleted": 100
+    }
+  }
+}

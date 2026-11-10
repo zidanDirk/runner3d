@@ -1,0 +1,1035 @@
+{
+  "scope": "held real city GLB request, simulated blur, real response release, explicit second start",
+  "held": true,
+  "frame": {
+    "view": {
+      "seed": "PROGRESSION-11",
+      "status": "running",
+      "tick": 0,
+      "distance": 0,
+      "speed": 16,
+      "score": 0,
+      "coins": 0,
+      "player": {
+        "lane": 1,
+        "x": 0,
+        "fromX": 0,
+        "laneElapsed": 0.18,
+        "y": 0,
+        "velocityY": 0,
+        "slideRemaining": 0
+      },
+      "rows": [
+        {
+          "index": 0,
+          "distance": 48,
+          "safeLane": 0,
+          "entities": [
+            {
+              "id": "0-1-obstacle",
+              "lane": 1,
+              "kind": "gate",
+              "distance": 48,
+              "collected": false
+            },
+            {
+              "id": "0-2-obstacle",
+              "lane": 2,
+              "kind": "block",
+              "distance": 48,
+              "collected": false
+            },
+            {
+              "id": "0-coin-0",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 39,
+              "collected": false
+            },
+            {
+              "id": "0-coin-1",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 43,
+              "collected": false
+            },
+            {
+              "id": "0-coin-2",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 47,
+              "collected": false
+            },
+            {
+              "id": "0-coin-3",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 51,
+              "collected": false
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "distance": 74,
+          "safeLane": 0,
+          "entities": [
+            {
+              "id": "1-1-obstacle",
+              "lane": 1,
+              "kind": "block",
+              "distance": 74,
+              "collected": false
+            },
+            {
+              "id": "1-2-obstacle",
+              "lane": 2,
+              "kind": "gate",
+              "distance": 74,
+              "collected": false
+            },
+            {
+              "id": "1-coin-0",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 65,
+              "collected": false
+            },
+            {
+              "id": "1-coin-1",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 69,
+              "collected": false
+            },
+            {
+              "id": "1-coin-2",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 73,
+              "collected": false
+            },
+            {
+              "id": "1-coin-3",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 77,
+              "collected": false
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "distance": 100,
+          "safeLane": 0,
+          "entities": [
+            {
+              "id": "2-1-obstacle",
+              "lane": 1,
+              "kind": "hurdle",
+              "distance": 100,
+              "collected": false
+            },
+            {
+              "id": "2-2-obstacle",
+              "lane": 2,
+              "kind": "hurdle",
+              "distance": 100,
+              "collected": false
+            },
+            {
+              "id": "2-coin-0",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 91,
+              "collected": false
+            },
+            {
+              "id": "2-coin-1",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 95,
+              "collected": false
+            },
+            {
+              "id": "2-coin-2",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 99,
+              "collected": false
+            },
+            {
+              "id": "2-coin-3",
+              "lane": 0,
+              "kind": "coin",
+              "distance": 103,
+              "collected": false
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "distance": 126,
+          "safeLane": 1,
+          "entities": [
+            {
+              "id": "3-0-obstacle",
+              "lane": 0,
+              "kind": "block",
+              "distance": 126,
+              "collected": false
+            },
+            {
+              "id": "3-2-obstacle",
+              "lane": 2,
+              "kind": "hurdle",
+              "distance": 126,
+              "collected": false
+            },
+            {
+              "id": "3-coin-0",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 117,
+              "collected": false
+            },
+            {
+              "id": "3-coin-1",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 121,
+              "collected": false
+            },
+            {
+              "id": "3-coin-2",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 125,
+              "collected": false
+            },
+            {
+              "id": "3-coin-3",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 129,
+              "collected": false
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "distance": 152,
+          "safeLane": 1,
+          "entities": [
+            {
+              "id": "4-coin-0",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 143,
+              "collected": false
+            },
+            {
+              "id": "4-coin-1",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 147,
+              "collected": false
+            },
+            {
+              "id": "4-coin-2",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 151,
+              "collected": false
+            },
+            {
+              "id": "4-coin-3",
+              "lane": 1,
+              "kind": "coin",
+              "distance": 155,
+              "collected": false
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "distance": 178,
+          "safeLane": 2,
+          "entities": [
+            {
+              "id": "5-0-obstacle",
+              "lane": 0,
+              "kind": "gate",
+              "distance": 178,
+              "collected": false
+            },
+            {
+              "id": "5-1-obstacle",
+              "lane": 1,
+              "kind": "block",
+              "distance": 178,
+              "collected": false
+            },
+            {
+              "id": "5-coin-0",
+              "lane": 2,
+              "kind": "coin",
+              "distance": 169,
+              "collected": false
+            },
+            {
+              "id": "5-coin-1",
+              "lane": 2,
+              "kind": "coin",
+              "distance": 173,
+              "collected": false
+            },
+            {
+              "id": "5-coin-2",
+              "lane": 2,
+              "kind": "coin",
+              "distance": 177,
+              "collected": false
+            },
+            {
+              "id": "5-coin-3",
+              "lane": 2,
+              "kind": "coin",
+              "distance": 181,
+              "collected": false
+            }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "id": "intro-0",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 10,
+          "collected": false
+        },
+        {
+          "id": "intro-1",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 14,
+          "collected": false
+        },
+        {
+          "id": "intro-2",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 18,
+          "collected": false
+        },
+        {
+          "id": "intro-3",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 22,
+          "collected": false
+        },
+        {
+          "id": "intro-4",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 26,
+          "collected": false
+        },
+        {
+          "id": "intro-5",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 30,
+          "collected": false
+        },
+        {
+          "id": "0-1-obstacle",
+          "lane": 1,
+          "kind": "gate",
+          "distance": 48,
+          "collected": false
+        },
+        {
+          "id": "0-2-obstacle",
+          "lane": 2,
+          "kind": "block",
+          "distance": 48,
+          "collected": false
+        },
+        {
+          "id": "0-coin-0",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 39,
+          "collected": false
+        },
+        {
+          "id": "0-coin-1",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 43,
+          "collected": false
+        },
+        {
+          "id": "0-coin-2",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 47,
+          "collected": false
+        },
+        {
+          "id": "0-coin-3",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 51,
+          "collected": false
+        },
+        {
+          "id": "1-1-obstacle",
+          "lane": 1,
+          "kind": "block",
+          "distance": 74,
+          "collected": false
+        },
+        {
+          "id": "1-2-obstacle",
+          "lane": 2,
+          "kind": "gate",
+          "distance": 74,
+          "collected": false
+        },
+        {
+          "id": "1-coin-0",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 65,
+          "collected": false
+        },
+        {
+          "id": "1-coin-1",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 69,
+          "collected": false
+        },
+        {
+          "id": "1-coin-2",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 73,
+          "collected": false
+        },
+        {
+          "id": "1-coin-3",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 77,
+          "collected": false
+        },
+        {
+          "id": "2-1-obstacle",
+          "lane": 1,
+          "kind": "hurdle",
+          "distance": 100,
+          "collected": false
+        },
+        {
+          "id": "2-2-obstacle",
+          "lane": 2,
+          "kind": "hurdle",
+          "distance": 100,
+          "collected": false
+        },
+        {
+          "id": "2-coin-0",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 91,
+          "collected": false
+        },
+        {
+          "id": "2-coin-1",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 95,
+          "collected": false
+        },
+        {
+          "id": "2-coin-2",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 99,
+          "collected": false
+        },
+        {
+          "id": "2-coin-3",
+          "lane": 0,
+          "kind": "coin",
+          "distance": 103,
+          "collected": false
+        },
+        {
+          "id": "3-0-obstacle",
+          "lane": 0,
+          "kind": "block",
+          "distance": 126,
+          "collected": false
+        },
+        {
+          "id": "3-2-obstacle",
+          "lane": 2,
+          "kind": "hurdle",
+          "distance": 126,
+          "collected": false
+        },
+        {
+          "id": "3-coin-0",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 117,
+          "collected": false
+        },
+        {
+          "id": "3-coin-1",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 121,
+          "collected": false
+        },
+        {
+          "id": "3-coin-2",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 125,
+          "collected": false
+        },
+        {
+          "id": "3-coin-3",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 129,
+          "collected": false
+        },
+        {
+          "id": "4-coin-0",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 143,
+          "collected": false
+        },
+        {
+          "id": "4-coin-1",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 147,
+          "collected": false
+        },
+        {
+          "id": "4-coin-2",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 151,
+          "collected": false
+        },
+        {
+          "id": "4-coin-3",
+          "lane": 1,
+          "kind": "coin",
+          "distance": 155,
+          "collected": false
+        },
+        {
+          "id": "5-0-obstacle",
+          "lane": 0,
+          "kind": "gate",
+          "distance": 178,
+          "collected": false
+        },
+        {
+          "id": "5-1-obstacle",
+          "lane": 1,
+          "kind": "block",
+          "distance": 178,
+          "collected": false
+        },
+        {
+          "id": "5-coin-0",
+          "lane": 2,
+          "kind": "coin",
+          "distance": 169,
+          "collected": false
+        },
+        {
+          "id": "5-coin-1",
+          "lane": 2,
+          "kind": "coin",
+          "distance": 173,
+          "collected": false
+        },
+        {
+          "id": "5-coin-2",
+          "lane": 2,
+          "kind": "coin",
+          "distance": 177,
+          "collected": false
+        },
+        {
+          "id": "5-coin-3",
+          "lane": 2,
+          "kind": "coin",
+          "distance": 181,
+          "collected": false
+        }
+      ],
+      "hit": null,
+      "pickups": [],
+      "powerups": {
+        "magnet": 0,
+        "shield": 0,
+        "double-score": 0
+      },
+      "powerupFacts": [],
+      "powerupsCollected": 0,
+      "scoreBonus": 0
+    },
+    "render": {
+      "tick": 0,
+      "camera": {
+        "position": [
+          0,
+          7.8,
+          12
+        ],
+        "quaternion": [
+          -0.10622672847661789,
+          0,
+          0,
+          0.9943419342244171
+        ],
+        "fov": 51
+      },
+      "calls": 161,
+      "triangles": 22236,
+      "geometries": 155,
+      "textures": 2,
+      "roadblock": {
+        "models": 3,
+        "fallbacks": 0,
+        "visible": 3,
+        "bounds": {
+          "size": [
+            2,
+            0.8500000238418579,
+            0.8999999761581421
+          ],
+          "minY": 0,
+          "materials": [
+            "roadblock_base",
+            "roadblock_orange",
+            "roadblock_white"
+          ]
+        }
+      },
+      "character": {
+        "appearance": {
+          "skinId": "original-orange",
+          "jacketColors": [
+            "#f47b45"
+          ]
+        },
+        "models": 1,
+        "fallbacks": 0,
+        "visible": 1,
+        "meshes": 31,
+        "triangles": 2268,
+        "materials": [
+          "city_runner_jacket",
+          "city_runner_pants",
+          "city_runner_shoe",
+          "city_runner_skin"
+        ],
+        "bounds": {
+          "size": [
+            0.7219998825582787,
+            1.6486441767004376,
+            1.1584411188723351
+          ],
+          "minY": -2.3053021291117369e-7
+        },
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "jointMetadata": true,
+        "skinnedMeshes": 31,
+        "skinCount": 1,
+        "bones": {
+          "Root": [
+            0,
+            0,
+            0
+          ],
+          "Hips": [
+            0,
+            0.7064163684844971,
+            0
+          ],
+          "LeftUpperLeg": [
+            -0.125,
+            0.7064163684844971,
+            0
+          ],
+          "LeftLowerLeg": [
+            -0.11579051932628992,
+            0.4893584097291428,
+            -0.2182513448603287
+          ],
+          "LeftFoot": [
+            -0.14000001437854764,
+            0.14999993443466303,
+            -0.29199996488048036
+          ],
+          "RightUpperLeg": [
+            0.125,
+            0.7064163684844971,
+            0
+          ],
+          "RightLowerLeg": [
+            0.12387067061119168,
+            0.4265092899137071,
+            0.12838746256095301
+          ],
+          "RightFoot": [
+            0.14000001149203462,
+            0.1739986217334259,
+            0.3674843023407557
+          ],
+          "Spine": [
+            0,
+            0.7964163422584534,
+            0
+          ],
+          "Chest": [
+            0,
+            0.9766436544660745,
+            -0.009918515808343555
+          ],
+          "LeftShoulder": [
+            0,
+            1.1203522514625825,
+            -0.032679734402249846
+          ],
+          "LeftUpperArm": [
+            -0.23999998642073345,
+            1.1203522595762925,
+            -0.03267973568733599
+          ],
+          "LeftLowerArm": [
+            -0.2849999787342128,
+            0.9376664964176026,
+            0.14563144752789792
+          ],
+          "LeftHand": [
+            -0.29999996726446543,
+            0.756649745072182,
+            0.010032998378058211
+          ],
+          "Neck": [
+            0,
+            1.1549214276936084,
+            -0.03815495713248615
+          ],
+          "Head": [
+            0,
+            1.244643901914571,
+            -0.045216272952236236
+          ],
+          "RightShoulder": [
+            0,
+            1.1203522514625825,
+            -0.032679734402249846
+          ],
+          "RightUpperArm": [
+            0.23999998642073345,
+            1.1203522595762925,
+            -0.03267973568733599
+          ],
+          "RightLowerArm": [
+            0.2849999479404398,
+            0.9031419855025478,
+            -0.16680158662577638
+          ],
+          "RightHand": [
+            0.2999999361013506,
+            0.990920610292287,
+            -0.3752456129465168
+          ]
+        },
+        "animation": {
+          "mixerId": 5,
+          "actionCount": 4,
+          "state": "run",
+          "time": 0,
+          "duration": 0.7200000286102295,
+          "runScale": 1.08,
+          "weights": {
+            "idle": 0,
+            "run": 1,
+            "jump": 0,
+            "slide": 0
+          },
+          "paused": false,
+          "cpu": {
+            "samples": 0,
+            "meanMs": 0,
+            "maxMs": 0
+          }
+        },
+        "lean": 0,
+        "bankLift": 0,
+        "bankSamples": 228,
+        "impact": {
+          "landing": 0,
+          "scaleY": 1
+        },
+        "soles": {
+          "left": -2.3053021291117369e-7,
+          "right": 0.021358160259175214
+        }
+      },
+      "powerups": {
+        "models": 0,
+        "visible": 0,
+        "triangles": 0,
+        "types": [],
+        "pickups": 0
+      }
+    },
+    "city": {
+      "seed": "[\"2.0.0\",20261018,\"PROGRESSION-11\"]",
+      "currentChunk": 0,
+      "revision": 3,
+      "chunkIds": [
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "buildings": 43,
+      "lamps": 36,
+      "decorations": 18,
+      "calls": 161,
+      "triangles": 22236,
+      "geometries": 155,
+      "textures": 2,
+      "batches": 19,
+      "fallbackBatches": 0,
+      "renderedInstances": {
+        "city-building-01": 5,
+        "city-building-02": 13,
+        "dusk-office-rooftop": 17,
+        "dusk-residential-terrace": 3,
+        "street-lamp": 30
+      },
+      "visibleBySide": {
+        "city-building-01": [
+          2,
+          3
+        ],
+        "city-building-02": [
+          5,
+          5
+        ],
+        "dusk-office-rooftop": [
+          10,
+          6
+        ],
+        "dusk-residential-terrace": [
+          2,
+          1
+        ],
+        "street-lamp": [
+          14,
+          14
+        ]
+      },
+      "sample": 1,
+      "distance": 0,
+      "themeId": "dusk-city",
+      "themeName": "Dusk City",
+      "zoneId": 0,
+      "nextThemeId": "neon-city",
+      "transitionProgress": 1,
+      "distanceToBoundary": 600,
+      "chunkThemes": [
+        {
+          "id": -2,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": -1,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 0,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 1,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 2,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 3,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 4,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 5,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        },
+        {
+          "id": 6,
+          "themeId": "dusk-city",
+          "zoneId": 0
+        }
+      ],
+      "props": 0,
+      "expectedBatches": 19,
+      "culledInstances": 11,
+      "activeAssetIds": [
+        "city-building-01",
+        "city-building-02",
+        "dusk-office-rooftop",
+        "dusk-residential-terrace",
+        "street-lamp"
+      ],
+      "environment": {
+        "background": "#192d40",
+        "road": "#344655"
+      },
+      "frameTimeMs": 76.10000038146973,
+      "fps": 13.140604401935049
+    },
+    "feedback": {
+      "particles": 0,
+      "capacity": 192,
+      "peak": 0,
+      "activeEffects": 0,
+      "rememberedEvents": 0,
+      "free": 192,
+      "edgeParticles": 0,
+      "counts": {},
+      "recent": [],
+      "audio": {
+        "contextCount": 1,
+        "activeContexts": 1,
+        "state": "running",
+        "status": "ready",
+        "sampleRate": 48000,
+        "activeVoices": 0,
+        "maxVoices": 12,
+        "peakVoices": 0,
+        "bufferCount": 16,
+        "started": 0,
+        "ended": 0,
+        "stopped": 0,
+        "dropped": 0,
+        "duplicates": 0,
+        "eventsStarted": 0,
+        "errors": 0,
+        "lastError": null,
+        "storageFailures": 0,
+        "dedupSize": 0,
+        "dedupCapacity": 256,
+        "listenerCount": 1,
+        "stateListenerCount": 1,
+        "paused": false,
+        "pendingUnlock": false,
+        "pendingSuspends": 0,
+        "lastEventId": null,
+        "lastCoinPlaybackRate": 1
+      },
+      "reducedMotion": false,
+      "time": 0,
+      "postTime": 0
+    },
+    "canvasCount": 1,
+    "preview": null,
+    "layout": {
+      "scrollX": 0,
+      "scrollY": 0,
+      "pageHeight": 1000,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "stage": {
+        "x": 62,
+        "y": 216,
+        "width": 1004,
+        "height": 600,
+        "top": 216,
+        "right": 1066,
+        "bottom": 816,
+        "left": 62
+      },
+      "menu": null,
+      "menuScroll": null
+    }
+  },
+  "saved": {
+    "profile": {
+      "schemaVersion": 1,
+      "walletCoins": 0,
+      "bestScore": 0,
+      "bestDistance": 0,
+      "upgrades": {
+        "magnet": 0,
+        "shield": 0,
+        "double-score": 0
+      },
+      "missions": {
+        "claimed": []
+      },
+      "statistics": {
+        "totalCoins": 0,
+        "totalDistance": 0,
+        "powerupsCollected": 0,
+        "runsCompleted": 0
+      }
+    },
+    "preferences": null,
+    "raw": {
+      "profile": null,
+      "preferences": null
+    }
+  }
+}

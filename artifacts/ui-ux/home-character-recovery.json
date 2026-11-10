@@ -1,0 +1,58 @@
+{
+  "scope": "intentional HTTP503 then real GLB retry",
+  "requests": 2,
+  "before": {
+    "profile": {
+      "schemaVersion": 1,
+      "walletCoins": 0,
+      "bestScore": 0,
+      "bestDistance": 0,
+      "upgrades": {
+        "magnet": 0,
+        "shield": 0,
+        "double-score": 0
+      },
+      "missions": {
+        "claimed": []
+      },
+      "statistics": {
+        "totalCoins": 0,
+        "totalDistance": 0,
+        "powerupsCollected": 0,
+        "runsCompleted": 0
+      }
+    },
+    "preferences": null,
+    "raw": {
+      "profile": null,
+      "preferences": null
+    }
+  },
+  "after": {
+    "profile": {
+      "schemaVersion": 1,
+      "walletCoins": 0,
+      "bestScore": 0,
+      "bestDistance": 0,
+      "upgrades": {
+        "magnet": 0,
+        "shield": 0,
+        "double-score": 0
+      },
+      "missions": {
+        "claimed": []
+      },
+      "statistics": {
+        "totalCoins": 0,
+        "totalDistance": 0,
+        "powerupsCollected": 0,
+        "runsCompleted": 0
+      }
+    },
+    "preferences": null,
+    "raw": {
+      "profile": null,
+      "preferences": null
+    }
+  }
+}
