@@ -14,9 +14,10 @@ export function uploadToken(accessKey, secretKey, policy) {
   const encoded = urlsafe(JSON.stringify(policy));
   return `${accessKey}:${urlsafe(createHmac('sha1', secretKey).update(encoded).digest())}:${encoded}`;
 }
-export function managementAuthorization(accessKey, secretKey, url, date) {
+export function managementAuthorization(accessKey, secretKey, url, date, method = 'GET') {
+  if (!['GET', 'POST'].includes(method)) throw new KodoError('INVALID_MANAGEMENT_METHOD');
   const target = new URL(url);
-  const canonical = `GET ${target.pathname}${target.search}\nHost: ${target.host}\nContent-Type: application/x-www-form-urlencoded\nX-Qiniu-Date: ${date}\n\n`;
+  const canonical = `${method} ${target.pathname}${target.search}\nHost: ${target.host}\nContent-Type: application/x-www-form-urlencoded\nX-Qiniu-Date: ${date}\n\n`;
   return `Qiniu ${accessKey}:${urlsafe(createHmac('sha1', secretKey).update(canonical).digest())}`;
 }
 export class KodoError extends Error {
@@ -28,12 +29,14 @@ export function createKodoClient({ accessKey, secretKey, bucket }, { fetcher = f
   if (process.env.NODE_TLS_REJECT_UNAUTHORIZED === '0') throw new KodoError('TLS_DISABLED');
   if (![accessKey, secretKey].every(s => typeof s === 'string' && /^[A-Za-z0-9_-]{6,128}$/.test(s)) || !/^[A-Za-z0-9._-]{1,100}$/.test(bucket)) throw new KodoError('INVALID_CREDENTIAL_CONFIG');
   const overall = AbortSignal.timeout(8 * 60 * 1000);
-  const request = async (url, options = {}, missing = false) => {
+  const request = async (url, options = {}, missing = false, emptySuccess = false) => {
     let response;
     try { response = await fetcher(url, { ...options, redirect: 'error', cache: 'no-store', signal: AbortSignal.any([overall, AbortSignal.timeout(timeoutMs)]) }); }
     catch { throw new KodoError('NETWORK_OR_TIMEOUT'); }
     if (missing && response.status === 612) { await response.body?.cancel(); return null; }
     if (response.status !== 200) { await response.body?.cancel(); throw new KodoError(`HTTP_${response.status}`); }
+    // Official chgm success has an empty body; upload/stat still require JSON.
+    if (emptySuccess) { await response.body?.cancel(); return; }
     const chunks = []; let size = 0;
     if (!response.body) throw new KodoError('INVALID_RESPONSE');
     const reader = response.body.getReader();
@@ -73,6 +76,15 @@ export function createKodoClient({ accessKey, secretKey, bucket }, { fetcher = f
       if (value === null) return null;
       if (!value || !Number.isSafeInteger(value.fsize) || value.fsize <= 0 || typeof value.hash !== 'string' || typeof value.mimeType !== 'string' || value.status === 1) throw new KodoError('INVALID_STAT');
       return value;
+    },
+    /** Single conditional metadata change; no retries, content upload or MIME update. */
+    async setNoStoreIfUnchanged(key, expected) {
+      if (typeof key !== 'string' || !key || /[\r\n]/.test(key) || !expected || !/^[A-Za-z0-9_-]{28}$/.test(expected.hash) || !Number.isSafeInteger(expected.fsize) || expected.fsize <= 0 || typeof expected.mimeType !== 'string' || !/^[A-Za-z0-9!#$^_.+-]+\/[A-Za-z0-9!#$^_.+-]+$/.test(expected.mimeType)) throw new KodoError('INVALID_METADATA_CONDITION');
+      const { rs } = await discover();
+      const condition = `hash=${expected.hash}&fsize=${expected.fsize}&mime=${expected.mimeType}`;
+      const url = `${rs}/chgm/${urlsafe(`${bucket}:${key}`)}/cacheControl/${urlsafe('no-store')}/cond/${urlsafe(condition)}`;
+      const date = now().toISOString().replaceAll('-', '').replaceAll(':', '').replace(/\.\d{3}Z$/, 'Z');
+      await request(url, { method: 'POST', body: '', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Qiniu-Date': date, Authorization: managementAuthorization(accessKey, secretKey, url, date, 'POST') } }, false, true);
     },
     async list(prefix, marker = '') {
       const { rsf } = await discover();
